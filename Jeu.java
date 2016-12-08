@@ -11,7 +11,9 @@ package JeuGo;
  */
 public class Jeu {
     
-    int[][] plateau = new int[16][16];
+    private int captureN;
+    private int captureB;
+    private int[][] plateau = new int[16][16];
     
     public Jeu(){
         for(int i=0; i<16; i++){
