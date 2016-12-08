@@ -34,6 +34,8 @@ public class Jeu {
     public boolean poserPierreNoir(int[][] plateau, int x, int y) {
 
         boolean passerNoir = false;//pour marquer si le joueur veut passer
+        boolean continuer=false;
+        do{
         System.out.println("Est-ce que vous voulez passer cette manche?");
         InputStreamReader isr = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(isr);
@@ -50,16 +52,19 @@ public class Jeu {
                     plateau[x][y] = 1;
                 } else {
                     System.out.println("Vous pouvez pas le poser ici!");
+                    continuer=true;
                 }
             }
-            passerNoir = false;
         }
+        }while (continuer);
         return passerNoir;
     }
 
     public boolean poserPierreBlanc(int[][] plateau, int x, int y) {
 
         boolean passerBlanc = false;//pour marquer si le joueur veut passer
+        boolean continuer=false;
+        do{
         System.out.println("Est-ce que vous voulez passer cette manche?");
         InputStreamReader isr = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(isr);
@@ -73,13 +78,14 @@ public class Jeu {
         } else {
             {
                 if (plateau[x][y] == 0 && x < 16 && x > 0 && y < 16 && y > 0) {
-                    plateau[x][y] = -1;
+                    plateau[x][y] = 1;
                 } else {
                     System.out.println("Vous pouvez pas le poser ici!");
+                    continuer=true;
                 }
             }
-            passerBlanc = false;
         }
+        }while (continuer);
         return passerBlanc;
     }
 
