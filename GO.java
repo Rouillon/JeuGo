@@ -13,11 +13,11 @@ import java.awt.event.*;
  * @author Guoxin
  */
 
-public class GUI extends Frame {
+public class GO extends Frame {
 
     ChessPad chesspad = new ChessPad();
 
-    GUI() {
+    GO() {
         setVisible(true);
         setLayout(null);
         Label label = new Label("JeuGo", Label.CENTER);
@@ -37,6 +37,6 @@ public class GUI extends Frame {
     }
 
     public static void main(String args[]) {
-        GUI gui = new GUI();
+        GO go = new GO();
     }
 }

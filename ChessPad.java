@@ -22,6 +22,7 @@ class ChessPad extends Panel implements MouseListener, ActionListener {
         button.setBounds(10, 5, 60, 26);
         button.addActionListener(this);
         add(text_1);
+        //
         text_1.setBounds(90, 5, 90, 24);
         add(text_2);
         text_2.setBounds(290, 5, 90, 24);
