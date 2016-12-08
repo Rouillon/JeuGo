@@ -10,6 +10,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author fabienrouillon
@@ -17,6 +19,8 @@ import java.io.InputStreamReader;
 public class Jeu {
 
     public static String s;
+    private int captureN;
+    private int captureB;
     int[][] plateau = new int[16][16];
 
     public Jeu() {
@@ -86,7 +90,6 @@ public class Jeu {
 //            }
 //        }
 //    }
-
     public int nbPierreNoir(int[][] plateau) {
         int nbNoir = 0;
 
@@ -108,15 +111,37 @@ public class Jeu {
                 if (plateau[i][j] == -1) {
                     nbBlanc++;
                 }
+
             }
         }
         return nbBlanc;
     }
-    
-    public void eviterSuicide(int[][] plateau,int x, int y){
-        if (x == 0 && y == 0)
-            if ( plateau[x+1][y] == 1 && plateau[x][y+1] == 1){
+
+//    public ArrayList<int[]> adjacent(int[] point) {
+//
+//    }
+    public ArrayList<ArrayList> groupes() {
+        ArrayList<ArrayList> groupe = new ArrayList();
+        ArrayList<int[]> marques = new ArrayList();
+        int[] point = new int[2];
+        for (int i = 0; i < 16; i++) {
+            for (int j = 0; j < 16; j++) {
+                if (this.plateau[i][j] != 0) {
+                    point[0] = i;
+                    point[1] = j;
+                    marques.add(point);
+                }
+
+            }
+        }
+        return groupe;
+    }
+
+    public void eviterSuicide(int[][] plateau, int x, int y) {
+        if (x == 0 && y == 0) {
+            if (plateau[x + 1][y] == 1 && plateau[x][y + 1] == 1) {
                 System.out.println("Vous pouvez pas le poser ici!");
             }
+        }
     }
 }
