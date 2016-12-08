@@ -16,6 +16,7 @@ public class Go {
      */
     public static void main(String[] args) {
         //test
+        int c=3;
         // TODO code application logic here
     }
     
