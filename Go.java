@@ -16,7 +16,7 @@ public class Go {
      */
     public static void main(String[] args) {
         //test
-        int c=3;
+        int c=4;
         // TODO code application logic here
         // ca test
     }
