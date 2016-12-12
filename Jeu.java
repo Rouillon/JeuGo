@@ -350,10 +350,14 @@ public class Jeu {
         Jeu.detectionGroupesBlanc(plateau);
         for (ArrayList<Pion> groupe : listeGroupesBlanc) {
             capture = false;
+            int count=0;
             for (Pion p : groupe) {
-                if ((plateau[p.getX()][p.getY() + 1] == 1) && (plateau[p.getX()][p.getY() - 1] == 1) && (plateau[p.getX() + 1][p.getY()] == 1) && (plateau[p.getX() - 1][p.getY()] == 1)) { // TODO gérer exception sur le bord
-                    capture = true;
+                if ((plateau[p.getX()][p.getY() + 1] != 0) && (plateau[p.getX()][p.getY() - 1] != 0) && (plateau[p.getX() + 1][p.getY()] != 0) && (plateau[p.getX() - 1][p.getY()] != 0)) { // TODO gérer exception sur le bord
+                    count+=1;
                 }
+            }
+            if (count==groupe.size()) {
+                capture=true;
             }
             if (capture) {
                 for (Pion p : groupe) {
@@ -373,10 +377,14 @@ public class Jeu {
         Jeu.detectionGroupesNoir(plateau);
         for (ArrayList<Pion> groupe : listeGroupesNoir) {
             capture = false;
+            int count=0;
             for (Pion p : groupe) {
-                if ((plateau[p.getX()][p.getY() + 1] == -1) && (plateau[p.getX()][p.getY() - 1] == -1) && (plateau[p.getX() + 1][p.getY()] == -1) && (plateau[p.getX() - 1][p.getY()] == -1)) { // TODO gérer exception sur le bord
-                    capture = true;
+                if ((plateau[p.getX()][p.getY() + 1] != 0) && (plateau[p.getX()][p.getY() - 1] != 0) && (plateau[p.getX() + 1][p.getY()] != 0) && (plateau[p.getX() - 1][p.getY()] != 0)) { // TODO gérer exception sur le bord
+                    count+=1;
                 }
+            }
+            if (count==groupe.size()) {
+                capture=true;
             }
             if (capture) {
                 for (Pion p : groupe) {
