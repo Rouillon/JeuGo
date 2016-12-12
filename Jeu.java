@@ -211,22 +211,33 @@ public class Jeu {
         return nbBlanc;
     }
 
-    public ArrayList<int[]> adjacent(int[] point) {
-
+    public ArrayList<Pion> adjacents(Pion p){
+        int px = p.getX();
+        int py = p.getY();
+        ArrayList<Pion> adjacents = new ArrayList();
+        if ((this.plateau[px-1][py]==1)||(this.plateau[px-1][py]==-1)){
+            adjacents.add(new Pion(px-1,py));
+        }
+        if ((this.plateau[px+1][py]==1)||(this.plateau[px+1][py]==-1)){
+            adjacents.add(new Pion(px+1,py));
+        }
+        if ((this.plateau[px][py-1]==1)||(this.plateau[px][py-1]==-1)){
+            adjacents.add(new Pion(px,py-1));
+        }
+        if ((this.plateau[px][py+1]==1)||(this.plateau[px][py+1]==-1)){
+            adjacents.add(new Pion(px,py+1));
+        }
+        return adjacents;
     }
-    public ArrayList<ArrayList> groupes() {
-        ArrayList<ArrayList> groupe = new ArrayList();
-        ArrayList<int[]> marques = new ArrayList();
-        int[] point = new int[2];
-        for (int i = 0; i < 16; i++) {
-            for (int j = 0; j < 16; j++) {
-                if (this.plateau[i][j] != 0) {
-                    point[0] = i;
-                    point[1] = j;
-                    marques.add(point);
-                }
-
+    public ArrayList<Pion> ajouterAdjacent(Pion p, ArrayList<Pion> groupe){
+        groupe.add(p);
+        this.listeTest.add(p);
+        ArrayList<Pion> adjacents = this.adjacents(p);
+        for(Pion adja : adjacents){
+            if(!this.listeTest.contains(adja)){
+                this.ajouterAdjacent(adja, groupe);
             }
         }
+        return groupe;
     }
 }
