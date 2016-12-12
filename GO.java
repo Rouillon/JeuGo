@@ -2,7 +2,7 @@
  *TP3 de MEDEV 
  *Jeu de GO
  *la classe pour faire appraitre le frame 
-*/
+ */
 package JeuGo;
 
 import java.awt.*;
@@ -10,10 +10,11 @@ import java.awt.event.*;
 
 /**
  * classe pour le frame
+ *
  * @author Guoxin
  */
 public class GO extends Frame {
-    
+
     public static Damier damier = new Damier();
     public static FonctionPanel fonctionPanel = new FonctionPanel();
 
@@ -29,8 +30,8 @@ public class GO extends Frame {
         add(damier);
         damier.setBounds(70, 90, 440, 440);
         add(fonctionPanel);
-        fonctionPanel.setBounds(520,90,200,440);
-        
+        fonctionPanel.setBounds(520, 90, 200, 440);
+
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
