@@ -5,6 +5,7 @@
  */
 package JeuGo;
 
+import static JeuGo.Damier.SIZE_DAMIER;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -43,11 +44,7 @@ public class Jeu {
      * tour ou pas
      */
     public static void poserPierreNoir(int[][] plateau, int x, int y) {
-        if ((plateau[x][y] == 0) || (x < 16) || (x >= 0) || (y < 16) || (y >= 0)) {
             plateau[x][y] = 1; // 1 est pour les pierres noirs
-        } else {
-            System.out.println("Vous ne pouvez pas le poser ici!");
-        }
     }
 
     /**
@@ -60,11 +57,7 @@ public class Jeu {
      * @return
      */
     public static void poserPierreBlanc(int[][] plateau, int x, int y) {
-        if ((plateau[x][y] == 0) || (x < 16) || (x >= 0) || (y < 16) || (y >= 0)) {
             plateau[x][y] = -1; //-1 est pout les pierres blancs                          
-        } else {
-            System.out.println("Vous ne pouvez pas le poser ici!");
-        }
     }
 
     /**
@@ -75,8 +68,8 @@ public class Jeu {
      */
     public static int nbPierreNoir(int[][] plateau) {
         int nbNoir = 0;
-        for (int i = 0; i < 16; i++) {
-            for (int j = 0; j < 16; j++) {
+        for (int i = 0; i < SIZE_DAMIER-1; i++) {
+            for (int j = 0; j < SIZE_DAMIER-1; j++) {
                 if (plateau[i][j] == 1) {
                     nbNoir++;
                 }
@@ -93,8 +86,8 @@ public class Jeu {
      */
     public static int nbPierreBlanc(int[][] plateau) {
         int nbBlanc = 0;
-        for (int i = 0; i < 16; i++) {
-            for (int j = 0; j < 16; j++) {
+        for (int i = 0; i < SIZE_DAMIER-1; i++) {
+            for (int j = 0; j < SIZE_DAMIER-1; j++) {
                 if (plateau[i][j] == -1) {
                     nbBlanc++;
                 }
@@ -166,8 +159,8 @@ public class Jeu {
     public static void detectionGroupesBlanc(int[][] plateau) {
         listeTestes = new ArrayList<>();
         listeGroupesBlanc = new ArrayList<>();
-        for (int i = 0; i < 16; i++) {
-            for (int j = 0; j < 16; j++) {
+        for (int i = 0; i < SIZE_DAMIER-1; i++) {
+            for (int j = 0; j < SIZE_DAMIER-1; j++) {
                 //blanc
                 if (plateau[i][j] == -1) {
                     Pion p = new Pion(i, j, -1);
@@ -195,8 +188,8 @@ public class Jeu {
     public static void detectionGroupesNoir(int[][] plateau) {
         listeTestes = new ArrayList<>();
         listeGroupesNoir = new ArrayList<>();
-        for (int i = 0; i < 16; i++) {
-            for (int j = 0; j < 16; j++) {
+        for (int i = 0; i < SIZE_DAMIER-1; i++) {
+            for (int j = 0; j < SIZE_DAMIER-1; j++) {
                 //noir
                 if (plateau[i][j] == 1) {
                     Pion p = new Pion(i, j, 1);
@@ -230,7 +223,7 @@ public class Jeu {
             capture = false;
             count = 0;
             for (Pion p : groupe) {
-                if ((plateau[p.getX()][p.getY() + 1] != 0) && (plateau[p.getX()][p.getY() - 1] != 0) && (plateau[p.getX() + 1][p.getY()] != 0) && (plateau[p.getX() - 1][p.getY()] != 0)) { // TODO gérer exception sur le bord
+                if ((plateau[p.getX()][p.getY() + 1] != 0) && (plateau[p.getX()][p.getY() - 1] != 0) && (plateau[p.getX() + 1][p.getY()] != 0) && (plateau[p.getX() - 1][p.getY()] != 0)) {
                     count += 1;
                 }
             }
@@ -261,7 +254,7 @@ public class Jeu {
             capture = false;
             count = 0;
             for (Pion p : groupe) {
-                if ((plateau[p.getX()][p.getY() + 1] != 0) && (plateau[p.getX()][p.getY() - 1] != 0) && (plateau[p.getX() + 1][p.getY()] != 0) && (plateau[p.getX() - 1][p.getY()] != 0)) { // TODO gérer exception sur le bord
+                if ((plateau[p.getX()][p.getY() + 1] != 0) && (plateau[p.getX()][p.getY() - 1] != 0) && (plateau[p.getX() + 1][p.getY()] != 0) && (plateau[p.getX() - 1][p.getY()] != 0)) {
                     count += 1;
                 }
             }

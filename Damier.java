@@ -13,7 +13,7 @@ class Damier extends Panel implements MouseListener {
     final public static int COULEUR_NOIR = 1;
     final public static int COULEUR_BLANC = -1;
     //size du damier
-    public static int SIZE_DAMIER = 16;
+    public static int SIZE_DAMIER = 17;
     //matric des pions
     int[][] matrice = new int[SIZE_DAMIER][SIZE_DAMIER];
     //la position de la souris sur l'écran
@@ -21,6 +21,7 @@ class Damier extends Panel implements MouseListener {
     int y = -1;
     public static int couleurPierre = 1;
     Jeu jeu;
+    
 
     Damier() {
         setSize(20 * (SIZE_DAMIER + 2), 20 * (SIZE_DAMIER + 2));
@@ -28,15 +29,21 @@ class Damier extends Panel implements MouseListener {
         setBackground(new Color(255, 178, 102));
         addMouseListener(this);
         jeu = new Jeu();
+        for (int i=0; i<SIZE_DAMIER ; i++) {
+            matrice[i][0]=2;
+            matrice[i][SIZE_DAMIER-1]=2;
+            matrice[0][i]=2;
+            matrice[SIZE_DAMIER-1][i]=2;
+        }
     }
 
     //dessiner le damier 
     public void paint(Graphics g) {
-        for (int i = 40; i <= 20 * (SIZE_DAMIER + 1); i += 20) {
-            g.drawLine(40, i, 20 * (SIZE_DAMIER + 1), i);
+        for (int i = 60; i <= 20 * (SIZE_DAMIER); i += 20) {
+            g.drawLine(60, i, 20 * (SIZE_DAMIER), i);
         }
-        for (int j = 40; j <= 20 * (SIZE_DAMIER + 1); j += 20) {
-            g.drawLine(j, 40, j, 20 * (SIZE_DAMIER + 1));
+        for (int j = 60; j <= 20 * (SIZE_DAMIER); j += 20) {
+            g.drawLine(j, 60, j, 20 * (SIZE_DAMIER));
         }
     }
 
@@ -51,7 +58,7 @@ class Damier extends Panel implements MouseListener {
                 int a = (x + 10) / 20 - 2;
                 int b = (y + 10) / 20 - 2;
                 //s'il est en endors du damier
-                if (x / 20 < 2 || y / 20 < 2 || x / 20 > SIZE_DAMIER || y / 20 > SIZE_DAMIER) {
+                if (x / 20 < 2 || y / 20 < 2 || x / 20 > SIZE_DAMIER || y / 20 > SIZE_DAMIER || a==0 || b==0 || a==SIZE_DAMIER-1 || b==SIZE_DAMIER-1) {
                 } //sinon poser les pierres       
                 else if (couleurPierre == COULEUR_NOIR) {
                     FonctionPanel.passer = 0;
