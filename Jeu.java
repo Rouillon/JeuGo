@@ -39,18 +39,18 @@ public class Jeu {
         boolean passerNoir = false;//pour marquer si le joueur veut passer
         boolean continuer = false;
         do {
-            System.out.println("Est-ce que vous voulez passer cette manche?");
-            InputStreamReader isr = new InputStreamReader(System.in);
-            BufferedReader br = new BufferedReader(isr);
-            try {
-                s = br.readLine();
-            } catch (IOException e) {
-            }
-            if (s.equals("oui")) {
-                passerNoir = true;
-                continuer = false;
-            } else {
-                {
+//            System.out.println("Est-ce que vous voulez passer cette manche?");
+//            InputStreamReader isr = new InputStreamReader(System.in);
+//            BufferedReader br = new BufferedReader(isr);
+//            try {
+//                s = br.readLine();
+//            } catch (IOException e) {
+//            }
+//            if (s.equals("oui")) {
+//                passerNoir = true;
+//                continuer = false;
+//            } else {
+//                {
                     if (plateau[x][y] == 0 && x < 16 && x >= 0 && y < 16 && y >= 0) {
                         if (eviterSuicideNoir(plateau, x, y)) {
                             plateau[y][x] = 1; // 1 est pour les pierres noirs
@@ -60,8 +60,8 @@ public class Jeu {
                         System.out.println("Vous pouvez pas le poser ici!");
                         continuer = true;
                     }
-                }
-            }
+//                }
+//            }
         } while (continuer);
         return passerNoir;
     }
@@ -76,17 +76,17 @@ public class Jeu {
         boolean passerBlanc = false;//pour marquer si le joueur veut passer
         boolean continuer = false;
         do {
-            System.out.println("Est-ce que vous voulez passer cette manche?");
-            InputStreamReader isr = new InputStreamReader(System.in);
-            BufferedReader br = new BufferedReader(isr);
-            try {
-                s = br.readLine();
-            } catch (IOException e) {
-            }
-            if (s.equals("oui")) {
-                passerBlanc = true;
-            } else {
-                {
+//            System.out.println("Est-ce que vous voulez passer cette manche?");
+//            InputStreamReader isr = new InputStreamReader(System.in);
+//            BufferedReader br = new BufferedReader(isr);
+//            try {
+//                s = br.readLine();
+//            } catch (IOException e) {
+//            }
+//            if (s.equals("oui")) {
+//                passerBlanc = true;
+//            } else {
+//                {
                     if (plateau[x][y] == 0 && x < 16 && x >= 0 && y < 16 && y >= 0) {
                         if (eviterSuicideBlanc(plateau, x, y)) {
                             plateau[y][x] = -1; //-1 est pout les pierres blancs                          
@@ -96,8 +96,8 @@ public class Jeu {
                         System.out.println("Vous pouvez pas le poser ici!");
                         continuer = true;
                     }
-                }
-            }
+//                }
+//            }
         } while (continuer);
         return passerBlanc;
     }

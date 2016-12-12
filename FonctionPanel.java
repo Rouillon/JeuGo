@@ -49,8 +49,12 @@ class FonctionPanel extends Panel implements ActionListener {
             }
             coleurPierre = 1;
             text.setText("Tour : Noir");
-        }else if (e.getSource() == btn_recommencer) {
-            GO.damier.coleurPierre *= -1;
+        }else if (e.getSource() == btn_passer) {
+            GO.damier.coleurPierre =GO.damier.coleurPierre * (-1);
+            if(text.getText().equals("Tour : Noir"))
+                text.setText("Tour : Blanc");
+            else if(text.getText().equals("Tour : Blanc"))
+                text.setText("Tour : Noir");                     
         }
     }
 
