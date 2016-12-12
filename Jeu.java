@@ -40,7 +40,7 @@ public class Jeu {
                 {
                     if (plateau[x][y] == 0 && x < 16 && x >= 0 && y < 16 && y >= 0) {
                         if (eviterSuicideNoir(plateau, x, y)) {
-                            plateau[x][y] = 1; // 1 est pour les pierres noirs
+                            plateau[y][x] = 1; // 1 est pour les pierres noirs
                         }
                         continuer=false; 
                     } else {
@@ -69,8 +69,7 @@ public class Jeu {
                 {
                     if (plateau[x][y] == 0 && x < 16 && x >= 0 && y < 16 && y >= 0) {
                         if (eviterSuicideBlanc(plateau, x, y)) {
-                            plateau[x][y] = -1; //-1 est pout les pierres blancs
-                            
+                            plateau[y][x] = -1; //-1 est pout les pierres blancs                          
                         }
                         continuer=false;  
                     } else {
