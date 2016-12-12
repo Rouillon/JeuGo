@@ -23,6 +23,7 @@ public class Jeu {
     private int captureB;
     int[][] plateau = new int[16][16];
 
+
     public Jeu() {
         for (int i = 0; i < 16; i++) {
             for (int j = 0; j < 16; j++) {
