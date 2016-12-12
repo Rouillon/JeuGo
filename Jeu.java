@@ -252,8 +252,12 @@ public class Jeu {
         for(int i=0; i<16; i++){
             for(int j=0; j<16; j++){
                 //blanc 
-                if(this.plateau[i][j]==-1){
-                    
+                if(this.plateau[i][j]!=0){
+                    Pion p = new Pion(i,j);
+                    if(!this.listeTestes.contains(p)){
+                        ArrayList<Pion> nouveau = new ArrayList<>();
+                        this.listeGroupes.add(this.ajouterAdjacent(p,nouveau));
+                    }
                 }
             }
         }
