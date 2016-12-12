@@ -22,6 +22,8 @@ public class Jeu {
     private int captureN;
     private int captureB;
     int[][] plateau = new int[16][16];
+    ArrayList<Pion> listeTestes;
+    ArrayList<ArrayList<Pion>> listeGroupes;
 
 
     public Jeu() {
@@ -233,10 +235,10 @@ public class Jeu {
     }
     public ArrayList<Pion> ajouterAdjacent(Pion p, ArrayList<Pion> groupe){
         groupe.add(p);
-        this.listeTest.add(p);
+        this.listeTestes.add(p);
         ArrayList<Pion> adjacents = this.adjacents(p);
         for(Pion adja : adjacents){
-            if(!this.listeTest.contains(adja)){
+            if(!this.listeTestes.contains(adja)){
                 this.ajouterAdjacent(adja, groupe);
             }
         }
