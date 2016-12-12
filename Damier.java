@@ -38,12 +38,6 @@ class Damier extends Panel implements MouseListener {
         for (int j = 40; j <= 20 * (SIZE_DAMIER + 1); j += 20) {
             g.drawLine(j, 40, j, 20 * (SIZE_DAMIER + 1));
         }
-        //Les cinq points noirs
-        g.fillOval(97, 97, 6, 6);
-        g.fillOval(97, 337, 6, 6);
-        g.fillOval(337, 97, 6, 6);
-        g.fillOval(337, 337, 6, 6);
-        g.fillOval(217, 217, 6, 6);
     }
 
     //poser les pierres

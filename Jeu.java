@@ -268,8 +268,9 @@ public class Jeu {
         groupe.add(p);
         listeTestes.add(p);
         LinkedList<Pion> adjacents = adjacents(plateau, p);
-        boolean test2 = false;
+        boolean test2;
         for (Pion adja : adjacents) {
+            test2=false;
             for (int i = 0; i < listeTestes.size(); i++) {
                 if (listeTestes.get(i).equals(adja)) {
                     test2=true;
