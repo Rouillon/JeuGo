@@ -6,7 +6,8 @@
 package JeuGo;
 
 /**
- *
+ * la classe Pion nous aide à représenter les éléments : pierre noire ou pierre blanche
+ * bien qu'au final ils sont représentés par des 1 ou -1 sur une matrice
  * @author Rémi
  */
 public class Pion {

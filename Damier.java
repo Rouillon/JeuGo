@@ -8,7 +8,7 @@ package JeuGo;
 import java.awt.*;
 import java.awt.event.*;
 
-class Damier extends Panel implements MouseListener, ActionListener {
+class Damier extends Panel implements MouseListener {
 
     final public static int COULEUR_NOIR = 1;
     final public static int COULEUR_BLANC = -1;
@@ -19,9 +19,7 @@ class Damier extends Panel implements MouseListener, ActionListener {
     //la position de la souris sur l'écran
     int x = -1;
     int y = -1;
-    int coleurPierre = 1;
-    Button button = new Button("Recommencer");
-    TextField text_1 = new TextField("Tour : Noir");
+    public static int coleurPierre = 1;
     Jeu jeu;
 
     Damier() {
@@ -29,12 +27,6 @@ class Damier extends Panel implements MouseListener, ActionListener {
         setLayout(null);
         setBackground(new Color(255, 178, 102));
         addMouseListener(this);
-        add(button);
-        button.setBounds(40, 5, 140, 26);
-        button.addActionListener(this);
-        add(text_1);
-        text_1.setBounds(260, 5, 260, 24);
-        text_1.setEditable(false);
         jeu = new Jeu();
     }
 
@@ -73,30 +65,21 @@ class Damier extends Panel implements MouseListener, ActionListener {
 //                     System.out.println("suicide");
                 } else {
                     //poser un pion noir
-//                    PionNoir pinoNoir = new PionNoir(this);
-//                    this.add(pinoNoir);
-//                    pinoNoir.setBounds(a * 20 + 30, b * 20 + 30, 20, 20);
-//                    matrice[b][a] = COULEUR_NOIR;
 //                    jeu.detectionCapture(matrice);
                     setPions(matrice);
                 }
                 coleurPierre = coleurPierre * (-1);
-                text_1.setText("Tour : Blanc");
+                GO.fonctionPanel.text.setText("Tour : Blanc");
                 printMatrice();
             } else if (coleurPierre == COULEUR_BLANC) {
                 if (Jeu.poserPierreBlanc(matrice, a, b)) {
 //                     System.out.println("suicide");                  
                 } else {
-                    //poser un pion blanc
-//                    PionBlanc pionBlanc = new PionBlanc(this);
-//                    this.add(pionBlanc);
-//                    pionBlanc.setBounds(a * 20 - 10, b * 20 - 10, 20, 20);
-//                    matrice[b][a] = COULEUR_BLANC;
 //                    jeu.detectionCapture(matrice);
                     setPions(matrice);
                 }
                 coleurPierre = coleurPierre * (-1);
-                text_1.setText("Tour : Noir");
+                GO.fonctionPanel.text.setText("Tour : Noir");
                 printMatrice();
             }
         }
@@ -133,23 +116,6 @@ class Damier extends Panel implements MouseListener, ActionListener {
                 }
             }
         }
-    }
-
-    //recommencer
-    public void actionPerformed(ActionEvent e) {
-        this.removeAll();
-        for (int i = 0; i < SIZE_DAMIER; i++) {
-            for (int j = 0; j < SIZE_DAMIER; j++) {
-                matrice[i][j] = 0;
-            }
-        }
-
-        coleurPierre = 1;
-        add(button);
-        button.setBounds(10, 5, 60, 26);
-        add(text_1);
-        text_1.setBounds(90, 5, 90, 24);
-        text_1.setText("Tour : Noir");
     }
 
     public void printMatrice() {
