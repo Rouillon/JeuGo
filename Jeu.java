@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+*TP3 de MEDEV 
+*Jeu de GO
+*qui a le but pour "test"
  */
 package JeuGo;
 
@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class Jeu {
 
-    public static String s;
+    public static String s; //pour demander le joueur est-ce qu'il veut passer ce manche. ça doit etre "oui" ou "non"
     private int captureN;
     private int captureB;
     int[][] plateau = new int[16][16];
@@ -96,6 +96,7 @@ public class Jeu {
 
     public boolean eviterSuicideNoir(int[][] plateau, int x, int y) {
         boolean poserNoir = true;
+       //Si autour de (x,y) est -1 (pierre blanc), on peut pas mettre ce pierre noir a case (x,y)
         if (x == 0 && y == 0) {
             if (plateau[x + 1][y] == -1 && plateau[x][y + 1] == -1) {
                 poserNoir = false;
@@ -138,6 +139,7 @@ public class Jeu {
 
      public boolean eviterSuicideBlanc(int[][] plateau, int x, int y) {
         boolean poserBlanc = true;
+        //Si autour de (x,y) est 1 (pierre noir), on peut pas mettre ce pierre blanc a case (x,y)
         if (x == 0 && y == 0) {
             if (plateau[x + 1][y] == 1 && plateau[x][y + 1] == 1) {
                 poserBlanc = false;
