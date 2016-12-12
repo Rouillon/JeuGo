@@ -21,9 +21,9 @@ public class Jeu {
     * listeTestes : liste des Pions testés, sert à la constitution de groupes
     * listeGroupes : prend en mémoire les groupes à un instant t
     */
-    public static String s; //pour demander le joueur est-ce qu'il veut passer ce manche. ça doit etre "oui" ou "non"
-    ArrayList<Pion> listeTestes;
-    ArrayList<ArrayList<Pion>> listeGroupes;
+    private static String s; //pour demander le joueur est-ce qu'il veut passer ce manche. ça doit etre "oui" ou "non"
+    private static ArrayList<Pion> listeTestes;
+    private static ArrayList<ArrayList<Pion>> listeGroupes;
     
     public Jeu() {
         
@@ -238,17 +238,13 @@ public class Jeu {
         }
         return nbBlanc;
     }
-<<<<<<< HEAD
     public static ArrayList<Pion> adjacents(int[][] plateau, Pion p){
-=======
     /**
      * à partir d'un pion P, trouve les pions adjacents et les retourne dans une liste de pion
      * @param plateau
      * @param p pion à partir duquel on cherche les adjacents
      * @return l'arrayListe des pions adjacents
      */
-    public ArrayList<Pion> adjacents(int[][] plateau, Pion p){
->>>>>>> origin/master
         int px = p.getX();
         int py = p.getY();
         int couleur = p.getCouleur();
@@ -273,15 +269,15 @@ public class Jeu {
      * @param plateau
      * @param p pion de départ de la recherche de groupe
      * @param groupe groupe qu'on va remplir avec les éléments adjacents
-     * @return le groupe sous forme d'arraylist<Pion>
+     * @return le groupe sous forme d'ArrayList<Pion>
      */
-    public ArrayList<Pion> ajouterAdjacent(int[][] plateau,Pion p, ArrayList<Pion> groupe){
+    public static ArrayList<Pion> ajouterAdjacent(int[][] plateau,Pion p, ArrayList<Pion> groupe){
         groupe.add(p);
-        this.listeTestes.add(p);
+        listeTestes.add(p);
         ArrayList<Pion> adjacents = adjacents(plateau, p);
         for(Pion adja : adjacents){
-            if(!this.listeTestes.contains(adja)){
-                this.ajouterAdjacent(plateau,adja, groupe);
+            if(!listeTestes.contains(adja)){
+                ajouterAdjacent(plateau,adja, groupe);
             }
         }
         return groupe;
@@ -290,17 +286,25 @@ public class Jeu {
      * constitue tous les groupes du plateau à un instant donné 
      * @param plateau 
      */
-    public void detectionGroupes(int[][] plateau){
-        this.listeTestes.clear();
-        this.listeGroupes.clear();
+    public static void detectionGroupes(int[][] plateau){
+        listeTestes.clear();
+        listeGroupes.clear();
         for(int i=0; i<16; i++){
             for(int j=0; j<16; j++){
                 //blanc 
                 if(plateau[i][j]!=0){
-                    Pion p = new Pion(i,j);
-                    if(!this.listeTestes.contains(p)){
+                    Pion p = new Pion(i,j,-1);
+                    if(!listeTestes.contains(p)){
                         ArrayList<Pion> nouveau = new ArrayList<>();
-                        this.listeGroupes.add(this.ajouterAdjacent(plateau,p,nouveau));
+                        listeGroupes.add(Jeu.ajouterAdjacent(plateau,p,nouveau));
+                    }
+                }
+                //noir
+                if(plateau[i][j]!=0){
+                    Pion p = new Pion(i,j,1);
+                    if(!listeTestes.contains(p)){
+                        ArrayList<Pion> nouveau = new ArrayList<>();
+                        listeGroupes.add(Jeu.ajouterAdjacent(plateau,p,nouveau));
                     }
                 }
             }
@@ -310,10 +314,10 @@ public class Jeu {
      * supprime les groupes encerclés
      * @param plateau 
      */
-    public void detectionCapture(int[][] plateau){
+    public static void detectionCapture(int[][] plateau){
         boolean capture=true;
         ArrayList<Pion> adj;
-        for (ArrayList<Pion> groupe:this.listeGroupes){
+        for (ArrayList<Pion> groupe:listeGroupes){
             for (Pion p: groupe){
                 adj = adjacents(plateau,p);
                 if (adj.size()<4){ // TODO ou sur le bord
