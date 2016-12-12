@@ -50,7 +50,7 @@ public class Jeu {
             }
             continuer = false;
         } else {
-            System.out.println("Vous pouvez pas le poser ici!");
+            System.out.println("Vous ne pouvez pas le poser ici!");
         }
 
         return passerNoir;
@@ -75,7 +75,7 @@ public class Jeu {
             }
             continuer = false;
         } else {
-            System.out.println("Vous pouvez pas le poser ici!");
+            System.out.println("Vous ne pouvez pas le poser ici!");
         }
 
         return passerBlanc;

@@ -19,7 +19,7 @@ class Damier extends Panel implements MouseListener {
     //la position de la souris sur l'écran
     int x = -1;
     int y = -1;
-    public static int coleurPierre = 1;
+    public static int couleurPierre = 1;
     Jeu jeu;
 
     Damier() {
@@ -58,7 +58,7 @@ class Damier extends Panel implements MouseListener {
             //s'il est en endors du damier
             if (x / 20 < 2 || y / 20 < 2 || x / 20 > SIZE_DAMIER || y / 20 > SIZE_DAMIER) {
             } //sinon poser les pierres       
-            else if (coleurPierre == COULEUR_NOIR) {
+            else if (couleurPierre == COULEUR_NOIR) {
 //                eviterSuicideNoir(matrice, b, a);
                 //la fonction éviter suicide·
                 if (Jeu.poserPierreNoir(matrice, a, b)) {
@@ -68,17 +68,17 @@ class Damier extends Panel implements MouseListener {
 //                    jeu.detectionCapture(matrice);
                     setPions(matrice);
                 }
-                coleurPierre = coleurPierre * (-1);
+                couleurPierre = couleurPierre * (-1);
                 GO.fonctionPanel.text.setText("Tour : Blanc");
                 printMatrice();
-            } else if (coleurPierre == COULEUR_BLANC) {
+            } else if (couleurPierre == COULEUR_BLANC) {
                 if (Jeu.poserPierreBlanc(matrice, a, b)) {
 //                     System.out.println("suicide");                  
                 } else {
 //                    jeu.detectionCapture(matrice);
                     setPions(matrice);
                 }
-                coleurPierre = coleurPierre * (-1);
+                couleurPierre = couleurPierre * (-1);
                 GO.fonctionPanel.text.setText("Tour : Noir");
                 printMatrice();
             }
