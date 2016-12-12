@@ -17,6 +17,7 @@ public class GO extends Frame {
 
     public static Damier damier = new Damier();
     public static FonctionPanel fonctionPanel = new FonctionPanel();
+    public static boolean finPartie = false;
 
     GO() {
         setVisible(true);

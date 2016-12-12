@@ -27,9 +27,9 @@ public class Jeu {
     public static ArrayList<Pion> listeTestes;
     public static ArrayList<ArrayList<Pion>> listeGroupesBlanc;
     public static ArrayList<ArrayList<Pion>> listeGroupesNoir;
-    
+
     public Jeu() {
-        
+
     }
 
     /**
@@ -42,20 +42,12 @@ public class Jeu {
      * @return true ou false en fonction de si l'utilisateur souhaite passer son
      * tour ou pas
      */
-    public static boolean poserPierreNoir(int[][] plateau, int x, int y) {
-        boolean passerNoir = false;//pour marquer si le joueur veut passer
-        boolean continuer = false;
-        
-        if (plateau[x][y] == 0 && x < 16 && x >= 0 && y < 16 && y >= 0) {
-            //if (eviterSuicideNoir(plateau, x, y)) {
+    public static void poserPierreNoir(int[][] plateau, int x, int y) {
+        if ((plateau[x][y] == 0) || (x < 16) || (x >= 0) || (y < 16) || (y >= 0)) {
             plateau[x][y] = 1; // 1 est pour les pierres noirs
-            //}
-            continuer = false;
         } else {
             System.out.println("Vous ne pouvez pas le poser ici!");
         }
-        
-        return passerNoir;
     }
 
     /**
@@ -67,130 +59,13 @@ public class Jeu {
      * @param y
      * @return
      */
-    public static boolean poserPierreBlanc(int[][] plateau, int x, int y) {
-        boolean passerBlanc = false;//pour marquer si le joueur veut passer
-        boolean continuer = false;
-        
-        if (plateau[x][y] == 0 && x < 16 && x >= 0 && y < 16 && y >= 0) {
-            //if (eviterSuicideBlanc(plateau, x, y)) {
+    public static void poserPierreBlanc(int[][] plateau, int x, int y) {
+        if ((plateau[x][y] == 0) || (x < 16) || (x >= 0) || (y < 16) || (y >= 0)) {
             plateau[x][y] = -1; //-1 est pout les pierres blancs                          
-            //}
-            continuer = false;
         } else {
             System.out.println("Vous ne pouvez pas le poser ici!");
         }
-        
-        return passerBlanc;
     }
-
-    /**
-     * contrôle le suicide des joueurs
-     *
-     * @param plateau de jeu
-     * @param x position x de la pierre noire
-     * @param y position y de la pierre noire
-     * @return True si on peut la poser, false si on ne peut pas
-     */
-    public static boolean eviterSuicideNoir(int[][] plateau, int x, int y) {
-        boolean poserNoir = true;
-        //Si autour de (x,y) est -1 (pierre blanc), on peut pas mettre ce pierre noir a case (x,y)
-        if (x == 0 && y == 0) {
-            if (plateau[x + 1][y] == -1 && plateau[x][y + 1] == -1) {
-                poserNoir = false;
-            }
-        } else if (x == 15 && y == 0) {
-            if (plateau[x - 1][y] == -1 && plateau[x][y + 1] == -1) {
-                poserNoir = false;
-            }
-        } else if (x == 0 && y == 15) {
-            if (plateau[x + 1][y] == -1 && plateau[x][y - 1] == -1) {
-                poserNoir = false;
-            }
-        } else if (x == 15 && y == 15) {
-            if (plateau[x - 1][y] == -1 && plateau[x][y - 1] == -1) {
-                poserNoir = false;
-            }
-        } else if (x == 0 && y != 0 && y != 15) {
-            if (plateau[x + 1][y] == -1 && plateau[x][y + 1] == -1 && plateau[x][y - 1] == -1) {
-                poserNoir = false;
-            }
-        } else if (y == 0 && x != 0 && x != 15) {
-            if (plateau[x + 1][y] == -1 && plateau[x - 1][y] == -1 && plateau[x][y + 1] == -1) {
-                poserNoir = false;
-            }
-        } else if (x == 15 && y != 0 && y != 15) {
-            if (plateau[x - 1][y] == -1 && plateau[x][y + 1] == -1 && plateau[x][y - 1] == -1) {
-                poserNoir = false;
-            }
-        } else if (y == 15 && x != 0 && x != 15) {
-            if (plateau[x + 1][y] == -1 && plateau[x - 1][y] == -1 && plateau[x][y - 1] == -1) {
-                poserNoir = false;
-            }
-        } else if (x > 0 && x < 15 && y > 0 && y < 15) {
-            if (plateau[x + 1][y] == -1 || plateau[x - 1][y] == -1 || plateau[x][y + 1] == -1 || plateau[x][y - 1] == -1) {
-                poserNoir = false;
-            }
-        }
-        return poserNoir;
-    }
-
-    /**
-     * de même que pour le suicide noire mais pour les pierres blanches
-     *
-     * @param plateau
-     * @param x
-     * @param y
-     * @return
-     */
-    public static boolean eviterSuicideBlanc(int[][] plateau, int x, int y) {
-        boolean poserBlanc = true;
-        //Si autour de (x,y) est 1 (pierre noir), on peut pas mettre ce pierre blanc a case (x,y)
-        if (x == 0 && y == 0) {
-            if (plateau[x + 1][y] == 1 && plateau[x][y + 1] == 1) {
-                poserBlanc = false;
-            }
-        } else if (x == 15 && y == 0) {
-            if (plateau[x - 1][y] == 1 && plateau[x][y + 1] == 1) {
-                poserBlanc = false;
-            }
-        } else if (x == 0 && y == 15) {
-            if (plateau[x + 1][y] == 1 && plateau[x][y - 1] == 1) {
-                poserBlanc = false;
-            }
-        } else if (x == 15 && y == 15) {
-            if (plateau[x - 1][y] == 1 && plateau[x][y - 1] == 1) {
-                poserBlanc = false;
-            }
-        } else if (x == 0 && y != 0 && y != 15) {
-            if (plateau[x + 1][y] == 1 && plateau[x][y + 1] == 1 && plateau[x][y - 1] == 1) {
-                poserBlanc = false;
-            }
-        } else if (y == 0 && x != 0 && x != 15) {
-            if (plateau[x + 1][y] == 1 && plateau[x - 1][y] == 1 && plateau[x][y + 1] == 1) {
-                poserBlanc = false;
-            }
-        } else if (x == 15 && y != 0 && y != 15) {
-            if (plateau[x - 1][y] == 1 && plateau[x][y + 1] == 1 && plateau[x][y - 1] == 1) {
-                poserBlanc = false;
-            }
-        } else if (y == 15 && x != 0 && x != 15) {
-            if (plateau[x + 1][y] == 1 && plateau[x - 1][y] == 1 && plateau[x][y - 1] == 1) {
-                poserBlanc = false;
-            }
-        } else if (x > 0 && x < 15 && y > 0 && y < 15) {
-            if (plateau[x + 1][y] == 1 || plateau[x - 1][y] == 1 || plateau[x][y + 1] == 1 || plateau[x][y - 1] == 1) {
-                poserBlanc = false;
-            }
-        }
-        return poserBlanc;
-    }
-//    public void recommencer() {
-//        for (int i = 0; i < 16; i++) {
-//            for (int j = 0; j < 16; j++) {
-//                this.plateau[i][j] = 0;
-//            }
-//        }
-//    }
 
     /**
      * calcule le nombre de pierre noire sur le plateau en vue du comptage
@@ -270,10 +145,10 @@ public class Jeu {
         LinkedList<Pion> adjacents = adjacents(plateau, p);
         boolean test2;
         for (Pion adja : adjacents) {
-            test2=false;
+            test2 = false;
             for (int i = 0; i < listeTestes.size(); i++) {
                 if (listeTestes.get(i).equals(adja)) {
-                    test2=true;
+                    test2 = true;
                 }
             }
             if (!test2) {
@@ -302,11 +177,11 @@ public class Jeu {
                             test = true;
                         }
                     }
-                    if (!test) {                        
+                    if (!test) {
                         ArrayList<Pion> nouveau = new ArrayList<>();
                         listeGroupesBlanc.add(Jeu.ajouterAdjacent(plateau, p, nouveau));
                     }
-                    
+
                 }
             }
         }
@@ -331,11 +206,11 @@ public class Jeu {
                             test = true;
                         }
                     }
-                    if (!test) {                        
+                    if (!test) {
                         ArrayList<Pion> nouveau = new ArrayList<>();
                         listeGroupesNoir.add(Jeu.ajouterAdjacent(plateau, p, nouveau));
                     }
-                    
+
                 }
             }
         }
@@ -346,26 +221,30 @@ public class Jeu {
      *
      * @param plateau
      */
-    public static void detectionCaptureBlanc(int[][] plateau) {
-        boolean capture;
+    public static boolean detectionCaptureBlanc(int[][] plateau) {
+        boolean capture = false;
+        boolean auMoinsUneCapture = false;
+        int count=0;
         Jeu.detectionGroupesBlanc(plateau);
         for (ArrayList<Pion> groupe : listeGroupesBlanc) {
             capture = false;
-            int count=0;
+            count = 0;
             for (Pion p : groupe) {
                 if ((plateau[p.getX()][p.getY() + 1] != 0) && (plateau[p.getX()][p.getY() - 1] != 0) && (plateau[p.getX() + 1][p.getY()] != 0) && (plateau[p.getX() - 1][p.getY()] != 0)) { // TODO gérer exception sur le bord
-                    count+=1;
+                    count += 1;
                 }
             }
-            if (count==groupe.size()) {
-                capture=true;
+            if ((count == groupe.size()) && (count>0)) {
+                capture = true;
             }
             if (capture) {
+                auMoinsUneCapture = true;
                 for (Pion p : groupe) {
                     plateau[p.getX()][p.getY()] = 0;
                 }
             }
         }
+        return auMoinsUneCapture;
     }
 
     /**
@@ -373,26 +252,30 @@ public class Jeu {
      *
      * @param plateau
      */
-    public static void detectionCaptureNoir(int[][] plateau) {
-        boolean capture;
+    public static boolean detectionCaptureNoir(int[][] plateau) {
+        boolean capture = false;
+        boolean auMoinsUneCapture = false;
+        int count=0;
         Jeu.detectionGroupesNoir(plateau);
         for (ArrayList<Pion> groupe : listeGroupesNoir) {
             capture = false;
-            int count=0;
+            count = 0;
             for (Pion p : groupe) {
                 if ((plateau[p.getX()][p.getY() + 1] != 0) && (plateau[p.getX()][p.getY() - 1] != 0) && (plateau[p.getX() + 1][p.getY()] != 0) && (plateau[p.getX() - 1][p.getY()] != 0)) { // TODO gérer exception sur le bord
-                    count+=1;
+                    count += 1;
                 }
             }
-            if (count==groupe.size()) {
-                capture=true;
+            if ((count == groupe.size()) && (count>0)) {
+                capture = true;
             }
             if (capture) {
+                auMoinsUneCapture = true;
                 for (Pion p : groupe) {
                     plateau[p.getX()][p.getY()] = 0;
                 }
             }
         }
+        return auMoinsUneCapture;
     }
-    
+
 }

@@ -42,36 +42,49 @@ class Damier extends Panel implements MouseListener {
 
     //poser les pierres
     public void mousePressed(MouseEvent e) {
-        if (e.getModifiers() == InputEvent.BUTTON1_MASK) {
-            //position de la souris sur l'écran
-            x = (int) e.getX();
-            y = (int) e.getY();
-            //position dans la matrice      
-            int a = (x + 10) / 20 - 2;
-            int b = (y + 10) / 20 - 2;
-            //s'il est en endors du damier
-            if (x / 20 < 2 || y / 20 < 2 || x / 20 > SIZE_DAMIER || y / 20 > SIZE_DAMIER) {
-            } //sinon poser les pierres       
-            else if (couleurPierre == COULEUR_NOIR) {
-                if (Jeu.poserPierreNoir(matrice, b, a)) {
-                } else {
+        if (!GO.finPartie) {
+            if (e.getModifiers() == InputEvent.BUTTON1_MASK) {
+                //position de la souris sur l'écran
+                x = (int) e.getX();
+                y = (int) e.getY();
+                //position dans la matrice      
+                int a = (x + 10) / 20 - 2;
+                int b = (y + 10) / 20 - 2;
+                //s'il est en endors du damier
+                if (x / 20 < 2 || y / 20 < 2 || x / 20 > SIZE_DAMIER || y / 20 > SIZE_DAMIER) {
+                } //sinon poser les pierres       
+                else if (couleurPierre == COULEUR_NOIR) {
+                    FonctionPanel.passer = 0;
                     //poser un pion noir
-                    Jeu.detectionCaptureBlanc(matrice);
-                    setPions(matrice);
-                }
-                couleurPierre = couleurPierre * (-1);
-                GO.fonctionPanel.text.setText("Tour : Blanc");
-                printMatrice();
-            } else if (couleurPierre == COULEUR_BLANC) {
-                if (Jeu.poserPierreBlanc(matrice, b, a)) {
-                } else {
+                    Jeu.poserPierreNoir(matrice, b, a);
+                    if (Jeu.detectionCaptureNoir(matrice)) {
+                        GO.fonctionPanel.text.setText("Suicide Interdit!");
+                        printMatrice();
+
+                    } else {
+                        Jeu.detectionCaptureBlanc(matrice);
+                        setPions(matrice);
+                        couleurPierre = couleurPierre * (-1);
+                        GO.fonctionPanel.text.setText("Tour : Blanc");
+                        printMatrice();
+                    }
+                } else if (couleurPierre == COULEUR_BLANC) {
+                    FonctionPanel.passer = 0;
                     //poser un pion blanc
-                    Jeu.detectionCaptureNoir(matrice);
-                    setPions(matrice);
+                    Jeu.poserPierreBlanc(matrice, b, a);
+                    if (Jeu.detectionCaptureBlanc(matrice)) {
+                        GO.fonctionPanel.text.setText("Suicide Interdit!");
+                        printMatrice();
+
+                    } else {
+                        Jeu.detectionCaptureNoir(matrice);
+                        setPions(matrice);
+                        couleurPierre = couleurPierre * (-1);
+                        GO.fonctionPanel.text.setText("Tour : Noir");
+                        printMatrice();
+                    }
+
                 }
-                couleurPierre = couleurPierre * (-1);
-                GO.fonctionPanel.text.setText("Tour : Noir");
-                printMatrice();
             }
         }
     }
