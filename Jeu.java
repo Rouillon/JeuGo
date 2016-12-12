@@ -262,4 +262,22 @@ public class Jeu {
             }
         }
     }
+    
+    public void detectionCapture(){
+        boolean capture=true;
+        ArrayList<Pion> adj;
+        for (ArrayList<Pion> groupe:this.listeGroupes){
+            for (Pion p: groupe){
+                adj = this.adjacents(p);
+                if (adj.size()<4){ // TODO ou sur le bord
+                    capture=false;
+                }
+            }
+            if (capture) {
+                    for (Pion p:groupe) {
+                    this.plateau[p.getX()][p.getY()]=0;
+                }
+                }
+        }
+    }
 }

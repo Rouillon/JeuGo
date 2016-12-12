@@ -13,7 +13,16 @@ public class Pion {
     
     private int x;
     private int y;
+    private int couleur;
 
+    public int getCouleur() {
+        return couleur;
+    }
+
+    public void setCouleur(int couleur) {
+        this.couleur = couleur;
+    }
+    
     public int getX() {
         return x;
     }
