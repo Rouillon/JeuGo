@@ -172,7 +172,7 @@ public class Jeu {
 //            }
 //        }
 //    }
-    public int nbPierreNoir(int[][] plateau) {
+    public static int nbPierreNoir(int[][] plateau) {
         int nbNoir = 0;
         for (int i = 0; i < 16; i++) {
             for (int j = 0; j < 16; j++) {
@@ -183,7 +183,7 @@ public class Jeu {
         }
         return nbNoir;
     }
-    public int nbPierreBlanc(int[][] plateau) {
+    public static int nbPierreBlanc(int[][] plateau) {
         int nbBlanc = 0;
         for (int i = 0; i < 16; i++) {
             for (int j = 0; j < 16; j++) {
