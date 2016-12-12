@@ -34,7 +34,7 @@ public class Jeu {
         }
     }
 
-    public boolean poserPierreNoir(int[][] plateau, int x, int y) {
+    public static boolean poserPierreNoir(int[][] plateau, int x, int y) {
 
         boolean passerNoir = false;//pour marquer si le joueur veut passer
         boolean continuer = false;
@@ -65,7 +65,7 @@ public class Jeu {
         return passerNoir;
     }
 
-    public boolean poserPierreBlanc(int[][] plateau, int x, int y) {
+    public static boolean poserPierreBlanc(int[][] plateau, int x, int y) {
 
         boolean passerBlanc = false;//pour marquer si le joueur veut passer
         boolean continuer = false;
@@ -96,7 +96,7 @@ public class Jeu {
         return passerBlanc;
     }
 
-    public boolean eviterSuicideNoir(int[][] plateau, int x, int y) {
+    public static boolean eviterSuicideNoir(int[][] plateau, int x, int y) {
         boolean poserNoir = true;
        //Si autour de (x,y) est -1 (pierre blanc), on peut pas mettre ce pierre noir a case (x,y)
         if (x == 0 && y == 0) {
@@ -139,7 +139,7 @@ public class Jeu {
         return poserNoir;
     }
 
-     public boolean eviterSuicideBlanc(int[][] plateau, int x, int y) {
+     public static boolean eviterSuicideBlanc(int[][] plateau, int x, int y) {
         boolean poserBlanc = true;
         //Si autour de (x,y) est 1 (pierre noir), on peut pas mettre ce pierre blanc a case (x,y)
         if (x == 0 && y == 0) {
@@ -263,7 +263,7 @@ public class Jeu {
         }
     }
     
-    public void detectionCapture(){
+    public void detectionCapture(int[][] plateau){
         boolean capture=true;
         ArrayList<Pion> adj;
         for (ArrayList<Pion> groupe:this.listeGroupes){

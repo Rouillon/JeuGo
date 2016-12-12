@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *TP3 de MEDEV 
+ *Jeu de GO
+ *la classe pour le pion noir 
  */
 package JeuGo;
 
@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 /**
- *
+ * classe du pion noir
  * @author Guoxin
  */
 class PionNoir extends Canvas {

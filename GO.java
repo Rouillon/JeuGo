@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+ *TP3 de MEDEV 
+ *Jeu de GO
+ *la classe pour faire appraitre le frame 
+*/
 package JeuGo;
 
 import java.awt.*;
@@ -12,11 +12,8 @@ import java.awt.event.*;
  * classe pour le frame
  * @author Guoxin
  */
-
 public class GO extends Frame {
     
-    
-
     Damier damier = new Damier();
 
     GO() {

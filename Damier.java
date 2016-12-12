@@ -1,9 +1,13 @@
+/*
+ *TP3 de MEDEV 
+ *Jeu de GO
+ *la classe pour le damier 
+ */
 package JeuGo;
 
 import java.awt.*;
 import java.awt.event.*;
 
-//la classe pour le damier 
 class Damier extends Panel implements MouseListener, ActionListener {
 
     final public static int COULEUR_NOIR = 1;
@@ -22,13 +26,13 @@ class Damier extends Panel implements MouseListener, ActionListener {
     Damier() {
         setSize(440, 440);
         setLayout(null);
-        setBackground(new Color(255,178,102));
+        setBackground(new Color(255, 178, 102));
         addMouseListener(this);
         add(button);
-        button.setBounds(10, 5, 60, 26);
+        button.setBounds(40, 5, 140, 26);
         button.addActionListener(this);
         add(text_1);
-        text_1.setBounds(90, 5, 90, 24);
+        text_1.setBounds(260, 5, 260, 24);
         text_1.setEditable(false);
     }
 
@@ -50,35 +54,51 @@ class Damier extends Panel implements MouseListener, ActionListener {
 
     //poser les pierres
     public void mousePressed(MouseEvent e) {
+        Jeu jeu = new Jeu();
         if (e.getModifiers() == InputEvent.BUTTON1_MASK) {
-            System.out.println("mousePressed");
             //position de la souris sur l'écran
             x = (int) e.getX();
             y = (int) e.getY();
             //position dans la matrice      
-            int a = (x + 10) / 20;
-            int b = (y + 10) / 20;
+            int a = (x + 10) / 20 - 2;
+            int b = (y + 10) / 20 - 2;
             //s'il est en endors du damier
             if (x / 20 < 2 || y / 20 < 2 || x / 20 > SIZE_DAMIER || y / 20 > SIZE_DAMIER) {
-            } //sinon poser les pierres          
+            } //sinon poser les pierres       
             else if (coleurPierre == COULEUR_NOIR) {
-                //poser un pion noir
-                PionNoir pinoNoir = new PionNoir(this);
-                this.add(pinoNoir);
-                pinoNoir.setBounds(a * 20 - 10, b * 20 - 10, 20, 20);
-                matrice[a - 2][b - 2] = COULEUR_NOIR;
-                coleurPierre = coleurPierre * (-1);
-                text_1.setText("Tour : Blanc");
+//                eviterSuicideNoir(matrice, b, a);
+                //la fonction éviter suicide·
+                if (!Jeu.poserPierreNoir(matrice, b, a)) {
+//                     System.out.println("suicide");
+                } else {
+                    //poser un pion noir
+                    PionNoir pinoNoir = new PionNoir(this);
+                    this.add(pinoNoir);
+                    pinoNoir.setBounds(a * 20 + 30, b * 20 + 30, 20, 20);
+                    matrice[b][a] = COULEUR_NOIR;
+                    jeu.detectionCapture(matrice);
+                    setPion(matrice);
+                    coleurPierre = coleurPierre * (-1);
+                    text_1.setText("Tour : Blanc");
+                    printMatrice();
+                }
+
             } else if (coleurPierre == COULEUR_BLANC) {
-                //poser un pion blanc
-                PionBlanc pionBlanc = new PionBlanc(this);
-                this.add(pionBlanc);
-                pionBlanc.setBounds(a * 20 - 10, b * 20 - 10, 20, 20);
-                matrice[a - 2][b - 2] = COULEUR_BLANC;
-                coleurPierre = coleurPierre * (-1);
-                text_1.setText("Tour : Noir");
+                if (!Jeu.poserPierreBlanc(matrice, b, a)) {
+//                     System.out.println("suicide");
+                } else {
+                    //poser un pion blanc
+                    PionBlanc pionBlanc = new PionBlanc(this);
+                    this.add(pionBlanc);
+                    pionBlanc.setBounds(a * 20 - 10, b * 20 - 10, 20, 20);
+                    matrice[b][a] = COULEUR_BLANC;
+                    jeu.detectionCapture(matrice);
+                    setPion(matrice);
+                    coleurPierre = coleurPierre * (-1);
+                    text_1.setText("Tour : Noir");
+                    printMatrice();
+                }
             }
-            
         }
     }
 
@@ -116,11 +136,29 @@ class Damier extends Panel implements MouseListener, ActionListener {
     //recommencer
     public void actionPerformed(ActionEvent e) {
         this.removeAll();
+        for (int i = 0; i < SIZE_DAMIER; i++) {
+            for (int j = 0; j < SIZE_DAMIER; j++) {
+                matrice[i][j] = 0;
+            }
+        }
+
         coleurPierre = 1;
         add(button);
         button.setBounds(10, 5, 60, 26);
         add(text_1);
         text_1.setBounds(90, 5, 90, 24);
         text_1.setText("Tour : Noir");
+    }
+
+    public void printMatrice() {
+        for (int i = 0; i < SIZE_DAMIER; i++) {
+            for (int j = 0; j < SIZE_DAMIER; j++) {
+                System.out.print(matrice[i][j]);
+                System.out.print(' ');
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println();
     }
 }
