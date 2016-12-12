@@ -194,22 +194,22 @@ public class Jeu {
         }
         return nbBlanc;
     }
-    public ArrayList<Pion> adjacents(int[][] plateau, Pion p){
+    public static ArrayList<Pion> adjacents(int[][] plateau, Pion p){
         int px = p.getX();
         int py = p.getY();
         int couleur = p.getCouleur();
         ArrayList<Pion> adjacents = new ArrayList();
         if (plateau[px-1][py]==couleur){
-            adjacents.add(new Pion(px-1,py));
+            adjacents.add(new Pion(px-1,py,couleur));
         }
         if (plateau[px+1][py]==couleur){
-            adjacents.add(new Pion(px+1,py));
+            adjacents.add(new Pion(px+1,py,couleur));
         }
         if (plateau[px][py-1]==couleur){
-            adjacents.add(new Pion(px,py-1));
+            adjacents.add(new Pion(px,py-1,couleur));
         }
         if (plateau[px][py+1]==couleur){
-            adjacents.add(new Pion(px,py+1));
+            adjacents.add(new Pion(px,py+1,couleur));
         }
         return adjacents;
     }

@@ -39,9 +39,10 @@ public class Pion {
         this.y = y;
     }
 
-    public Pion(int x, int y) {
+    public Pion(int x, int y, int couleur) {
         this.x = x;
         this.y = y;
+        this.couleur=couleur;
     }
     
     
