@@ -61,7 +61,7 @@ class Damier extends Panel implements MouseListener {
             else if (couleurPierre == COULEUR_NOIR) {
 //                eviterSuicideNoir(matrice, b, a);
                 //la fonction éviter suicide·
-                if (Jeu.poserPierreNoir(matrice, a, b)) {
+                if (Jeu.poserPierreNoir(matrice, b, a)) {
 //                     System.out.println("suicide");
                 } else {
                     //poser un pion noir
@@ -72,7 +72,7 @@ class Damier extends Panel implements MouseListener {
                 GO.fonctionPanel.text.setText("Tour : Blanc");
                 printMatrice();
             } else if (couleurPierre == COULEUR_BLANC) {
-                if (Jeu.poserPierreBlanc(matrice, a, b)) {
+                if (Jeu.poserPierreBlanc(matrice, b, a)) {
 //                     System.out.println("suicide");                  
                 } else {
 //                    jeu.detectionCapture(matrice);

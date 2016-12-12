@@ -24,7 +24,8 @@ public class Jeu {
      */
     private static String s; //pour demander le joueur est-ce qu'il veut passer ce manche. ça doit etre "oui" ou "non"
     private static ArrayList<Pion> listeTestes;
-    private static ArrayList<ArrayList<Pion>> listeGroupes;
+    private static ArrayList<ArrayList<Pion>> listeGroupesBlanc;
+    private static ArrayList<ArrayList<Pion>> listeGroupesNoir;
 
     public Jeu() {
 
@@ -46,7 +47,7 @@ public class Jeu {
 
         if (plateau[x][y] == 0 && x < 16 && x >= 0 && y < 16 && y >= 0) {
             if (eviterSuicideNoir(plateau, x, y)) {
-                plateau[y][x] = 1; // 1 est pour les pierres noirs
+                plateau[x][y] = 1; // 1 est pour les pierres noirs
             }
             continuer = false;
         } else {
@@ -71,7 +72,7 @@ public class Jeu {
 
         if (plateau[x][y] == 0 && x < 16 && x >= 0 && y < 16 && y >= 0) {
             if (eviterSuicideBlanc(plateau, x, y)) {
-                plateau[y][x] = -1; //-1 est pout les pierres blancs                          
+                plateau[x][y] = -1; //-1 est pout les pierres blancs                          
             }
             continuer = false;
         } else {
@@ -87,7 +88,7 @@ public class Jeu {
      * @param plateau de jeu
      * @param x position x de la pierre noire
      * @param y position y de la pierre noire
-     * @return true si on peut la poser, false si on ne peut pas
+     * @return True si on peut la poser, false si on ne peut pas
      */
     public static boolean eviterSuicideNoir(int[][] plateau, int x, int y) {
         boolean poserNoir = true;
@@ -279,26 +280,33 @@ public class Jeu {
      *
      * @param plateau
      */
-    public static void detectionGroupes(int[][] plateau) {
+    public static void detectionGroupesBlanc(int[][] plateau) {
         listeTestes.clear();
-        listeGroupes.clear();
+        listeGroupesBlanc.clear();
         for (int i = 0; i < 16; i++) {
             for (int j = 0; j < 16; j++) {
-                //blanc 
-                if (plateau[i][j] != 0) {
-                    Pion p = new Pion(i, j, -1);
-                    if (!listeTestes.contains(p)) {
-                        ArrayList<Pion> nouveau = new ArrayList<>();
-                        listeGroupes.add(Jeu.ajouterAdjacent(plateau, p, nouveau));
-                    }
+                //blanc
+                Pion p = new Pion(i, j, -1);
+                if ((plateau[i][j] == -1) && (!listeTestes.contains(p))) { //TODO contains(p) -> non
+                    ArrayList<Pion> nouveau = new ArrayList<>();
+                    listeGroupesBlanc.add(Jeu.ajouterAdjacent(plateau, p, nouveau));
+
                 }
-                //noir
-                if (plateau[i][j] != 0) {
-                    Pion p = new Pion(i, j, 1);
-                    if (!listeTestes.contains(p)) {
-                        ArrayList<Pion> nouveau = new ArrayList<>();
-                        listeGroupes.add(Jeu.ajouterAdjacent(plateau, p, nouveau));
-                    }
+            }
+        }
+    }
+
+    public static void detectionGroupesNoir(int[][] plateau) {
+        listeTestes.clear();
+        listeGroupesNoir.clear();
+        for (int i = 0; i < 16; i++) {
+            for (int j = 0; j < 16; j++) {
+                //blanc
+                Pion p = new Pion(i, j, 1);
+                if ((plateau[i][j] == 1) && (!listeTestes.contains(p))) {
+                    ArrayList<Pion> nouveau = new ArrayList<>();
+                    listeGroupesNoir.add(Jeu.ajouterAdjacent(plateau, p, nouveau));
+
                 }
             }
         }
@@ -309,13 +317,12 @@ public class Jeu {
      *
      * @param plateau
      */
-    public static void detectionCapture(int[][] plateau) {
+    public static void detectionCaptureBlanc(int[][] plateau) {
         boolean capture = true;
         ArrayList<Pion> adj;
-        for (ArrayList<Pion> groupe : listeGroupes) {
+        for (ArrayList<Pion> groupe : listeGroupesBlanc) {
             for (Pion p : groupe) {
-                adj = adjacents(plateau, p);
-                if (adj.size() < 4) { // TODO ou sur le bord
+                if ((plateau[p.getX()][p.getY() + 1] == 1) && (plateau[p.getX()][p.getY() - 1] == 1) && (plateau[p.getX() + 1][p.getY()] == 1) && (plateau[p.getX() - 1][p.getY() + 1] == 1)) { // TODO gérer exception sur le bord
                     capture = false;
                 }
             }
@@ -326,4 +333,23 @@ public class Jeu {
             }
         }
     }
+
+    public static int[][] detectionCaptureNoir(int[][] plateau) {
+        boolean capture = true;
+        ArrayList<Pion> adj;
+        for (ArrayList<Pion> groupe : listeGroupesNoir) {
+            for (Pion p : groupe) {
+                if ((plateau[p.getX()][p.getY() + 1] == -1) && (plateau[p.getX()][p.getY() - 1] == -1) && (plateau[p.getX() + 1][p.getY()] == -1) && (plateau[p.getX() - 1][p.getY() + 1] == -1)) { // TODO gérer exception sur le bord
+                    capture = false;
+                }
+            }
+            if (capture) {
+                for (Pion p : groupe) {
+                    plateau[p.getX()][p.getY()] = 0;
+                }
+            }
+        }
+        return plateau;
+    }
+
 }
