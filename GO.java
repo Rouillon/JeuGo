@@ -14,7 +14,8 @@ import java.awt.event.*;
  */
 public class GO extends Frame {
     
-    Damier damier = new Damier();
+    public static Damier damier = new Damier();
+    public static FonctionPanel fonctionPanel = new FonctionPanel();
 
     GO() {
         setVisible(true);
@@ -27,6 +28,9 @@ public class GO extends Frame {
         //ajouter le damier
         add(damier);
         damier.setBounds(70, 90, 440, 440);
+        add(fonctionPanel);
+        fonctionPanel.setBounds(500,90,800,440);
+        
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
