@@ -19,7 +19,7 @@ class Damier extends Panel implements MouseListener {
     //la position de la souris sur l'écran
     int x = -1;
     int y = -1;
-    int coleurPierre = 1;
+    public static int coleurPierre = 1;
     Jeu jeu;
 
     Damier() {
