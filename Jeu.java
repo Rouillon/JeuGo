@@ -55,6 +55,7 @@ public class Jeu {
                         if (eviterSuicideNoir(plateau, x, y)) {
                             plateau[x][y] = 1; // 1 est pour les pierres noirs
                         }
+                        continuer=false; 
                     } else {
                         System.out.println("Vous pouvez pas le poser ici!");
                         continuer = true;
