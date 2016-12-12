@@ -245,4 +245,17 @@ public class Jeu {
         }
         return groupe;
     }
+    
+    public void detectionGroupes(){
+        this.listeTestes.clear();
+        this.listeGroupes.clear();
+        for(int i=0; i<16; i++){
+            for(int j=0; j<16; j++){
+                //blanc 
+                if(this.plateau[i][j]==-1){
+                    
+                }
+            }
+        }
+    }
 }
