@@ -85,7 +85,9 @@ public class Jeu {
                     if (plateau[x][y] == 0 && x < 16 && x >= 0 && y < 16 && y >= 0) {
                         if (eviterSuicideBlanc(plateau, x, y)) {
                             plateau[x][y] = -1; //-1 est pout les pierres blancs
+                            
                         }
+                    continuer=false;  
                     } else {
                         System.out.println("Vous pouvez pas le poser ici!");
                         continuer = true;
