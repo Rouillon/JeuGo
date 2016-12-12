@@ -14,18 +14,22 @@ import java.awt.event.*;
  */
 
 public class GO extends Frame {
+    
+    
 
-    ChessPad chesspad = new ChessPad();
+    Damier damier = new Damier();
 
     GO() {
         setVisible(true);
         setLayout(null);
+        //ajouter un title
         Label label = new Label("JeuGo", Label.CENTER);
         add(label);
         label.setBounds(70, 55, 440, 26);
         label.setBackground(Color.yellow);
-        add(chesspad);
-        chesspad.setBounds(70, 90, 440, 440);
+        //ajouter le damier
+        add(damier);
+        damier.setBounds(70, 90, 440, 440);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
@@ -37,6 +41,7 @@ public class GO extends Frame {
     }
 
     public static void main(String args[]) {
+        //commencer le jeu
         GO go = new GO();
     }
 }
