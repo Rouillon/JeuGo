@@ -218,17 +218,18 @@ public class Jeu {
     public ArrayList<Pion> adjacents(Pion p){
         int px = p.getX();
         int py = p.getY();
+        int couleur = p.getCouleur();
         ArrayList<Pion> adjacents = new ArrayList();
-        if ((this.plateau[px-1][py]==1)||(this.plateau[px-1][py]==-1)){
+        if (this.plateau[px-1][py]==couleur){
             adjacents.add(new Pion(px-1,py));
         }
-        if ((this.plateau[px+1][py]==1)||(this.plateau[px+1][py]==-1)){
+        if (this.plateau[px+1][py]==couleur){
             adjacents.add(new Pion(px+1,py));
         }
-        if ((this.plateau[px][py-1]==1)||(this.plateau[px][py-1]==-1)){
+        if (this.plateau[px][py-1]==couleur){
             adjacents.add(new Pion(px,py-1));
         }
-        if ((this.plateau[px][py+1]==1)||(this.plateau[px][py+1]==-1)){
+        if (this.plateau[px][py+1]==couleur){
             adjacents.add(new Pion(px,py+1));
         }
         return adjacents;
