@@ -283,7 +283,7 @@ public class Jeu {
         return groupe;
     }
     /**
-     * constitue tous les groupes du plateau à un instant donné et supprime les groupes encerclés
+     * constitue tous les groupes du plateau à un instant donné 
      * @param plateau 
      */
     public void detectionGroupes(int[][] plateau){
@@ -302,7 +302,10 @@ public class Jeu {
             }
         }
     }
-    
+    /**
+     * supprime les groupes encerclés
+     * @param plateau 
+     */
     public void detectionCapture(int[][] plateau){
         boolean capture=true;
         ArrayList<Pion> adj;
