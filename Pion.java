@@ -46,5 +46,13 @@ public class Pion {
         this.couleur=couleur;
     }
     
+    public boolean equals(Pion p){
+        boolean retour=false;
+        if ( (p.getX()==this.x) && (p.getY()==this.y) && (p.getCouleur()==this.couleur)) {
+            retour=true;
+        }
+        return retour;
+    }
+    
     
 }

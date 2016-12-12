@@ -227,15 +227,15 @@ public class Jeu {
         return nbBlanc;
     }
 
+    /**
+     * à partir d'un pion P, trouve les pions adjacents et les retourne dans une
+     * liste de pion
+     *
+     * @param plateau
+     * @param p pion à partir duquel on cherche les adjacents
+     * @return l'arrayListe des pions adjacents
+     */
     public static ArrayList<Pion> adjacents(int[][] plateau, Pion p) {
-        /**
-         * à partir d'un pion P, trouve les pions adjacents et les retourne dans
-         * une liste de pion
-         *
-         * @param plateau
-         * @param p pion à partir duquel on cherche les adjacents
-         * @return l'arrayListe des pions adjacents
-         */
         int px = p.getX();
         int py = p.getY();
         int couleur = p.getCouleur();
@@ -276,7 +276,7 @@ public class Jeu {
     }
 
     /**
-     * constitue tous les groupes du plateau à un instant donné
+     * constitue tous les groupes de pions blancs du plateau à un instant donné
      *
      * @param plateau
      */
@@ -286,26 +286,47 @@ public class Jeu {
         for (int i = 0; i < 16; i++) {
             for (int j = 0; j < 16; j++) {
                 //blanc
-                Pion p = new Pion(i, j, -1);
-                if ((plateau[i][j] == -1) && (!listeTestes.contains(p))) { //TODO contains(p) -> non
-                    ArrayList<Pion> nouveau = new ArrayList<>();
-                    listeGroupesBlanc.add(Jeu.ajouterAdjacent(plateau, p, nouveau));
+                if (plateau[i][j] == -1) {
+                    Pion p = new Pion(i, j, -1);
+                    boolean test=false;
+                    for (Pion pp:listeTestes) {
+                        if (pp.equals(p)) {
+                            test=true;
+                        }
+                    }
+                    if (!test) {  
+                        ArrayList<Pion> nouveau = new ArrayList<>();
+                        listeGroupesBlanc.add(Jeu.ajouterAdjacent(plateau, p, nouveau));
+                    }
 
                 }
             }
         }
     }
-
+    
+    /**
+     * constitue tous les groupes de pions noirs du plateau à un instant donné
+     *
+     * @param plateau
+     */
     public static void detectionGroupesNoir(int[][] plateau) {
         listeTestes.clear();
         listeGroupesNoir.clear();
         for (int i = 0; i < 16; i++) {
             for (int j = 0; j < 16; j++) {
-                //blanc
-                Pion p = new Pion(i, j, 1);
-                if ((plateau[i][j] == 1) && (!listeTestes.contains(p))) {
-                    ArrayList<Pion> nouveau = new ArrayList<>();
-                    listeGroupesNoir.add(Jeu.ajouterAdjacent(plateau, p, nouveau));
+                //noir
+                if (plateau[i][j] == 1) {
+                    Pion p = new Pion(i, j, 1);
+                    boolean test=false;
+                    for (Pion pp:listeTestes) {
+                        if (pp.equals(p)) {
+                            test=true;
+                        }
+                    }
+                    if (!test) {  
+                        ArrayList<Pion> nouveau = new ArrayList<>();
+                        listeGroupesNoir.add(Jeu.ajouterAdjacent(plateau, p, nouveau));
+                    }
 
                 }
             }
@@ -313,17 +334,16 @@ public class Jeu {
     }
 
     /**
-     * supprime les groupes encerclés
+     * supprime les groupes de pions blanc encerclés
      *
      * @param plateau
      */
     public static void detectionCaptureBlanc(int[][] plateau) {
-        boolean capture = true;
-        ArrayList<Pion> adj;
+        boolean capture = false;
         for (ArrayList<Pion> groupe : listeGroupesBlanc) {
             for (Pion p : groupe) {
                 if ((plateau[p.getX()][p.getY() + 1] == 1) && (plateau[p.getX()][p.getY() - 1] == 1) && (plateau[p.getX() + 1][p.getY()] == 1) && (plateau[p.getX() - 1][p.getY() + 1] == 1)) { // TODO gérer exception sur le bord
-                    capture = false;
+                    capture = true;
                 }
             }
             if (capture) {
@@ -333,10 +353,14 @@ public class Jeu {
             }
         }
     }
-
-    public static int[][] detectionCaptureNoir(int[][] plateau) {
+    
+    /**
+     * supprime les groupes de pions noirs encerclés
+     *
+     * @param plateau
+     */
+    public static void detectionCaptureNoir(int[][] plateau) {
         boolean capture = true;
-        ArrayList<Pion> adj;
         for (ArrayList<Pion> groupe : listeGroupesNoir) {
             for (Pion p : groupe) {
                 if ((plateau[p.getX()][p.getY() + 1] == -1) && (plateau[p.getX()][p.getY() - 1] == -1) && (plateau[p.getX() + 1][p.getY()] == -1) && (plateau[p.getX() - 1][p.getY() + 1] == -1)) { // TODO gérer exception sur le bord
@@ -349,7 +373,6 @@ public class Jeu {
                 }
             }
         }
-        return plateau;
     }
 
 }

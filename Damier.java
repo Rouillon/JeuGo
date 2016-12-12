@@ -59,13 +59,10 @@ class Damier extends Panel implements MouseListener {
             if (x / 20 < 2 || y / 20 < 2 || x / 20 > SIZE_DAMIER || y / 20 > SIZE_DAMIER) {
             } //sinon poser les pierres       
             else if (couleurPierre == COULEUR_NOIR) {
-//                eviterSuicideNoir(matrice, b, a);
-                //la fonction éviter suicide·
                 if (Jeu.poserPierreNoir(matrice, b, a)) {
-//                     System.out.println("suicide");
                 } else {
                     //poser un pion noir
-//                    jeu.detectionCapture(matrice);
+                    Jeu.detectionCaptureNoir(matrice);
                     setPions(matrice);
                 }
                 couleurPierre = couleurPierre * (-1);
@@ -73,9 +70,8 @@ class Damier extends Panel implements MouseListener {
                 printMatrice();
             } else if (couleurPierre == COULEUR_BLANC) {
                 if (Jeu.poserPierreBlanc(matrice, b, a)) {
-//                     System.out.println("suicide");                  
                 } else {
-//                    jeu.detectionCapture(matrice);
+                    Jeu.detectionCaptureBlanc(matrice);
                     setPions(matrice);
                 }
                 couleurPierre = couleurPierre * (-1);
