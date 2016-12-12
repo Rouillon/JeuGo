@@ -65,7 +65,7 @@ class Damier extends Panel implements MouseListener {
 //                     System.out.println("suicide");
                 } else {
                     //poser un pion noir
-                    jeu.detectionCapture(matrice);
+//                    jeu.detectionCapture(matrice);
                     setPions(matrice);
                 }
                 coleurPierre = coleurPierre * (-1);
@@ -75,7 +75,7 @@ class Damier extends Panel implements MouseListener {
                 if (Jeu.poserPierreBlanc(matrice, a, b)) {
 //                     System.out.println("suicide");                  
                 } else {
-                    jeu.detectionCapture(matrice);
+//                    jeu.detectionCapture(matrice);
                     setPions(matrice);
                 }
                 coleurPierre = coleurPierre * (-1);

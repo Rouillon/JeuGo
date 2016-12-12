@@ -4,7 +4,6 @@
 *qui a le but pour "test"
  */
 package JeuGo;
-import static JeuGo.Jeu.s;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -38,7 +37,7 @@ public class Jeu {
     public static boolean poserPierreNoir(int[][] plateau, int x, int y) {
         boolean passerNoir = false;//pour marquer si le joueur veut passer
         boolean continuer = false;
-        do {
+//        do {
 //            System.out.println("Est-ce que vous voulez passer cette manche?");
 //            InputStreamReader isr = new InputStreamReader(System.in);
 //            BufferedReader br = new BufferedReader(isr);
@@ -58,11 +57,11 @@ public class Jeu {
                         continuer=false; 
                     } else {
                         System.out.println("Vous pouvez pas le poser ici!");
-                        continuer = true;
+//                        continuer = true;
                     }
 //                }
 //            }
-        } while (continuer);
+//        } while (continuer);
         return passerNoir;
     }
     /**
@@ -75,7 +74,7 @@ public class Jeu {
     public static boolean poserPierreBlanc(int[][] plateau, int x, int y) {
         boolean passerBlanc = false;//pour marquer si le joueur veut passer
         boolean continuer = false;
-        do {
+//        do {
 //            System.out.println("Est-ce que vous voulez passer cette manche?");
 //            InputStreamReader isr = new InputStreamReader(System.in);
 //            BufferedReader br = new BufferedReader(isr);
@@ -94,11 +93,12 @@ public class Jeu {
                         continuer=false;  
                     } else {
                         System.out.println("Vous pouvez pas le poser ici!");
-                        continuer = true;
                     }
+//                        
+//                    }
 //                }
 //            }
-        } while (continuer);
+//        } while (continuer);
         return passerBlanc;
     }
     /**
