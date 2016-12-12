@@ -49,7 +49,7 @@ public class Jeu {
             } else {
                 {
                     if (plateau[x][y] == 0 && x < 16 && x >= 0 && y < 16 && y >= 0) {
-                        if (eviterSuicide(plateau, x, y)) {
+                        if (eviterSuicideNoir(plateau, x, y)) {
                             plateau[x][y] = 1; // 1 est pour les pierres noirs
                         }
                     } else {
@@ -80,7 +80,7 @@ public class Jeu {
             } else {
                 {
                     if (plateau[x][y] == 0 && x < 16 && x >= 0 && y < 16 && y >= 0) {
-                        if (eviterSuicide(plateau, x, y)) {
+                        if (eviterSuicideBlanc(plateau, x, y)) {
                             plateau[x][y] = -1; //-1 est pout les pierres blancs
                         }
                     } else {
@@ -93,48 +93,89 @@ public class Jeu {
         return passerBlanc;
     }
 
-    public boolean eviterSuicide(int[][] plateau, int x, int y) {
-        boolean poser = false;
+    public boolean eviterSuicideNoir(int[][] plateau, int x, int y) {
+        boolean poserNoir = true;
         if (x == 0 && y == 0) {
-            if (plateau[x + 1][y] == 0 || plateau[x][y + 1] == 0) {
-                poser = true;
+            if (plateau[x + 1][y] == -1 && plateau[x][y + 1] == -1) {
+                poserNoir = false;
             }
         } else if (x == 15 && y == 0) {
-            if (plateau[x - 1][y] == 0 || plateau[x][y + 1] == 0) {
-                poser = true;
+            if (plateau[x - 1][y] == -1 && plateau[x][y + 1] == -1) {
+                poserNoir = false;
             }
         } else if (x == 0 && y == 15) {
-            if (plateau[x + 1][y] == 0 || plateau[x][y - 1] == 0) {
-                poser = true;
+            if (plateau[x + 1][y] == -1 && plateau[x][y - 1] == -1) {
+                poserNoir = false;
             }
         } else if (x == 15 && y == 15) {
-            if (plateau[x - 1][y] == 0 || plateau[x][y - 1] == 0) {
-                poser = true;
+            if (plateau[x - 1][y] == -1 && plateau[x][y - 1] == -1) {
+                poserNoir = false;
             }
         } else if (x == 0 && y != 0 && y != 15) {
-            if (plateau[x + 1][y] == 0 || plateau[x][y + 1] == 0 || plateau[x][y - 1] == 0) {
-                poser = true;
+            if (plateau[x + 1][y] == -1 && plateau[x][y + 1] == -1 && plateau[x][y - 1] == -1) {
+                poserNoir = false;
             }
         } else if (y == 0 && x != 0 && x != 15) {
-            if (plateau[x + 1][y] == 0 || plateau[x - 1][y] == 0 || plateau[x][y + 1] == 0) {
-                poser = true;
+            if (plateau[x + 1][y] == -1 && plateau[x - 1][y] == -1 && plateau[x][y + 1] == -1) {
+                poserNoir = false;
             }
         } else if (x == 15 && y != 0 && y != 15) {
-            if (plateau[x - 1][y] == 0 || plateau[x][y + 1] == 0 || plateau[x][y - 1] == 0) {
-                poser = true;
+            if (plateau[x - 1][y] == -1 && plateau[x][y + 1] == -1 && plateau[x][y - 1] == -1) {
+                poserNoir = false;
             }
         } else if (y == 15 && x != 0 && x != 15) {
-            if (plateau[x + 1][y] == 0 || plateau[x - 1][y] == 0 || plateau[x][y - 1] == 0) {
-                poser = true;
+            if (plateau[x + 1][y] == -1 && plateau[x - 1][y] == -1 && plateau[x][y - 1] == -1) {
+                poserNoir = false;
             }
         } else if (x > 0 && x < 15 && y > 0 && y < 15) {
-            if (plateau[x + 1][y] == 0 || plateau[x - 1][y] == 0 || plateau[x][y + 1] == 0 || plateau[x][y - 1] == 0) {
-                poser = true;
+            if (plateau[x + 1][y] == -1 || plateau[x - 1][y] == -1 || plateau[x][y + 1] == -1 || plateau[x][y - 1] == -1) {
+                poserNoir = false;
             }
         }
-        return poser;
+        return poserNoir;
     }
 
+     public boolean eviterSuicideBlanc(int[][] plateau, int x, int y) {
+        boolean poserBlanc = true;
+        if (x == 0 && y == 0) {
+            if (plateau[x + 1][y] == 1 && plateau[x][y + 1] == 1) {
+                poserBlanc = false;
+            }
+        } else if (x == 15 && y == 0) {
+            if (plateau[x - 1][y] == 1 && plateau[x][y + 1] == 1) {
+                poserBlanc = false;
+            }
+        } else if (x == 0 && y == 15) {
+            if (plateau[x + 1][y] == 1 && plateau[x][y - 1] == 1) {
+                poserBlanc = false;
+            }
+        } else if (x == 15 && y == 15) {
+            if (plateau[x - 1][y] == 1 && plateau[x][y - 1] == 1) {
+                poserBlanc = false;
+            }
+        } else if (x == 0 && y != 0 && y != 15) {
+            if (plateau[x + 1][y] == 1 && plateau[x][y + 1] == 1 && plateau[x][y - 1] == 1) {
+                poserBlanc = false;
+            }
+        } else if (y == 0 && x != 0 && x != 15) {
+            if (plateau[x + 1][y] == 1 && plateau[x - 1][y] == 1 && plateau[x][y + 1] == 1) {
+                poserBlanc = false;
+            }
+        } else if (x == 15 && y != 0 && y != 15) {
+            if (plateau[x - 1][y] == 1 && plateau[x][y + 1] == 1 && plateau[x][y - 1] == 1) {
+               poserBlanc = false;
+            }
+        } else if (y == 15 && x != 0 && x != 15) {
+            if (plateau[x + 1][y] == 1 && plateau[x - 1][y] == 1 && plateau[x][y - 1] == 1) {
+                poserBlanc = false;
+            }
+        } else if (x > 0 && x < 15 && y > 0 && y < 15) {
+            if (plateau[x + 1][y] == 1 || plateau[x - 1][y] == 1 || plateau[x][y + 1] == 1 || plateau[x][y - 1] == 1) {
+                poserBlanc = false;
+            }
+        }
+        return poserBlanc;
+    }
 //    public void recommencer() {
 //        for (int i = 0; i < 16; i++) {
 //            for (int j = 0; j < 16; j++) {
