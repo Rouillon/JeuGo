@@ -7,6 +7,7 @@ package JeuGo;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Scanner;
 
 /**
  * classe pour le frame
@@ -15,11 +16,14 @@ import java.awt.event.*;
  */
 public class GO extends Frame {
 
-    public static Damier damier = new Damier();
-    public static FonctionPanel fonctionPanel = new FonctionPanel();
+    public static Damier damier;
+    public static FonctionPanel fonctionPanel;
     public static boolean finPartie = false;
 
     GO() {
+        damier = new Damier();
+        fonctionPanel = new FonctionPanel();
+        
         setVisible(true);
         setLayout(null);
         //ajouter un title
@@ -44,7 +48,28 @@ public class GO extends Frame {
     }
 
     public static void main(String args[]) {
-        //commencer le jeu
+        //Choix de la taille du jeu
+        Scanner sc = new Scanner(System.in);
+        String choixAction;
+        do {
+            System.out.println("Choisir la taille du goban: taper 9, 16 ou 19");
+            choixAction = sc.nextLine();
+        } while (!choixAction.equals("9") && !choixAction.equals("16") && !choixAction.equals("19"));
+        switch (choixAction) {
+            case "9":
+                Damier.SIZE_DAMIER = 10;
+                break;
+            case "16":
+                Damier.SIZE_DAMIER = 17;
+                break;
+            case "19":
+                Damier.SIZE_DAMIER = 20;
+                break;
+            default:
+                break;    
+        }
+        sc.close();
+        //Commencer le jeu
         GO go = new GO();
     }
 }

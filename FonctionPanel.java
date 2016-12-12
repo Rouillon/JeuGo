@@ -5,6 +5,7 @@
  */
 package JeuGo;
 
+import static JeuGo.Damier.SIZE_DAMIER;
 import static JeuGo.Damier.couleurPierre;
 import java.awt.*;
 import java.awt.event.*;
@@ -45,14 +46,10 @@ class FonctionPanel extends Panel implements ActionListener {
         if (e.getSource() == btn_recommencer) {
             passer += 0;
             GO.finPartie = false;
-            GO.damier.removeAll();
-            for (int i = 0; i < SIZE_DAMIER; i++) {
-                for (int j = 0; j < SIZE_DAMIER; j++) {
-                    GO.damier.matrice[i][j] = 0;
-                }
-            }
+            GO go = new GO();
             couleurPierre = 1;
             text.setText("Tour : Noir");
+            //GO.damier.setPions(GO.damier.matrice);
         } else if (e.getSource() == btn_passer) {
             passer += 1;
             if (passer == 2) {
@@ -70,19 +67,3 @@ class FonctionPanel extends Panel implements ActionListener {
     }
 
 }
-
-//                    do {
-//                        FonctionPanel.passer = 0;
-//                        //poser un pion noir
-//                        Jeu.poserPierreNoir(matrice, b, a);
-//                        GO.suicide = false;
-//                        if (Jeu.detectionCaptureNoir(matrice)) {
-//                            GO.suicide = true;
-//                            GO.fonctionPanel.text.setText("Blanc: Suicide Interdit !");
-//                        }
-//                    } while (GO.suicide = true);
-//                    Jeu.detectionCaptureBlanc(matrice);
-//                    setPions(matrice);
-//                    couleurPierre = couleurPierre * (-1);
-//                    GO.fonctionPanel.text.setText("Tour : Blanc");
-//                    printMatrice();

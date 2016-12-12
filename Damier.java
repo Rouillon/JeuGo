@@ -13,7 +13,7 @@ class Damier extends Panel implements MouseListener {
     final public static int COULEUR_NOIR = 1;
     final public static int COULEUR_BLANC = -1;
     //size du damier
-    public static int SIZE_DAMIER = 17;
+    public static int SIZE_DAMIER; //taille +1
     //matric des pions
     int[][] matrice = new int[SIZE_DAMIER][SIZE_DAMIER];
     //la position de la souris sur l'écran
@@ -28,7 +28,6 @@ class Damier extends Panel implements MouseListener {
         setLayout(null);
         setBackground(new Color(255, 178, 102));
         addMouseListener(this);
-        jeu = new Jeu();
         for (int i=0; i<SIZE_DAMIER ; i++) {
             matrice[i][0]=2;
             matrice[i][SIZE_DAMIER-1]=2;
