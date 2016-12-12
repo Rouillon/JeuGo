@@ -62,7 +62,7 @@ class Damier extends Panel implements MouseListener {
                 if (Jeu.poserPierreNoir(matrice, b, a)) {
                 } else {
                     //poser un pion noir
-                    Jeu.detectionCaptureNoir(matrice);
+                    Jeu.detectionCaptureBlanc(matrice);
                     setPions(matrice);
                 }
                 couleurPierre = couleurPierre * (-1);
@@ -71,7 +71,8 @@ class Damier extends Panel implements MouseListener {
             } else if (couleurPierre == COULEUR_BLANC) {
                 if (Jeu.poserPierreBlanc(matrice, b, a)) {
                 } else {
-                    Jeu.detectionCaptureBlanc(matrice);
+                    //poser un pion blanc
+                    Jeu.detectionCaptureNoir(matrice);
                     setPions(matrice);
                 }
                 couleurPierre = couleurPierre * (-1);
