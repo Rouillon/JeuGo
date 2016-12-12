@@ -34,59 +34,105 @@ public class Jeu {
     public boolean poserPierreNoir(int[][] plateau, int x, int y) {
 
         boolean passerNoir = false;//pour marquer si le joueur veut passer
-        boolean continuer=false;
-        do{
-        System.out.println("Est-ce que vous voulez passer cette manche?");
-        InputStreamReader isr = new InputStreamReader(System.in);
-        BufferedReader br = new BufferedReader(isr);
-        try {
-            s = br.readLine();
-        } catch (IOException e) {
-        }
+        boolean continuer = false;
+        do {
+            System.out.println("Est-ce que vous voulez passer cette manche?");
+            InputStreamReader isr = new InputStreamReader(System.in);
+            BufferedReader br = new BufferedReader(isr);
+            try {
+                s = br.readLine();
+            } catch (IOException e) {
+            }
 
-        if (s.equals("oui")) {
-            passerNoir = true;
-        } else {
-            {
-                if (plateau[x][y] == 0 && x < 16 && x > 0 && y < 16 && y > 0) {
-                    plateau[x][y] = 1;
-                } else {
-                    System.out.println("Vous pouvez pas le poser ici!");
-                    continuer=true;
+            if (s.equals("oui")) {
+                passerNoir = true;
+            } else {
+                {
+                    if (plateau[x][y] == 0 && x < 16 && x >= 0 && y < 16 && y >= 0) {
+                        if (eviterSuicide(plateau, x, y)) {
+                            plateau[x][y] = 1; // 1 est pour les pierres noirs
+                        }
+                    } else {
+                        System.out.println("Vous pouvez pas le poser ici!");
+                        continuer = true;
+                    }
                 }
             }
-        }
-        }while (continuer);
+        } while (continuer);
         return passerNoir;
     }
 
     public boolean poserPierreBlanc(int[][] plateau, int x, int y) {
 
         boolean passerBlanc = false;//pour marquer si le joueur veut passer
-        boolean continuer=false;
-        do{
-        System.out.println("Est-ce que vous voulez passer cette manche?");
-        InputStreamReader isr = new InputStreamReader(System.in);
-        BufferedReader br = new BufferedReader(isr);
-        try {
-            s = br.readLine();
-        } catch (IOException e) {
-        }
+        boolean continuer = false;
+        do {
+            System.out.println("Est-ce que vous voulez passer cette manche?");
+            InputStreamReader isr = new InputStreamReader(System.in);
+            BufferedReader br = new BufferedReader(isr);
+            try {
+                s = br.readLine();
+            } catch (IOException e) {
+            }
 
-        if (s.equals("oui")) {
-            passerBlanc = true;
-        } else {
-            {
-                if (plateau[x][y] == 0 && x < 16 && x > 0 && y < 16 && y > 0) {
-                    plateau[x][y] = 1;
-                } else {
-                    System.out.println("Vous pouvez pas le poser ici!");
-                    continuer=true;
+            if (s.equals("oui")) {
+                passerBlanc = true;
+            } else {
+                {
+                    if (plateau[x][y] == 0 && x < 16 && x >= 0 && y < 16 && y >= 0) {
+                        if (eviterSuicide(plateau, x, y)) {
+                            plateau[x][y] = -1; //-1 est pout les pierres blancs
+                        }
+                    } else {
+                        System.out.println("Vous pouvez pas le poser ici!");
+                        continuer = true;
+                    }
                 }
             }
-        }
-        }while (continuer);
+        } while (continuer);
         return passerBlanc;
+    }
+
+    public boolean eviterSuicide(int[][] plateau, int x, int y) {
+        boolean poser = false;
+        if (x == 0 && y == 0) {
+            if (plateau[x + 1][y] == 0 || plateau[x][y + 1] == 0) {
+                poser = true;
+            }
+        } else if (x == 15 && y == 0) {
+            if (plateau[x - 1][y] == 0 || plateau[x][y + 1] == 0) {
+                poser = true;
+            }
+        } else if (x == 0 && y == 15) {
+            if (plateau[x + 1][y] == 0 || plateau[x][y - 1] == 0) {
+                poser = true;
+            }
+        } else if (x == 15 && y == 15) {
+            if (plateau[x - 1][y] == 0 || plateau[x][y - 1] == 0) {
+                poser = true;
+            }
+        } else if (x == 0 && y != 0 && y != 15) {
+            if (plateau[x + 1][y] == 0 || plateau[x][y + 1] == 0 || plateau[x][y - 1] == 0) {
+                poser = true;
+            }
+        } else if (y == 0 && x != 0 && x != 15) {
+            if (plateau[x + 1][y] == 0 || plateau[x - 1][y] == 0 || plateau[x][y + 1] == 0) {
+                poser = true;
+            }
+        } else if (x == 15 && y != 0 && y != 15) {
+            if (plateau[x - 1][y] == 0 || plateau[x][y + 1] == 0 || plateau[x][y - 1] == 0) {
+                poser = true;
+            }
+        } else if (y == 15 && x != 0 && x != 15) {
+            if (plateau[x + 1][y] == 0 || plateau[x - 1][y] == 0 || plateau[x][y - 1] == 0) {
+                poser = true;
+            }
+        } else if (x > 0 && x < 15 && y > 0 && y < 15) {
+            if (plateau[x + 1][y] == 0 || plateau[x - 1][y] == 0 || plateau[x][y + 1] == 0 || plateau[x][y - 1] == 0) {
+                poser = true;
+            }
+        }
+        return poser;
     }
 
 //    public void recommencer() {
@@ -123,9 +169,9 @@ public class Jeu {
         return nbBlanc;
     }
 
-//    public ArrayList<int[]> adjacent(int[] point) {
-//
-//    }
+    public ArrayList<int[]> adjacent(int[] point) {
+
+    }
     public ArrayList<ArrayList> groupes() {
         ArrayList<ArrayList> groupe = new ArrayList();
         ArrayList<int[]> marques = new ArrayList();
@@ -138,15 +184,6 @@ public class Jeu {
                     marques.add(point);
                 }
 
-            }
-        }
-        return groupe;
-    }
-
-    public void eviterSuicide(int[][] plateau, int x, int y) {
-        if (x == 0 && y == 0) {
-            if (plateau[x + 1][y] == 1 && plateau[x][y + 1] == 1) {
-                System.out.println("Vous pouvez pas le poser ici!");
             }
         }
     }
