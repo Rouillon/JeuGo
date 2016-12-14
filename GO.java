@@ -19,11 +19,12 @@ public class GO extends Frame {
     public static Damier damier;
     public static FonctionPanel fonctionPanel;
     public static boolean finPartie = false;
+    public static int handicape;
 
     GO() {
         damier = new Damier();
         fonctionPanel = new FonctionPanel();
-        
+
         setVisible(true);
         setLayout(null);
         //ajouter un title
@@ -66,9 +67,28 @@ public class GO extends Frame {
                 Damier.SIZE_DAMIER = 20;
                 break;
             default:
-                break;    
+                break;
+        }
+
+        System.out.println("\nCombien voulez-vous de pierres de handicape?");
+        System.out.println("Taper 0 (ou 1) si vous ne voulez pas de handicape");
+        System.out.println("Handicap maximal: 4 pour un goban 9x9 / 8 pour un goban 16x16 / 9 pour un goban 19x19");
+        handicape = sc.nextInt();
+        if ((Damier.SIZE_DAMIER == 20) && (handicape>9)) {
+            handicape=9;
+        }
+        if ((Damier.SIZE_DAMIER == 17) && (handicape>8)) {
+            handicape=8;
+        }
+        if ((Damier.SIZE_DAMIER == 10) && (handicape>4)) {
+            handicape=4;
+        }
+        if (handicape<0) {
+            handicape=0;
         }
         sc.close();
+        FonctionPanel.passer = 0;
+        
         //Commencer le jeu
         GO go = new GO();
     }

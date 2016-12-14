@@ -12,7 +12,7 @@ import java.awt.event.*;
 
 class FonctionPanel extends Panel implements ActionListener {
 
-    public static int passer = 0;
+    public static int passer;
     final public static int COULEUR_NOIR = 1;
     final public static int COULEUR_BLANC = -1;
 
@@ -23,6 +23,7 @@ class FonctionPanel extends Panel implements ActionListener {
     Button btn_recommencer = new Button("Recommencer");
     Button btn_passer = new Button("Passer");
     TextField text = new TextField("Tour : Noir");
+    TextField text2 = new TextField("");
 
     FonctionPanel() {
         setSize(140, 20 * (SIZE_DAMIER + 2));
@@ -32,19 +33,22 @@ class FonctionPanel extends Panel implements ActionListener {
         add(text);
         text.setBounds(20, 20, 120, 20);
         text.setEditable(false);
+        add(text2);
+        text2.setBounds(20, 40, 120, 20);
+        text2.setEditable(false);
         add(btn_recommencer);
-        btn_recommencer.setBounds(20, 60, 120, 20);
+        btn_recommencer.setBounds(20, 80, 120, 20);
         btn_recommencer.addActionListener(this);
 
         add(btn_passer);
-        btn_passer.setBounds(20, 100, 120, 20);
+        btn_passer.setBounds(20, 120, 120, 20);
         btn_passer.addActionListener(this);
     }
 
     //gestion des boutons
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btn_recommencer) {
-            passer += 0;
+            passer = 0;
             GO.finPartie = false;
             GO go = new GO();
             couleurPierre = 1;

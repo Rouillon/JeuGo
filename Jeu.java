@@ -214,7 +214,7 @@ public class Jeu {
      *
      * @param plateau
      */
-    public static boolean detectionCaptureBlanc(int[][] plateau) {
+    public static boolean CaptureBlanc(int[][] plateau) {
         boolean capture = false;
         boolean auMoinsUneCapture = false;
         int count=0;
@@ -245,7 +245,7 @@ public class Jeu {
      *
      * @param plateau
      */
-    public static boolean detectionCaptureNoir(int[][] plateau) {
+    public static boolean CaptureNoir(int[][] plateau) {
         boolean capture = false;
         boolean auMoinsUneCapture = false;
         int count=0;
@@ -270,5 +270,53 @@ public class Jeu {
         }
         return auMoinsUneCapture;
     }
+    
+    /**
+     * détecte la capture des pions blanc sans supprimer les pions capturés
+     *
+     * @param plateau
+     */
+    public static boolean detectionCaptureBlanc(int[][] plateau) {
+        boolean capture = false;
+        int count=0;
+        Jeu.detectionGroupesBlanc(plateau);
+        for (ArrayList<Pion> groupe : listeGroupesBlanc) {
+            count = 0;
+            for (Pion p : groupe) {
+                if ((plateau[p.getX()][p.getY() + 1] != 0) && (plateau[p.getX()][p.getY() - 1] != 0) && (plateau[p.getX() + 1][p.getY()] != 0) && (plateau[p.getX() - 1][p.getY()] != 0)) {
+                    count += 1;
+                }
+            }
+            if ((count == groupe.size()) && (count>0)) {
+                capture = true;
+            }
+            
+        }
+        return capture;
+    }
+    
+    /**
+     * détecte la capture des pions noirs sans supprimer les pions capturés
+     *
+     * @param plateau
+     */
+    public static boolean detectionCaptureNoir(int[][] plateau) {
+        boolean capture = false;
+        int count=0;
+        Jeu.detectionGroupesNoir(plateau);
+        for (ArrayList<Pion> groupe : listeGroupesNoir) {
+            count = 0;
+            for (Pion p : groupe) {
+                if ((plateau[p.getX()][p.getY() + 1] != 0) && (plateau[p.getX()][p.getY() - 1] != 0) && (plateau[p.getX() + 1][p.getY()] != 0) && (plateau[p.getX() - 1][p.getY()] != 0)) {
+                    count += 1;
+                }
+            }
+            if ((count == groupe.size()) && (count>0)) {
+                capture = true;
+            }
+        }
+        return capture;
+    }
+        
 
 }
