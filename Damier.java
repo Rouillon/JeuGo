@@ -14,15 +14,19 @@ class Damier extends Panel implements MouseListener {
     final public static int COULEUR_BLANC = -1;
     //size du damier
     public static int SIZE_DAMIER; //taille +1
-    //matric des pions
-    int[][] matrice = new int[SIZE_DAMIER][SIZE_DAMIER];
-    int[][] derniereMatrice = new int[SIZE_DAMIER][SIZE_DAMIER];
-    int[][] avantDerniereMatrice = new int[SIZE_DAMIER][SIZE_DAMIER];
+    //matrice des pions
+    public int[][] matrice = new int[SIZE_DAMIER][SIZE_DAMIER];
+    public int[][] derniereMatrice = new int[SIZE_DAMIER][SIZE_DAMIER];
+    public int[][] avantDerniereMatrice = new int[SIZE_DAMIER][SIZE_DAMIER];
     //la position de la souris sur l'écran
-    int x = -1;
-    int y = -1;
+    public int x = -1;
+    public int y = -1;
+
     public static int couleurPierre = 1;
-    Jeu jeu;
+    public Jeu jeu;
+
+    public static int nbrBlancCaptures = 0;
+    public static int nbrNoirCaptures = 0;
 
     Damier() {
         setSize(20 * (SIZE_DAMIER + 2), 20 * (SIZE_DAMIER + 2));
@@ -57,7 +61,7 @@ class Damier extends Panel implements MouseListener {
                 //position dans la matrice      
                 int a = (x + 10) / 20 - 2;
                 int b = (y + 10) / 20 - 2;
-                //s'il est en endors du damier
+                //s'il est en dedors du damier
                 if (x / 20 < 2 || y / 20 < 2 || x / 20 > SIZE_DAMIER || y / 20 > SIZE_DAMIER || a == 0 || b == 0 || a == SIZE_DAMIER - 1 || b == SIZE_DAMIER - 1) {
                 } //sinon poser les pierres       
                 else if (couleurPierre == COULEUR_NOIR) {
@@ -66,7 +70,7 @@ class Damier extends Panel implements MouseListener {
                         FonctionPanel.passer = 0;
                         Jeu.poserPierreNoir(matrice, b, a);
                         setPions(matrice);
-                        printMatrice();
+                        //printMatrice();
                     } else {
                         GO.fonctionPanel.text2.setText("");
                         FonctionPanel.passer = 0;
@@ -88,20 +92,22 @@ class Damier extends Panel implements MouseListener {
                                 }
                             }
                         }
-                        if (ko) {
+                        if ((Jeu.detectionCaptureNoir(matrice)) && !(Jeu.detectionCaptureBlanc(matrice))) {
                             matrice[b][a] = 0;
-                            GO.fonctionPanel.text2.setText("Règle du ko!");
-                            printMatrice();
-                        } else if ((Jeu.detectionCaptureNoir(matrice)) && !(Jeu.detectionCaptureBlanc(matrice))) {
+                            GO.fonctionPanel.text2.setText("Suicide Interdit !");
+                            //printMatrice();
+                        } else if (ko) {
                             matrice[b][a] = 0;
-                            GO.fonctionPanel.text2.setText("Suicide Interdit!");
-                            printMatrice();
+                            GO.fonctionPanel.text2.setText("Règle du ko !");
+                            //printMatrice();
                         } else {
                             Jeu.CaptureBlanc(matrice);
                             setPions(matrice);
                             couleurPierre = couleurPierre * (-1);
                             GO.fonctionPanel.text.setText("Tour : Blanc");
-                            printMatrice();
+                            GO.fonctionPanel.text5.setText("Blanc: " + nbrBlancCaptures);
+                            GO.fonctionPanel.text4.setText("Noir: " + nbrNoirCaptures);
+                            //printMatrice();
                         }
                     }
                 } else if (couleurPierre == COULEUR_BLANC) {
@@ -125,20 +131,22 @@ class Damier extends Panel implements MouseListener {
                             }
                         }
                     }
-                    if (ko) {
+                    if ((Jeu.detectionCaptureBlanc(matrice)) && !(Jeu.detectionCaptureNoir(matrice))) {
                         matrice[b][a] = 0;
-                        GO.fonctionPanel.text2.setText("Règle du ko!");
-                        printMatrice();
-                    } else if ((Jeu.detectionCaptureBlanc(matrice)) && !(Jeu.detectionCaptureNoir(matrice))) {
+                        GO.fonctionPanel.text2.setText("Suicide Interdit !");
+                        //printMatrice();
+                    } else if (ko) {
                         matrice[b][a] = 0;
-                        GO.fonctionPanel.text2.setText("Suicide Interdit!");
-                        printMatrice();
+                        GO.fonctionPanel.text2.setText("Règle du ko !");
+                        //printMatrice();
                     } else {
                         Jeu.CaptureNoir(matrice);
                         setPions(matrice);
                         couleurPierre = couleurPierre * (-1);
                         GO.fonctionPanel.text.setText("Tour : Noir");
-                        printMatrice();
+                        GO.fonctionPanel.text5.setText("Blanc: " + nbrBlancCaptures);
+                        GO.fonctionPanel.text4.setText("Noir: " + nbrNoirCaptures);
+                        //printMatrice();
                     }
 
                 }
@@ -160,7 +168,6 @@ class Damier extends Panel implements MouseListener {
 
     //poser les pierres selon la matrice
     public void setPions(int[][] matrice) {
-        System.out.println("setPions");
         this.removeAll();
         for (int i = 0; i < SIZE_DAMIER; i++) {
             for (int j = 0; j < SIZE_DAMIER; j++) {
@@ -180,7 +187,7 @@ class Damier extends Panel implements MouseListener {
     }
 
     // Pour afficher la matrice sous forme texte dans la console
-    public void printMatrice() {
+    /*public void printMatrice() {
         for (int i = 0; i < SIZE_DAMIER; i++) {
             for (int j = 0; j < SIZE_DAMIER; j++) {
                 System.out.print(matrice[i][j]);
@@ -190,5 +197,5 @@ class Damier extends Panel implements MouseListener {
         }
         System.out.println();
         System.out.println();
-    }
+    }*/
 }

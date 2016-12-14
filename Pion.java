@@ -6,12 +6,13 @@
 package JeuGo;
 
 /**
- * la classe Pion nous aide à représenter les éléments : pierre noire ou pierre blanche
- * bien qu'au final ils sont représentés par des 1 ou -1 sur une matrice
+ * la classe Pion nous aide à représenter les éléments : pierre noire ou pierre
+ * blanche bien qu'au final ils sont représentés par des 1 ou -1 sur une matrice
+ *
  * @author Rémi
  */
 public class Pion {
-    
+
     private int x;
     private int y;
     private int couleur;
@@ -23,7 +24,7 @@ public class Pion {
     public void setCouleur(int couleur) {
         this.couleur = couleur;
     }
-    
+
     public int getX() {
         return x;
     }
@@ -43,16 +44,15 @@ public class Pion {
     public Pion(int x, int y, int couleur) {
         this.x = x;
         this.y = y;
-        this.couleur=couleur;
+        this.couleur = couleur;
     }
-    
-    public boolean equals(Pion p){
-        boolean retour=false;
-        if ( (p.getX()==this.x) && (p.getY()==this.y) && (p.getCouleur()==this.couleur)) {
-            retour=true;
+
+    public boolean equals(Pion p) {
+        boolean retour = false;
+        if ((p.getX() == this.x) && (p.getY() == this.y) && (p.getCouleur() == this.couleur)) {
+            retour = true;
         }
         return retour;
     }
-    
-    
+
 }

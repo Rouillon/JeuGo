@@ -10,10 +10,11 @@ import java.awt.event.*;
 
 /**
  * classe du pion blanc
+ *
  * @author Guoxin
  */
 class PionBlanc extends Canvas {
-    
+
     final public static int COULEUR_NOIR = 1;
     final public static int COULEUR_BLANC = -1;
 
@@ -23,7 +24,7 @@ class PionBlanc extends Canvas {
         setSize(20, 20);
         damier = d;
     }
-    
+
     //définir la pierre
     public void paint(Graphics g) {
         g.setColor(Color.white);

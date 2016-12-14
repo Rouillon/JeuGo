@@ -1,7 +1,6 @@
 /*
 *TP3 de MEDEV 
 *Jeu de GO
-*qui a le but pour "test"
  */
 package JeuGo;
 
@@ -44,7 +43,7 @@ public class Jeu {
      * tour ou pas
      */
     public static void poserPierreNoir(int[][] plateau, int x, int y) {
-            plateau[x][y] = 1; // 1 est pour les pierres noirs
+        plateau[x][y] = 1; // 1 est pour les pierres noirs
     }
 
     /**
@@ -57,7 +56,7 @@ public class Jeu {
      * @return
      */
     public static void poserPierreBlanc(int[][] plateau, int x, int y) {
-            plateau[x][y] = -1; //-1 est pout les pierres blancs                          
+        plateau[x][y] = -1; //-1 est pout les pierres blancs                          
     }
 
     /**
@@ -68,8 +67,8 @@ public class Jeu {
      */
     public static int nbPierreNoir(int[][] plateau) {
         int nbNoir = 0;
-        for (int i = 0; i < SIZE_DAMIER-1; i++) {
-            for (int j = 0; j < SIZE_DAMIER-1; j++) {
+        for (int i = 0; i < SIZE_DAMIER - 1; i++) {
+            for (int j = 0; j < SIZE_DAMIER - 1; j++) {
                 if (plateau[i][j] == 1) {
                     nbNoir++;
                 }
@@ -86,8 +85,8 @@ public class Jeu {
      */
     public static int nbPierreBlanc(int[][] plateau) {
         int nbBlanc = 0;
-        for (int i = 0; i < SIZE_DAMIER-1; i++) {
-            for (int j = 0; j < SIZE_DAMIER-1; j++) {
+        for (int i = 0; i < SIZE_DAMIER - 1; i++) {
+            for (int j = 0; j < SIZE_DAMIER - 1; j++) {
                 if (plateau[i][j] == -1) {
                     nbBlanc++;
                 }
@@ -159,8 +158,8 @@ public class Jeu {
     public static void detectionGroupesBlanc(int[][] plateau) {
         listeTestes = new ArrayList<>();
         listeGroupesBlanc = new ArrayList<>();
-        for (int i = 0; i < SIZE_DAMIER-1; i++) {
-            for (int j = 0; j < SIZE_DAMIER-1; j++) {
+        for (int i = 0; i < SIZE_DAMIER - 1; i++) {
+            for (int j = 0; j < SIZE_DAMIER - 1; j++) {
                 //blanc
                 if (plateau[i][j] == -1) {
                     Pion p = new Pion(i, j, -1);
@@ -188,8 +187,8 @@ public class Jeu {
     public static void detectionGroupesNoir(int[][] plateau) {
         listeTestes = new ArrayList<>();
         listeGroupesNoir = new ArrayList<>();
-        for (int i = 0; i < SIZE_DAMIER-1; i++) {
-            for (int j = 0; j < SIZE_DAMIER-1; j++) {
+        for (int i = 0; i < SIZE_DAMIER - 1; i++) {
+            for (int j = 0; j < SIZE_DAMIER - 1; j++) {
                 //noir
                 if (plateau[i][j] == 1) {
                     Pion p = new Pion(i, j, 1);
@@ -217,7 +216,7 @@ public class Jeu {
     public static boolean CaptureBlanc(int[][] plateau) {
         boolean capture = false;
         boolean auMoinsUneCapture = false;
-        int count=0;
+        int count = 0;
         Jeu.detectionGroupesBlanc(plateau);
         for (ArrayList<Pion> groupe : listeGroupesBlanc) {
             capture = false;
@@ -227,13 +226,14 @@ public class Jeu {
                     count += 1;
                 }
             }
-            if ((count == groupe.size()) && (count>0)) {
+            if ((count == groupe.size()) && (count > 0)) {
                 capture = true;
             }
             if (capture) {
                 auMoinsUneCapture = true;
                 for (Pion p : groupe) {
                     plateau[p.getX()][p.getY()] = 0;
+                    Damier.nbrBlancCaptures += 1;
                 }
             }
         }
@@ -248,7 +248,7 @@ public class Jeu {
     public static boolean CaptureNoir(int[][] plateau) {
         boolean capture = false;
         boolean auMoinsUneCapture = false;
-        int count=0;
+        int count = 0;
         Jeu.detectionGroupesNoir(plateau);
         for (ArrayList<Pion> groupe : listeGroupesNoir) {
             capture = false;
@@ -258,19 +258,20 @@ public class Jeu {
                     count += 1;
                 }
             }
-            if ((count == groupe.size()) && (count>0)) {
+            if ((count == groupe.size()) && (count > 0)) {
                 capture = true;
             }
             if (capture) {
                 auMoinsUneCapture = true;
                 for (Pion p : groupe) {
                     plateau[p.getX()][p.getY()] = 0;
+                    Damier.nbrNoirCaptures += 1;
                 }
             }
         }
         return auMoinsUneCapture;
     }
-    
+
     /**
      * détecte la capture des pions blanc sans supprimer les pions capturés
      *
@@ -278,7 +279,7 @@ public class Jeu {
      */
     public static boolean detectionCaptureBlanc(int[][] plateau) {
         boolean capture = false;
-        int count=0;
+        int count = 0;
         Jeu.detectionGroupesBlanc(plateau);
         for (ArrayList<Pion> groupe : listeGroupesBlanc) {
             count = 0;
@@ -287,14 +288,14 @@ public class Jeu {
                     count += 1;
                 }
             }
-            if ((count == groupe.size()) && (count>0)) {
+            if ((count == groupe.size()) && (count > 0)) {
                 capture = true;
             }
-            
+
         }
         return capture;
     }
-    
+
     /**
      * détecte la capture des pions noirs sans supprimer les pions capturés
      *
@@ -302,7 +303,7 @@ public class Jeu {
      */
     public static boolean detectionCaptureNoir(int[][] plateau) {
         boolean capture = false;
-        int count=0;
+        int count = 0;
         Jeu.detectionGroupesNoir(plateau);
         for (ArrayList<Pion> groupe : listeGroupesNoir) {
             count = 0;
@@ -311,12 +312,11 @@ public class Jeu {
                     count += 1;
                 }
             }
-            if ((count == groupe.size()) && (count>0)) {
+            if ((count == groupe.size()) && (count > 0)) {
                 capture = true;
             }
         }
         return capture;
     }
-        
 
 }

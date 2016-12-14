@@ -24,6 +24,9 @@ class FonctionPanel extends Panel implements ActionListener {
     Button btn_passer = new Button("Passer");
     TextField text = new TextField("Tour : Noir");
     TextField text2 = new TextField("");
+    TextField text3 = new TextField("Pierres capturées:");
+    TextField text4 = new TextField("Noir: 0");
+    TextField text5 = new TextField("Blanc: 0");
 
     FonctionPanel() {
         setSize(140, 20 * (SIZE_DAMIER + 2));
@@ -39,10 +42,18 @@ class FonctionPanel extends Panel implements ActionListener {
         add(btn_recommencer);
         btn_recommencer.setBounds(20, 80, 120, 20);
         btn_recommencer.addActionListener(this);
-
         add(btn_passer);
         btn_passer.setBounds(20, 120, 120, 20);
         btn_passer.addActionListener(this);
+        add(text3);
+        text3.setBounds(20, 160, 120, 20);
+        text3.setEditable(false);
+        add(text4);
+        text4.setBounds(20, 180, 120, 20);
+        text4.setEditable(false);
+        add(text5);
+        text5.setBounds(20, 200, 120, 20);
+        text5.setEditable(false);
     }
 
     //gestion des boutons
@@ -69,5 +80,4 @@ class FonctionPanel extends Panel implements ActionListener {
             }
         }
     }
-
 }
