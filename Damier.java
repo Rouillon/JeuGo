@@ -173,12 +173,12 @@ class Damier extends Panel implements MouseListener {
             for (int j = 0; j < SIZE_DAMIER; j++) {
                 //pion noir
                 if (matrice[i][j] == COULEUR_NOIR) {
-                    PionNoir pionNoir = new PionNoir(this);
+                    PionNoir pionNoir = new PionNoir(i,j);
                     this.add(pionNoir);
                     pionNoir.setBounds(j * 20 + 30, i * 20 + 30, 20, 20);
                 } //pion blanc
                 else if (matrice[i][j] == COULEUR_BLANC) {
-                    PionBlanc pionBlanc = new PionBlanc(this);
+                    PionBlanc pionBlanc = new PionBlanc(i,j);
                     this.add(pionBlanc);
                     pionBlanc.setBounds(j * 20 + 30, i * 20 + 30, 20, 20);
                 }

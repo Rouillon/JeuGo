@@ -10,20 +10,15 @@ import java.awt.event.*;
 
 /**
  * classe du pion noir
+ *
  * @author Guoxin
  */
-class PionNoir extends Canvas {
-    
-    final public static int COULEUR_NOIR = 1;
-    final public static int COULEUR_BLANC = -1;
+class PionNoir extends PionBlancOuNoir {
 
-    Damier damier = null;
-
-    PionNoir(Damier d) {
-        setSize(20, 20);
-        damier = d;
+    PionNoir(int x, int y) {
+        super(x,y);
     }
-    
+
     //définir la pierre
     public void paint(Graphics g) {
         g.setColor(Color.black);

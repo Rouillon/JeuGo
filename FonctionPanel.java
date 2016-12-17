@@ -17,16 +17,20 @@ class FonctionPanel extends Panel implements ActionListener {
     final public static int COULEUR_BLANC = -1;
 
     //size du damier
-    public static int SIZE_DAMIER = 16;
-
-    int couleurPierre = 1;
-    Button btn_recommencer = new Button("Recommencer");
-    Button btn_passer = new Button("Passer");
-    TextField text = new TextField("Tour : Noir");
-    TextField text2 = new TextField("");
-    TextField text3 = new TextField("Pierres capturées:");
-    TextField text4 = new TextField("Noir: 0");
-    TextField text5 = new TextField("Blanc: 0");
+    //public static int SIZE_DAMIER = 16;
+    public int couleurPierre = 1;
+    public Button btn_recommencer = new Button("Recommencer");
+    public Button btn_passer = new Button("Passer");
+    public Button btn_score = new Button("Scores");
+    public TextField text = new TextField("Tour : Noir");
+    public TextField text2 = new TextField("");
+    public TextField text3 = new TextField("Pierres capturées:");
+    public TextField text4 = new TextField("Noir: 0");
+    public TextField text5 = new TextField("Blanc: 0");
+    public TextField text6 = new TextField("Score final");
+    public TextField text7 = new TextField("Noir: ");
+    public TextField text8 = new TextField("Blanc :");
+    public TextField text9 = new TextField("... Gagne");
 
     FonctionPanel() {
         setSize(140, 20 * (SIZE_DAMIER + 2));
@@ -70,7 +74,10 @@ class FonctionPanel extends Panel implements ActionListener {
             if (passer == 2) {
                 System.out.println("Fin de la partie");
                 GO.finPartie = true;
-                GO.fonctionPanel.text.setText("Fin de la partie");
+                text.setText("Fin de la partie");
+                add(btn_score);
+                btn_score.setBounds(20, 240, 120, 20);
+                btn_score.addActionListener(this);
             }
             GO.damier.couleurPierre = GO.damier.couleurPierre * (-1);
             if (text.getText().equals("Tour : Noir")) {
@@ -78,6 +85,40 @@ class FonctionPanel extends Panel implements ActionListener {
             } else if (text.getText().equals("Tour : Blanc")) {
                 text.setText("Tour : Noir");
             }
+        } else if (e.getSource() == btn_score) {
+            GO.finPierresMortes = true;
+            for (int i = 1; i < SIZE_DAMIER - 1; i++) {
+                for (int j = 1; j < SIZE_DAMIER - 1; j++) {
+                    GO.damier.matrice[i][j] = Jeu.remplissageDroit(GO.damier.matrice, i, j);
+                }
+            }
+            GO.damier.setPions(GO.damier.matrice);
+            add(text6);
+            text6.setBounds(20, 280, 120, 20);
+            text6.setEditable(false);
+            add(text7);
+            text7.setBounds(20, 300, 120, 20);
+            text7.setEditable(false);
+            double scoreNoir = Jeu.nbPierreNoir(GO.damier.matrice);
+            double komi = 7.5;
+            if (GO.handicapeInitial > 1) {
+                komi = (GO.handicapeInitial - 1) + 0.5;
+            }
+            double scoreBlanc = Jeu.nbPierreBlanc(GO.damier.matrice) + komi;
+            text7.setText("Noir: " + scoreNoir);
+            add(text8);
+            text8.setBounds(20, 320, 120, 20);
+            text8.setEditable(false);
+            text8.setText("Blanc: " + scoreBlanc);
+            add(text9);
+            text9.setBounds(20, 360, 120, 20);
+            text9.setEditable(false);
+            if (scoreBlanc > scoreNoir) {
+                text9.setText("Blanc Gagne !");
+            } else {
+                text9.setText("Noir Gagne !");
+            }
+
         }
     }
 }

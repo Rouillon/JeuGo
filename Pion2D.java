@@ -11,7 +11,7 @@ package JeuGo;
  *
  * @author Rémi
  */
-public class Pion {
+public class Pion2D {
 
     private int x;
     private int y;
@@ -41,13 +41,13 @@ public class Pion {
         this.y = y;
     }
 
-    public Pion(int x, int y, int couleur) {
+    public Pion2D(int x, int y, int couleur) {
         this.x = x;
         this.y = y;
         this.couleur = couleur;
     }
 
-    public boolean equals(Pion p) {
+    public boolean equals(Pion2D p) {
         boolean retour = false;
         if ((p.getX() == this.x) && (p.getY() == this.y) && (p.getCouleur() == this.couleur)) {
             retour = true;

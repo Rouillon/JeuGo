@@ -19,10 +19,13 @@ public class GO extends Frame {
     public static Damier damier;
     public static FonctionPanel fonctionPanel;
     public static boolean finPartie;
+    public static boolean finPierresMortes;
     public static int handicape;
+    public static int handicapeInitial;
 
     GO() {
         finPartie = false;
+        finPierresMortes = false;
         damier = new Damier();
         fonctionPanel = new FonctionPanel();
         FonctionPanel.passer = 0;
@@ -56,19 +59,20 @@ public class GO extends Frame {
         //Choix de la taille du jeu
         Scanner sc = new Scanner(System.in);
         String choixAction;
-        do {
-            System.out.println("Choisir la taille du goban: taper 9, 16 ou 19");
+        do {System.out.println("NB: Lorsque la partie est finie, cliquez sur les pierres mortes s'il y en a \n"
+                + "puis une fois cette étape terminée, cliquez sur le bouton 'Score' pour afficher le nom du gagnant");
+            System.out.println("\n\nChoisir la taille du goban: taper 9, 16 ou 19");
             choixAction = sc.nextLine();
         } while (!choixAction.equals("9") && !choixAction.equals("16") && !choixAction.equals("19"));
         switch (choixAction) {
             case "9":
-                Damier.SIZE_DAMIER = 10;
+                Damier.SIZE_DAMIER = 11;
                 break;
             case "16":
-                Damier.SIZE_DAMIER = 17;
+                Damier.SIZE_DAMIER = 18;
                 break;
             case "19":
-                Damier.SIZE_DAMIER = 20;
+                Damier.SIZE_DAMIER = 21;
                 break;
             default:
                 break;
@@ -78,13 +82,14 @@ public class GO extends Frame {
         System.out.println("Taper 0 (ou 1) si vous ne voulez pas de handicape");
         System.out.println("Handicap maximal: 4 pour un goban 9x9 / 8 pour un goban 16x16 / 9 pour un goban 19x19");
         handicape = sc.nextInt();
-        if ((Damier.SIZE_DAMIER == 20) && (handicape > 9)) {
+        handicapeInitial=handicape;
+        if ((Damier.SIZE_DAMIER == 21) && (handicape > 9)) {
             handicape = 9;
         }
-        if ((Damier.SIZE_DAMIER == 17) && (handicape > 8)) {
+        if ((Damier.SIZE_DAMIER == 18) && (handicape > 8)) {
             handicape = 8;
         }
-        if ((Damier.SIZE_DAMIER == 10) && (handicape > 4)) {
+        if ((Damier.SIZE_DAMIER == 11) && (handicape > 4)) {
             handicape = 4;
         }
         if (handicape < 0) {

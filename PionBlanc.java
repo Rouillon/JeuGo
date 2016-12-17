@@ -13,22 +13,18 @@ import java.awt.event.*;
  *
  * @author Guoxin
  */
-class PionBlanc extends Canvas {
-
-    final public static int COULEUR_NOIR = 1;
-    final public static int COULEUR_BLANC = -1;
-
-    Damier damier = null;
-
-    PionBlanc(Damier d) {
-        setSize(20, 20);
-        damier = d;
+class PionBlanc extends PionBlancOuNoir {
+    
+    PionBlanc(int x, int y) {
+        super(x,y);
     }
-
+    
     //définir la pierre
     public void paint(Graphics g) {
         g.setColor(Color.white);
         g.fillOval(0, 0, 20, 20);
     }
-
 }
+
+
+
