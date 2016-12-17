@@ -81,6 +81,7 @@ public class GO extends Frame {
         System.out.println("\nCombien voulez-vous de pierres de handicape?");
         System.out.println("Taper 0 (ou 1) si vous ne voulez pas de handicape");
         System.out.println("Handicap maximal: 4 pour un goban 9x9 / 8 pour un goban 16x16 / 9 pour un goban 19x19");
+        System.out.println("Le komi est de 7,5 pour 0 pierre de handicape et de n-0,5 pour n pierres de handicape");
         handicape = sc.nextInt();
         handicapeInitial=handicape;
         if ((Damier.SIZE_DAMIER == 21) && (handicape > 9)) {
