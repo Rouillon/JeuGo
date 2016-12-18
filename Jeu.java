@@ -437,4 +437,28 @@ public class Jeu {
         }
     }
 
+    public static int nbTours(String source) {
+        int result = 0;
+        try {
+            BufferedReader fichier = new BufferedReader(new FileReader(source));
+            String ligne = fichier.readLine();
+            StringTokenizer st;
+            String a;
+
+            while (ligne != null) {
+                st = new StringTokenizer(ligne);
+                a = st.nextToken();
+                int b = Integer.parseInt(st.nextToken());
+                if (a.equals("Tour")) {
+                    result = b;
+                }
+                ligne = fichier.readLine();
+            }
+            fichier.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 }
