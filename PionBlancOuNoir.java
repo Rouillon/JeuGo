@@ -9,7 +9,6 @@ package JeuGo;
  *
  * @author fabienrouillon
  */
-import static JeuGo.Damier.SIZE_DAMIER;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -40,10 +39,10 @@ abstract class PionBlancOuNoir extends Canvas implements MouseListener {
     public abstract void paint(Graphics g);
 
     public void mousePressed(MouseEvent e) {
-        if ((GO.finPartie) && (!GO.finPierresMortes)) {
+        if ((GO.isFinPartie()) && (!GO.isFinPierresMortes())) {
             if (e.getModifiers() == InputEvent.BUTTON1_MASK) {
-                GO.damier.matrice[this.posx][this.posy]=0;
-                GO.damier.setPions(GO.damier.matrice);
+                GO.getDamier().setMatrice(0,this.posx,this.posy);
+                GO.getDamier().setPions(GO.getDamier().getMatrice());
             }
         }
 

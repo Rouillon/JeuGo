@@ -5,31 +5,30 @@
 package JeuGo;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.StringTokenizer;
 
 /**
  *
- * ici se trouve les fonctions pour le fonctionnement du jeu hors affichage
+ * Ici se trouve les fonctions permettant de gérer le fonctionnement du jeu hors
+ * affichage
  */
 public class Jeu {
 
     /**
-     * les attributs ci dessous sont surtout des aides pour les différentes
-     * fonctions String s qui est utile pour lire les réponses de l'utilisateur
-     * listeTestes : liste des Pions testés, sert à la constitution de groupes
-     * listeGroupes : prend en mémoire les groupes à un instant t
+     * les attributs ci dessous sont des variables utiles aux différentes
+     * méthodes de Jeu listeTestes : liste des Pions testés, sert à la
+     * constitution de groupes listeGroupes : prend en mémoire les groupes à un
+     * instant t
      */
-    public static String s; //pour demander le joueur est-ce qu'il veut passer ce manche. ça doit etre "oui" ou "non"
-    public static ArrayList<Pion2D> listeTestes;
-    public static ArrayList<ArrayList<Pion2D>> listeGroupesBlanc;
-    public static ArrayList<ArrayList<Pion2D>> listeGroupesNoir;
-
-    public Jeu() {
-
-    }
+    private static ArrayList<Pion2D> listeTestes;
+    private static ArrayList<ArrayList<Pion2D>> listeGroupesBlanc;
+    private static ArrayList<ArrayList<Pion2D>> listeGroupesNoir;
 
     /**
      * sert à poser une pierre noire sur le plateau, une pierre noire est
@@ -66,8 +65,8 @@ public class Jeu {
      */
     public static int nbPierreNoir(int[][] plateau) {
         int nbNoir = 0;
-        for (int i = 0; i < GO.damier.SIZE_DAMIER - 1; i++) {
-            for (int j = 0; j < GO.damier.SIZE_DAMIER - 1; j++) {
+        for (int i = 0; i < GO.getDamier().getSIZE_DAMIER() - 1; i++) {
+            for (int j = 0; j < GO.getDamier().getSIZE_DAMIER() - 1; j++) {
                 if (plateau[i][j] == 1) {
                     nbNoir++;
                 }
@@ -84,8 +83,8 @@ public class Jeu {
      */
     public static int nbPierreBlanc(int[][] plateau) {
         int nbBlanc = 0;
-        for (int i = 0; i < GO.damier.SIZE_DAMIER - 1; i++) {
-            for (int j = 0; j < GO.damier.SIZE_DAMIER - 1; j++) {
+        for (int i = 0; i < GO.getDamier().getSIZE_DAMIER() - 1; i++) {
+            for (int j = 0; j < GO.getDamier().getSIZE_DAMIER() - 1; j++) {
                 if (plateau[i][j] == -1) {
                     nbBlanc++;
                 }
@@ -157,8 +156,8 @@ public class Jeu {
     public static void detectionGroupesBlanc(int[][] plateau) {
         listeTestes = new ArrayList<>();
         listeGroupesBlanc = new ArrayList<>();
-        for (int i = 0; i < GO.damier.SIZE_DAMIER - 1; i++) {
-            for (int j = 0; j < GO.damier.SIZE_DAMIER - 1; j++) {
+        for (int i = 0; i < GO.getDamier().getSIZE_DAMIER() - 1; i++) {
+            for (int j = 0; j < GO.getDamier().getSIZE_DAMIER() - 1; j++) {
                 //blanc
                 if (plateau[i][j] == -1) {
                     Pion2D p = new Pion2D(i, j, -1);
@@ -186,8 +185,8 @@ public class Jeu {
     public static void detectionGroupesNoir(int[][] plateau) {
         listeTestes = new ArrayList<>();
         listeGroupesNoir = new ArrayList<>();
-        for (int i = 0; i < GO.damier.SIZE_DAMIER - 1; i++) {
-            for (int j = 0; j < GO.damier.SIZE_DAMIER - 1; j++) {
+        for (int i = 0; i < GO.getDamier().getSIZE_DAMIER() - 1; i++) {
+            for (int j = 0; j < GO.getDamier().getSIZE_DAMIER() - 1; j++) {
                 //noir
                 if (plateau[i][j] == 1) {
                     Pion2D p = new Pion2D(i, j, 1);
@@ -232,7 +231,7 @@ public class Jeu {
                 auMoinsUneCapture = true;
                 for (Pion2D p : groupe) {
                     plateau[p.getX()][p.getY()] = 0;
-                    Damier.nbrBlancCaptures += 1;
+                    GO.getDamier().setNbrBlancCaptures(GO.getDamier().getNbrBlancCaptures() + 1);
                 }
             }
         }
@@ -264,7 +263,7 @@ public class Jeu {
                 auMoinsUneCapture = true;
                 for (Pion2D p : groupe) {
                     plateau[p.getX()][p.getY()] = 0;
-                    Damier.nbrNoirCaptures += 1;
+                    GO.getDamier().setNbrNoirCaptures(GO.getDamier().getNbrNoirCaptures() + 1);
                 }
             }
         }
@@ -317,100 +316,124 @@ public class Jeu {
         }
         return capture;
     }
-    
-    public static int remplissageDroit(int[][] plateau,int i, int j) {
-        if (plateau[i][j]==-1) {
+
+    public static int remplissageDroit(int[][] plateau, int i, int j) {
+        if (plateau[i][j] == -1) {
             return -1;
-        }
-        else if (plateau[i][j]==1) {
+        } else if (plateau[i][j] == 1) {
             return 1;
-        }
-        else {
-            if (j==(GO.damier.SIZE_DAMIER-2)) {
-                
-                if (i==(GO.damier.SIZE_DAMIER-2)) {
-                    return remplissageInverseGauche(plateau,i,j-1);
-                }
-                else {
-                    return remplissageGauche(plateau,i+1,j);
-                }
-                
+        } else if (j == (GO.getDamier().getSIZE_DAMIER() - 2)) {
+
+            if (i == (GO.getDamier().getSIZE_DAMIER() - 2)) {
+                return remplissageInverseGauche(plateau, i, j - 1);
+            } else {
+                return remplissageGauche(plateau, i + 1, j);
             }
-            else {
-                return remplissageDroit(plateau,i,j+1);
-            }
+
+        } else {
+            return remplissageDroit(plateau, i, j + 1);
         }
     }
-    
-    public static int remplissageGauche(int[][] plateau,int i, int j) {
-        if (plateau[i][j]==-1) {
+
+    public static int remplissageGauche(int[][] plateau, int i, int j) {
+        if (plateau[i][j] == -1) {
             return -1;
-        }
-        else if (plateau[i][j]==1) {
+        } else if (plateau[i][j] == 1) {
             return 1;
-        }
-        else {
-            if (j==1) {
-                
-                if (i==(GO.damier.SIZE_DAMIER-2)) {
-                    return remplissageInverseDroit(plateau,i,j+1);
-                }
-                else {
-                    return remplissageDroit(plateau,i+1,j);
-                }
-                
+        } else if (j == 1) {
+
+            if (i == (GO.getDamier().getSIZE_DAMIER() - 2)) {
+                return remplissageInverseDroit(plateau, i, j + 1);
+            } else {
+                return remplissageDroit(plateau, i + 1, j);
             }
-            else {
-                return remplissageGauche(plateau,i,j-1);
-            }
+
+        } else {
+            return remplissageGauche(plateau, i, j - 1);
         }
     }
-    
-    public static int remplissageInverseGauche(int[][] plateau,int i, int j) {
-        if (plateau[i][j]==-1) {
+
+    public static int remplissageInverseGauche(int[][] plateau, int i, int j) {
+        if (plateau[i][j] == -1) {
             return -1;
-        }
-        else if (plateau[i][j]==1) {
+        } else if (plateau[i][j] == 1) {
             return 1;
-        }
-        else {
-            if (j==1) {
-                
-                if (i==1) {
-                    return 0;
-                }
-                else {
-                    return remplissageInverseDroit(plateau,i-1,j);
-                }
-                
+        } else if (j == 1) {
+
+            if (i == 1) {
+                return 0;
+            } else {
+                return remplissageInverseDroit(plateau, i - 1, j);
             }
-            else {
-                return remplissageInverseGauche(plateau,i,j-1);
-            }
+
+        } else {
+            return remplissageInverseGauche(plateau, i, j - 1);
         }
     }
-    
-    public static int remplissageInverseDroit(int[][] plateau,int i, int j) {
-        if (plateau[i][j]==-1) {
+
+    public static int remplissageInverseDroit(int[][] plateau, int i, int j) {
+        if (plateau[i][j] == -1) {
             return -1;
-        }
-        else if (plateau[i][j]==1) {
+        } else if (plateau[i][j] == 1) {
             return 1;
+        } else if (j == (GO.getDamier().getSIZE_DAMIER() - 2)) {
+
+            if (i == 1) {
+                return 0;
+            } else {
+                return remplissageInverseGauche(plateau, i - 1, j);
+            }
+
+        } else {
+            return remplissageInverseDroit(plateau, i, j + 1);
         }
-        else {
-            if (j==(GO.damier.SIZE_DAMIER-2)) {
-                
-                if (i==1) {
-                    return 0;
+    }
+
+    public static void sauvegardeMatrice(int[][] matrice, String fichier, int tour) {
+
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fichier, true));
+            bufferedWriter.write("Tour " + tour);
+            bufferedWriter.newLine();
+            for (int i = 0; i < GO.getDamier().getSIZE_DAMIER(); i++) {
+                for (int j = 0; j < GO.getDamier().getSIZE_DAMIER(); j++) {
+                    bufferedWriter.write(" " + matrice[i][j] + " ");
                 }
-                else {
-                    return remplissageInverseGauche(plateau,i-1,j);
+                bufferedWriter.newLine();
+            }
+            bufferedWriter.close();
+        } catch (IOException e) {
+        }
+
+    }
+
+    public static void chargerMatrice(String source, int tour) {
+
+        try {
+            BufferedReader fichier = new BufferedReader(new FileReader(source));
+            String ligne = fichier.readLine();
+            StringTokenizer st;
+            String a;
+
+            while (ligne != null) {
+                st = new StringTokenizer(ligne);
+                a = st.nextToken();
+                int b = Integer.parseInt(st.nextToken());
+                if ((a.equals("Tour")) && (b == tour)) {
+                    for (int i = 0; i < GO.getDamier().getSIZE_DAMIER(); i++) {
+                        ligne = fichier.readLine();
+                        st = new StringTokenizer(ligne);
+                        for (int j = 0; j < GO.getDamier().getSIZE_DAMIER(); j++) {
+                            GO.getDamier().setMatrice(Integer.parseInt(st.nextToken()), i, j);
+                        }
+                    }
                 }
-                
+                ligne = fichier.readLine();
             }
-            else {
-                return remplissageInverseDroit(plateau,i,j+1);
-            }
+            fichier.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

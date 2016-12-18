@@ -5,35 +5,125 @@
  */
 package JeuGo;
 
-import static JeuGo.Damier.SIZE_DAMIER;
-import static JeuGo.Damier.couleurPierre;
 import java.awt.*;
 import java.awt.event.*;
 
 class FonctionPanel extends Panel implements ActionListener {
 
-    public static int passer;
-    final public static int COULEUR_NOIR = 1;
-    final public static int COULEUR_BLANC = -1;
-
-    //size du damier
     //public static int SIZE_DAMIER = 16;
-    public int couleurPierre = 1;
-    public Button btn_recommencer = new Button("Recommencer");
-    public Button btn_passer = new Button("Passer");
-    public Button btn_score = new Button("Scores");
-    public TextField text = new TextField("Tour : Noir");
-    public TextField text2 = new TextField("");
-    public TextField text3 = new TextField("Pierres capturées:");
-    public TextField text4 = new TextField("Noir: 0");
-    public TextField text5 = new TextField("Blanc: 0");
-    public TextField text6 = new TextField("Score final");
-    public TextField text7 = new TextField("Noir: ");
-    public TextField text8 = new TextField("Blanc :");
-    public TextField text9 = new TextField("... Gagne");
+    private Button btn_recommencer = new Button("Recommencer");
+    private Button btn_passer = new Button("Passer");
+    private Button btn_score = new Button("Scores");
+    private TextField text = new TextField("Tour : Noir");
+    private TextField text2 = new TextField("");
+    private TextField text3 = new TextField("Pierres capturées:");
+    private TextField text4 = new TextField("Noir: 0");
+    private TextField text5 = new TextField("Blanc: 0");
+    private TextField text6 = new TextField("Score final");
+    private TextField text7 = new TextField("Noir: ");
+    private TextField text8 = new TextField("Blanc :");
+    private TextField text9 = new TextField("... Gagne");
 
+    public Button getBtn_recommencer() {
+        return btn_recommencer;
+    }
+
+    public void setBtn_recommencer(Button btn_recommencer) {
+        this.btn_recommencer = btn_recommencer;
+    }
+
+    public Button getBtn_passer() {
+        return btn_passer;
+    }
+
+    public void setBtn_passer(Button btn_passer) {
+        this.btn_passer = btn_passer;
+    }
+
+    public Button getBtn_score() {
+        return btn_score;
+    }
+
+    public void setBtn_score(Button btn_score) {
+        this.btn_score = btn_score;
+    }
+
+    public TextField getText() {
+        return text;
+    }
+
+    public void setText(TextField text) {
+        this.text = text;
+    }
+
+    public TextField getText2() {
+        return text2;
+    }
+
+    public void setText2(TextField text2) {
+        this.text2 = text2;
+    }
+
+    public TextField getText3() {
+        return text3;
+    }
+
+    public void setText3(TextField text3) {
+        this.text3 = text3;
+    }
+
+    public TextField getText4() {
+        return text4;
+    }
+
+    public void setText4(TextField text4) {
+        this.text4 = text4;
+    }
+
+    public TextField getText5() {
+        return text5;
+    }
+
+    public void setText5(TextField text5) {
+        this.text5 = text5;
+    }
+
+    public TextField getText6() {
+        return text6;
+    }
+
+    public void setText6(TextField text6) {
+        this.text6 = text6;
+    }
+
+    public TextField getText7() {
+        return text7;
+    }
+
+    public void setText7(TextField text7) {
+        this.text7 = text7;
+    }
+
+    public TextField getText8() {
+        return text8;
+    }
+
+    public void setText8(TextField text8) {
+        this.text8 = text8;
+    }
+
+    public TextField getText9() {
+        return text9;
+    }
+
+    public void setText9(TextField text9) {
+        this.text9 = text9;
+    }
+
+    
+    
     FonctionPanel() {
-        setSize(140, 20 * (SIZE_DAMIER + 2));
+        setSize(140, 20 * (GO.getDamier().getSIZE_DAMIER() + 2));
         setLayout(null);
         setBackground(Color.WHITE);
 
@@ -63,48 +153,47 @@ class FonctionPanel extends Panel implements ActionListener {
     //gestion des boutons
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btn_recommencer) {
-            passer = 0;
-            GO.finPartie = false;
+            GO.setPasser(0);
+            GO.setFinPartie(false);
             GO go = new GO();
-            couleurPierre = 1;
             text.setText("Tour : Noir");
             //GO.damier.setPions(GO.damier.matrice);
         } else if (e.getSource() == btn_passer) {
-            passer += 1;
-            if (passer == 2) {
+            GO.setPasser(GO.getPasser()+1);
+            if (GO.getPasser() == 2) {
                 System.out.println("Fin de la partie");
-                GO.finPartie = true;
+                GO.setFinPartie(true);
                 text.setText("Fin de la partie");
                 add(btn_score);
                 btn_score.setBounds(20, 240, 120, 20);
                 btn_score.addActionListener(this);
             }
-            GO.damier.couleurPierre = GO.damier.couleurPierre * (-1);
+            GO.getDamier().setCouleurPierre(GO.getDamier().getCouleurPierre() * (-1));
             if (text.getText().equals("Tour : Noir")) {
                 text.setText("Tour : Blanc");
             } else if (text.getText().equals("Tour : Blanc")) {
                 text.setText("Tour : Noir");
             }
         } else if (e.getSource() == btn_score) {
-            GO.finPierresMortes = true;
-            for (int i = 1; i < SIZE_DAMIER - 1; i++) {
-                for (int j = 1; j < SIZE_DAMIER - 1; j++) {
-                    GO.damier.matrice[i][j] = Jeu.remplissageDroit(GO.damier.matrice, i, j);
+            GO.setFinPierresMortes(true);
+            for (int i = 1; i < GO.getDamier().getSIZE_DAMIER() - 1; i++) {
+                for (int j = 1; j < GO.getDamier().getSIZE_DAMIER() - 1; j++) {
+                    GO.getDamier().setMatrice(Jeu.remplissageDroit(GO.getDamier().getMatrice(), i, j),i,j);
                 }
             }
-            GO.damier.setPions(GO.damier.matrice);
+            GO.getDamier().setPions(GO.getDamier().getMatrice());
             add(text6);
             text6.setBounds(20, 280, 120, 20);
             text6.setEditable(false);
             add(text7);
             text7.setBounds(20, 300, 120, 20);
             text7.setEditable(false);
-            double scoreNoir = Jeu.nbPierreNoir(GO.damier.matrice);
+            int scoreNoir = Jeu.nbPierreNoir(GO.getDamier().getMatrice());
             double komi = 7.5;
-            if (GO.handicapeInitial > 1) {
-                komi = (GO.handicapeInitial - 1) + 0.5;
+            if (GO.getHandicapeInitial() > 1) {
+                komi = (GO.getHandicapeInitial() - 1) + 0.5;
             }
-            double scoreBlanc = Jeu.nbPierreBlanc(GO.damier.matrice) + komi;
+            double scoreBlanc = Jeu.nbPierreBlanc(GO.getDamier().getMatrice()) + komi;
             text7.setText("Noir: " + scoreNoir);
             add(text8);
             text8.setBounds(20, 320, 120, 20);

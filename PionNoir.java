@@ -6,7 +6,6 @@
 package JeuGo;
 
 import java.awt.*;
-import java.awt.event.*;
 
 /**
  * classe du pion noir

@@ -7,7 +7,12 @@ package JeuGo;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * classe pour le frame
@@ -15,22 +20,109 @@ import java.util.Scanner;
  * @author Guoxin
  */
 public class GO extends Frame {
+    
+    private static String fichier;
+    private static int tour;
 
-    public static Damier damier;
-    public static FonctionPanel fonctionPanel;
-    public static boolean finPartie;
-    public static boolean finPierresMortes;
-    public static int handicape;
-    public static int handicapeInitial;
+    private static Damier damier;
+    private static FonctionPanel fonctionPanel;
+    private static boolean finPartie;
+    private static boolean finPierresMortes;
+    private static int handicape;
+    private static int handicapeInitial;
+    private static int passer;
 
-    GO() {
+    public static String getFichier() {
+        return fichier;
+    }
+
+    public static void setFichier(String fichier) {
+        GO.fichier = fichier;
+    }
+
+    public static int getTour() {
+        return tour;
+    }
+
+    public static void setTour(int tour) {
+        GO.tour = tour;
+    }
+
+    public static Damier getDamier() {
+        return damier;
+    }
+
+    public static void setDamier(Damier damier) {
+        GO.damier = damier;
+    }
+
+    public static FonctionPanel getFonctionPanel() {
+        return fonctionPanel;
+    }
+
+    public static void setFonctionPanel(FonctionPanel fonctionPanel) {
+        GO.fonctionPanel = fonctionPanel;
+    }
+
+    public static boolean isFinPartie() {
+        return finPartie;
+    }
+
+    public static void setFinPartie(boolean finPartie) {
+        GO.finPartie = finPartie;
+    }
+
+    public static boolean isFinPierresMortes() {
+        return finPierresMortes;
+    }
+
+    public static void setFinPierresMortes(boolean finPierresMortes) {
+        GO.finPierresMortes = finPierresMortes;
+    }
+
+    public static int getHandicape() {
+        return handicape;
+    }
+
+    public static void setHandicape(int handicape) {
+        GO.handicape = handicape;
+    }
+
+    public static int getHandicapeInitial() {
+        return handicapeInitial;
+    }
+
+    public static void setHandicapeInitial(int handicapeInitial) {
+        GO.handicapeInitial = handicapeInitial;
+    }
+
+    public static int getPasser() {
+        return passer;
+    }
+
+    public static void setPasser(int passer) {
+        GO.passer = passer;
+    }
+
+    GO(){
+        tour=1;
+        fichier = "PartieGO.txt";
+        BufferedWriter bufferedWriter;
+        try {
+            bufferedWriter = new BufferedWriter(new FileWriter(fichier));
+            bufferedWriter.write("");
+        } catch (IOException ex) {
+            Logger.getLogger(GO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         finPartie = false;
         finPierresMortes = false;
         damier = new Damier();
         fonctionPanel = new FonctionPanel();
-        FonctionPanel.passer = 0;
-        Damier.nbrBlancCaptures = 0;
-        Damier.nbrNoirCaptures = 0;
+        passer = 0;
+        damier.setNbrBlancCaptures(0);
+        damier.setNbrNoirCaptures(0);
 
         setVisible(true);
         setLayout(null);
@@ -56,6 +148,7 @@ public class GO extends Frame {
     }
 
     public static void main(String args[]) {
+        damier = new Damier();
         //Choix de la taille du jeu
         Scanner sc = new Scanner(System.in);
         String choixAction;
@@ -66,13 +159,13 @@ public class GO extends Frame {
         } while (!choixAction.equals("9") && !choixAction.equals("16") && !choixAction.equals("19"));
         switch (choixAction) {
             case "9":
-                Damier.SIZE_DAMIER = 11;
+                damier.setSIZE_DAMIER(11);
                 break;
             case "16":
-                Damier.SIZE_DAMIER = 18;
+                damier.setSIZE_DAMIER(18);
                 break;
             case "19":
-                Damier.SIZE_DAMIER = 21;
+                damier.setSIZE_DAMIER(21);
                 break;
             default:
                 break;
@@ -84,13 +177,13 @@ public class GO extends Frame {
         System.out.println("Le komi est de 7,5 pour 0 pierre de handicape et de n-0,5 pour n pierres de handicape");
         handicape = sc.nextInt();
         handicapeInitial=handicape;
-        if ((Damier.SIZE_DAMIER == 21) && (handicape > 9)) {
+        if ((damier.getSIZE_DAMIER() == 21) && (handicape > 9)) {
             handicape = 9;
         }
-        if ((Damier.SIZE_DAMIER == 18) && (handicape > 8)) {
+        if ((damier.getSIZE_DAMIER() == 18) && (handicape > 8)) {
             handicape = 8;
         }
-        if ((Damier.SIZE_DAMIER == 11) && (handicape > 4)) {
+        if ((damier.getSIZE_DAMIER() == 11) && (handicape > 4)) {
             handicape = 4;
         }
         if (handicape < 0) {
@@ -99,5 +192,7 @@ public class GO extends Frame {
         sc.close();
         //Commencer le jeu
         GO go = new GO();
+        Jeu.chargerMatrice("test.txt", 9);
+        damier.setPions(damier.getMatrice());
     }
 }
