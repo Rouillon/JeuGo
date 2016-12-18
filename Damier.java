@@ -7,6 +7,9 @@ package JeuGo;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class Damier extends Panel implements MouseListener {
     
@@ -135,7 +138,7 @@ class Damier extends Panel implements MouseListener {
 
     //poser les pierres
     public void mousePressed(MouseEvent e) {
-        if (!GO.isFinPartie()) {
+        if ((!GO.isFinPartie()) && (!GO.isChargement())) {
             if (e.getModifiers() == InputEvent.BUTTON1_MASK) {
                 //position de la souris sur l'écran
                 x = (int) e.getX();

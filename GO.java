@@ -8,6 +8,7 @@ package JeuGo;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
@@ -20,10 +21,10 @@ import java.util.logging.Logger;
  * @author Guoxin
  */
 public class GO extends Frame {
-    
+
     private static String fichier;
     private static int tour;
-    
+
     private static Damier damier;
     private static FonctionPanel fonctionPanel;
     private static boolean finPartie;
@@ -31,79 +32,106 @@ public class GO extends Frame {
     private static int handicape;
     private static int handicapeInitial;
     private static int passer;
-    
+    private static boolean chargement;
+    private static int tourCharge;
+    private static int nbTours;
+
+    public static int getNbTours() {
+        return nbTours;
+    }
+
+    public static void setNbTours(int nbTours) {
+        GO.nbTours = nbTours;
+    }
+
+    public static int getTourCharge() {
+        return tourCharge;
+    }
+
+    public static void setTourCharge(int tourCharge) {
+        GO.tourCharge = tourCharge;
+    }
+
+    public static boolean isChargement() {
+        return chargement;
+    }
+
+    public static void setChargement(boolean chargement) {
+        GO.chargement = chargement;
+    }
+
     public static String getFichier() {
         return fichier;
     }
-    
+
     public static void setFichier(String fichier) {
         GO.fichier = fichier;
     }
-    
+
     public static int getTour() {
         return tour;
     }
-    
+
     public static void setTour(int tour) {
         GO.tour = tour;
     }
-    
+
     public static Damier getDamier() {
         return damier;
     }
-    
+
     public static void setDamier(Damier damier) {
         GO.damier = damier;
     }
-    
+
     public static FonctionPanel getFonctionPanel() {
         return fonctionPanel;
     }
-    
+
     public static void setFonctionPanel(FonctionPanel fonctionPanel) {
         GO.fonctionPanel = fonctionPanel;
     }
-    
+
     public static boolean isFinPartie() {
         return finPartie;
     }
-    
+
     public static void setFinPartie(boolean finPartie) {
         GO.finPartie = finPartie;
     }
-    
+
     public static boolean isFinPierresMortes() {
         return finPierresMortes;
     }
-    
+
     public static void setFinPierresMortes(boolean finPierresMortes) {
         GO.finPierresMortes = finPierresMortes;
     }
-    
+
     public static int getHandicape() {
         return handicape;
     }
-    
+
     public static void setHandicape(int handicape) {
         GO.handicape = handicape;
     }
-    
+
     public static int getHandicapeInitial() {
         return handicapeInitial;
     }
-    
+
     public static void setHandicapeInitial(int handicapeInitial) {
         GO.handicapeInitial = handicapeInitial;
     }
-    
+
     public static int getPasser() {
         return passer;
     }
-    
+
     public static void setPasser(int passer) {
         GO.passer = passer;
     }
-    
+
     GO() {
         tour = 1;
         fichier = "PartieGO.txt";
@@ -114,15 +142,24 @@ public class GO extends Frame {
         } catch (IOException ex) {
             Logger.getLogger(GO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        try {
+                bufferedWriter = new BufferedWriter(new FileWriter(fichier, true));
+                bufferedWriter.write("Taille " + damier.getSIZE_DAMIER());
+                bufferedWriter.newLine();
+                bufferedWriter.close();
+            } catch (IOException e) {
+            }
+
         finPartie = false;
         finPierresMortes = false;
+        chargement = false;
         damier = new Damier();
         fonctionPanel = new FonctionPanel();
         passer = 0;
         damier.setNbrBlancCaptures(0);
         damier.setNbrNoirCaptures(0);
-        
+        tourCharge = 1;
+
         setVisible(true);
         setLayout(null);
         //ajouter un title
@@ -135,7 +172,7 @@ public class GO extends Frame {
         damier.setBounds(70, 90, 440, 440);
         add(fonctionPanel);
         fonctionPanel.setBounds(520, 90, 200, 440);
-        
+
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
@@ -145,7 +182,7 @@ public class GO extends Frame {
         pack();
         setSize(700, 550);
     }
-    
+
     public static void main(String args[]) {
         damier = new Damier();
         System.out.println("NB: Lorsque la partie est finie, cliquez sur les pierres mortes s'il y en a \n"
@@ -176,7 +213,7 @@ public class GO extends Frame {
                 default:
                     break;
             }
-            
+
             System.out.println("\nCombien voulez-vous de pierres de handicape?");
             System.out.println("Taper 0 (ou 1) si vous ne voulez pas de handicape");
             System.out.println("Handicap maximal: 4 pour un goban 9x9 / 8 pour un goban 16x16 / 9 pour un goban 19x19");
@@ -194,16 +231,33 @@ public class GO extends Frame {
             }
             if (handicape < 0) {
                 handicape = 0;
-            }            
+            }
+
+            sc.close();
+            //Commencer le jeu
+            GO go = new GO();
+        } else {
+            System.out.println("Vous pouvez maintenant rejouer cette partie à partir du coup que vous souhaitez");
+            System.out.println("Cliquez sur 'Suivant' ou 'Précédent' pour retourner à un moment de la partie puis cliquez sur 'Jouer'");
+            sc.close();
+            damier.setSIZE_DAMIER(11);
+            GO go = new GO();
+            chargement = true;
+            nbTours = Jeu.nbTours("test.txt");
+            Jeu.chargerMatrice("test.txt", tourCharge);
+            damier.setPions(damier.getMatrice());
+            fonctionPanel.add(GO.fonctionPanel.getBtn_suivant());
+            GO.fonctionPanel.getBtn_suivant().setBounds(20, 240, 120, 20);
+            GO.fonctionPanel.getBtn_suivant().addActionListener(GO.fonctionPanel);
+
+            fonctionPanel.add(GO.fonctionPanel.getBtn_precedent());
+            GO.fonctionPanel.getBtn_precedent().setBounds(20, 280, 120, 20);
+            GO.fonctionPanel.getBtn_precedent().addActionListener(GO.fonctionPanel);
+
+            fonctionPanel.add(GO.fonctionPanel.getBtn_jouer());
+            GO.fonctionPanel.getBtn_jouer().setBounds(20, 320, 120, 20);
+            GO.fonctionPanel.getBtn_jouer().addActionListener(GO.fonctionPanel);
         }
-        else {
-            
-        }
-        sc.close();
-        //Commencer le jeu
-        GO go = new GO();
-        Jeu.chargerMatrice("test.txt", 9);
-        damier.setPions(damier.getMatrice());
-        System.out.println(Jeu.nbTours("test.txt"));
+
     }
 }

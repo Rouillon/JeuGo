@@ -7,6 +7,9 @@ package JeuGo;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 class FonctionPanel extends Panel implements ActionListener {
 
@@ -14,6 +17,9 @@ class FonctionPanel extends Panel implements ActionListener {
     private Button btn_recommencer = new Button("Recommencer");
     private Button btn_passer = new Button("Passer");
     private Button btn_score = new Button("Scores");
+    private Button btn_suivant = new Button("Suivant");
+    private Button btn_precedent = new Button("Précédent");
+    private Button btn_jouer = new Button("Jouer");
     private TextField text = new TextField("Tour : Noir");
     private TextField text2 = new TextField("");
     private TextField text3 = new TextField("Pierres capturées:");
@@ -24,6 +30,30 @@ class FonctionPanel extends Panel implements ActionListener {
     private TextField text8 = new TextField("Blanc :");
     private TextField text9 = new TextField("... Gagne");
 
+    public Button getBtn_jouer() {
+        return btn_jouer;
+    }
+
+    public void setBtn_jouer(Button btn_jouer) {
+        this.btn_jouer = btn_jouer;
+    }
+
+    public Button getBtn_suivant() {
+        return btn_suivant;
+    }
+
+    public void setBtn_suivant(Button btn_suivant) {
+        this.btn_suivant = btn_suivant;
+    }
+
+    public Button getBtn_precedent() {
+        return btn_precedent;
+    }
+
+    public void setBtn_precedent(Button btn_precedent) {
+        this.btn_precedent = btn_precedent;
+    }
+    
     public Button getBtn_recommencer() {
         return btn_recommencer;
     }
@@ -208,6 +238,23 @@ class FonctionPanel extends Panel implements ActionListener {
                 text9.setText("Noir Gagne !");
             }
 
+        } else if (e.getSource() == btn_suivant) {
+            if (GO.getTourCharge()<GO.getNbTours()) {
+                GO.setTourCharge(GO.getTourCharge()+1);
+                Jeu.chargerMatrice("test.txt", GO.getTourCharge());
+                GO.getDamier().setPions(GO.getDamier().getMatrice());
+            }
+        } else if (e.getSource() == btn_precedent) {
+            if (GO.getTourCharge()>1) {
+                GO.setTourCharge(GO.getTourCharge()-1);
+                Jeu.chargerMatrice("test.txt", GO.getTourCharge());
+                GO.getDamier().setPions(GO.getDamier().getMatrice());
+            }
+        } else if (e.getSource() == btn_jouer) {
+            remove(btn_suivant);
+            remove(btn_precedent);
+            remove(btn_jouer);
+            GO.setChargement(false);
         }
     }
 }

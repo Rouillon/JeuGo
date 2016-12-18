@@ -6,6 +6,7 @@ package JeuGo;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -401,6 +402,10 @@ public class Jeu {
                 }
                 bufferedWriter.newLine();
             }
+            bufferedWriter.write("Blanc " + GO.getDamier().getNbrBlancCaptures());
+            bufferedWriter.newLine();
+            bufferedWriter.write("Noir " + GO.getDamier().getNbrNoirCaptures());
+            bufferedWriter.newLine();
             bufferedWriter.close();
         } catch (IOException e) {
         }
@@ -427,6 +432,18 @@ public class Jeu {
                             GO.getDamier().setMatrice(Integer.parseInt(st.nextToken()), i, j);
                         }
                     }
+                    ligne = fichier.readLine();
+                    st = new StringTokenizer(ligne);
+                    a = st.nextToken();
+                    b = Integer.parseInt(st.nextToken());
+                    GO.getDamier().setNbrBlancCaptures(b);
+                    GO.getFonctionPanel().getText5().setText("Blanc: " + GO.getDamier().getNbrBlancCaptures());
+                    ligne = fichier.readLine();
+                    st = new StringTokenizer(ligne);
+                    a = st.nextToken();
+                    b = Integer.parseInt(st.nextToken());
+                    GO.getDamier().setNbrNoirCaptures(b);
+                    GO.getFonctionPanel().getText4().setText("Noir: " + GO.getDamier().getNbrNoirCaptures());
                 }
                 ligne = fichier.readLine();
             }
