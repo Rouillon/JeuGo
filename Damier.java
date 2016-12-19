@@ -7,9 +7,6 @@ package JeuGo;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 class Damier extends Panel implements MouseListener {
     

@@ -241,13 +241,13 @@ class FonctionPanel extends Panel implements ActionListener {
         } else if (e.getSource() == btn_suivant) {
             if (GO.getTourCharge()<GO.getNbTours()) {
                 GO.setTourCharge(GO.getTourCharge()+1);
-                Jeu.chargerMatrice("test.txt", GO.getTourCharge());
+                Jeu.chargerMatrice("PartieGO.txt", GO.getTourCharge());
                 GO.getDamier().setPions(GO.getDamier().getMatrice());
             }
         } else if (e.getSource() == btn_precedent) {
             if (GO.getTourCharge()>1) {
                 GO.setTourCharge(GO.getTourCharge()-1);
-                Jeu.chargerMatrice("test.txt", GO.getTourCharge());
+                Jeu.chargerMatrice("PartieGO.txt", GO.getTourCharge());
                 GO.getDamier().setPions(GO.getDamier().getMatrice());
             }
         } else if (e.getSource() == btn_jouer) {

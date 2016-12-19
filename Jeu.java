@@ -6,7 +6,6 @@ package JeuGo;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -406,6 +405,8 @@ public class Jeu {
             bufferedWriter.newLine();
             bufferedWriter.write("Noir " + GO.getDamier().getNbrNoirCaptures());
             bufferedWriter.newLine();
+            bufferedWriter.write("Couleur "+ GO.getDamier().getCouleurPierre());
+            bufferedWriter.newLine();
             bufferedWriter.close();
         } catch (IOException e) {
         }
@@ -444,6 +445,18 @@ public class Jeu {
                     b = Integer.parseInt(st.nextToken());
                     GO.getDamier().setNbrNoirCaptures(b);
                     GO.getFonctionPanel().getText4().setText("Noir: " + GO.getDamier().getNbrNoirCaptures());
+                    ligne = fichier.readLine();
+                    st = new StringTokenizer(ligne);
+                    a = st.nextToken();
+                    b = Integer.parseInt(st.nextToken());
+                    GO.getDamier().setCouleurPierre(b);
+                    if (b==-1) {
+                        GO.getFonctionPanel().getText().setText("Tour : Blanc");
+                    }
+                    else {
+                        GO.getFonctionPanel().getText().setText("Tour : Noir");
+                    }
+                    
                 }
                 ligne = fichier.readLine();
             }
@@ -471,6 +484,21 @@ public class Jeu {
                 }
                 ligne = fichier.readLine();
             }
+            fichier.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
+    public static int taille(String source) {
+        int result=0;
+        try {
+            BufferedReader fichier = new BufferedReader(new FileReader(source));
+            String ligne = fichier.readLine();
+            StringTokenizer st= new StringTokenizer(ligne);;
+            String a= st.nextToken();
+            result = Integer.parseInt(st.nextToken());
             fichier.close();
         } catch (Exception e) {
             e.printStackTrace();

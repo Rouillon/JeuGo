@@ -135,20 +135,20 @@ public class GO extends Frame {
     GO() {
         tour = 1;
         fichier = "PartieGO.txt";
-        BufferedWriter bufferedWriter;
-        try {
-            bufferedWriter = new BufferedWriter(new FileWriter(fichier));
-            bufferedWriter.write("");
-        } catch (IOException ex) {
-            Logger.getLogger(GO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-                bufferedWriter = new BufferedWriter(new FileWriter(fichier, true));
-                bufferedWriter.write("Taille " + damier.getSIZE_DAMIER());
-                bufferedWriter.newLine();
-                bufferedWriter.close();
-            } catch (IOException e) {
-            }
+//        BufferedWriter bufferedWriter;
+//        try {
+//            bufferedWriter = new BufferedWriter(new FileWriter(fichier));
+//            bufferedWriter.write("");
+//        } catch (IOException ex) {
+//            Logger.getLogger(GO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        try {
+//                bufferedWriter = new BufferedWriter(new FileWriter(fichier, true));
+//                bufferedWriter.write("Taille " + damier.getSIZE_DAMIER());
+//                bufferedWriter.newLine();
+//                bufferedWriter.close();
+//            } catch (IOException e) {
+//            }
 
         finPartie = false;
         finPierresMortes = false;
@@ -236,15 +236,30 @@ public class GO extends Frame {
             sc.close();
             //Commencer le jeu
             GO go = new GO();
+            BufferedWriter bufferedWriter;
+        try {
+            bufferedWriter = new BufferedWriter(new FileWriter(fichier));
+            bufferedWriter.write("");
+        } catch (IOException ex) {
+            Logger.getLogger(GO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+                bufferedWriter = new BufferedWriter(new FileWriter(fichier, true));
+                bufferedWriter.write("Taille " + damier.getSIZE_DAMIER());
+                bufferedWriter.newLine();
+                bufferedWriter.close();
+            } catch (IOException e) {
+            }
+            
         } else {
             System.out.println("Vous pouvez maintenant rejouer cette partie à partir du coup que vous souhaitez");
             System.out.println("Cliquez sur 'Suivant' ou 'Précédent' pour retourner à un moment de la partie puis cliquez sur 'Jouer'");
             sc.close();
-            damier.setSIZE_DAMIER(11);
+            damier.setSIZE_DAMIER(Jeu.taille("PartieGO.txt"));
             GO go = new GO();
             chargement = true;
-            nbTours = Jeu.nbTours("test.txt");
-            Jeu.chargerMatrice("test.txt", tourCharge);
+            nbTours = Jeu.nbTours("PartieGO.txt");
+            Jeu.chargerMatrice("PartieGO.txt", tourCharge);
             damier.setPions(damier.getMatrice());
             fonctionPanel.add(GO.fonctionPanel.getBtn_suivant());
             GO.fonctionPanel.getBtn_suivant().setBounds(20, 240, 120, 20);
