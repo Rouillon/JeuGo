@@ -1,6 +1,7 @@
 /*
 *TP3 de MEDEV 
 *Jeu de GO
+*Classe où sont répertoriées toutes les méthodes utiles à la manipulation de la matrice du jeu
  */
 package JeuGo;
 
@@ -17,51 +18,50 @@ import java.util.StringTokenizer;
  *
  * Ici se trouve les fonctions permettant de gérer le fonctionnement du jeu hors
  * affichage
+ *
+ * @author fabienrouillon
  */
 public class Jeu {
 
     /**
      * les attributs ci dessous sont des variables utiles aux différentes
      * méthodes de Jeu listeTestes : liste des Pions testés, sert à la
-     * constitution de groupes listeGroupes : prend en mémoire les groupes à un
-     * instant t
+     * constitution des groupes de pions de même couleur listeGroupes : prend en
+     * mémoire les groupes à un instant t
      */
     private static ArrayList<Pion2D> listeTestes;
     private static ArrayList<ArrayList<Pion2D>> listeGroupesBlanc;
     private static ArrayList<ArrayList<Pion2D>> listeGroupesNoir;
 
     /**
-     * sert à poser une pierre noire sur le plateau, une pierre noire est
+     * Sert à poser une pierre noire sur le plateau, une pierre noire est
      * représentée par 1.
      *
-     * @param plateau le plateau de jeu
+     * @param plateau la matrice qui représente le plateau de jeu
      * @param x position abscisse
      * @param y position ordonnées
-     * @return true ou false en fonction de si l'utilisateur souhaite passer son
-     * tour ou pas
      */
     public static void poserPierreNoir(int[][] plateau, int x, int y) {
         plateau[x][y] = 1; // 1 est pour les pierres noirs
     }
 
     /**
-     * de même que poserPierreNoir, sauf que la pierre blanche est représentée
+     * De même que poserPierreNoir, sauf que la pierre blanche est représentée
      * par -1
      *
-     * @param plateau
-     * @param x
-     * @param y
-     * @return
+     * @param plateau la matrice qui représente le plateau de jeu
+     * @param x position abscisse
+     * @param y position ordonnées
      */
     public static void poserPierreBlanc(int[][] plateau, int x, int y) {
         plateau[x][y] = -1; //-1 est pout les pierres blancs                          
     }
 
     /**
-     * calcule le nombre de pierre noire sur le plateau en vue du comptage
+     * Calcule le nombre de pierres noires sur le plateau en vue du comptage
      *
-     * @param plateau
-     * @return le nombre de pierre noire sur le plateau
+     * @param plateau la matrice qui représente le plateau de jeu
+     * @return le nombre de pierres noires sur le plateau
      */
     public static int nbPierreNoir(int[][] plateau) {
         int nbNoir = 0;
@@ -76,10 +76,10 @@ public class Jeu {
     }
 
     /**
-     * pareil pour les pierres blanches
+     * Calcule le nombre de pierres blanches sur le plateau en vue du comptage
      *
-     * @param plateau
-     * @return
+     * @param plateau la matrice qui représente le plateau de jeu
+     * @return le nombre de pierres blanches sur le plateau
      */
     public static int nbPierreBlanc(int[][] plateau) {
         int nbBlanc = 0;
@@ -94,10 +94,10 @@ public class Jeu {
     }
 
     /**
-     * à partir d'un pion P, trouve les pions adjacents et les retourne dans une
-     * liste de pion
+     * A partir d'un pion P, trouve les pions adjacents de même couleur et les
+     * retourne dans une liste de pions
      *
-     * @param plateau
+     * @param plateau la matrice qui représente le plateau de jeu
      * @param p pion à partir duquel on cherche les adjacents
      * @return l'arrayListe des pions adjacents
      */
@@ -124,10 +124,10 @@ public class Jeu {
     /**
      * Constitue un groupe de pion à partir d'un pion de départ
      *
-     * @param plateau
+     * @param plateau la matrice qui représente le plateau de jeu
      * @param p pion de départ de la recherche de groupe
      * @param groupe groupe qu'on va remplir avec les éléments adjacents
-     * @return le groupe sous forme d'ArrayList<Pion>
+     * @return le groupe sous forme d'ArrayListe de Pions
      */
     public static ArrayList<Pion2D> ajouterAdjacent(int[][] plateau, Pion2D p, ArrayList<Pion2D> groupe) {
         groupe.add(p);
@@ -149,9 +149,9 @@ public class Jeu {
     }
 
     /**
-     * constitue tous les groupes de pions blancs du plateau à un instant donné
+     * Constitue tous les groupes de pions blancs du plateau à un instant donné
      *
-     * @param plateau
+     * @param plateau la matrice qui représente le plateau de jeu
      */
     public static void detectionGroupesBlanc(int[][] plateau) {
         listeTestes = new ArrayList<>();
@@ -178,9 +178,9 @@ public class Jeu {
     }
 
     /**
-     * constitue tous les groupes de pions noirs du plateau à un instant donné
+     * Constitue tous les groupes de pions noirs du plateau à un instant donné
      *
-     * @param plateau
+     * @param plateau la matrice qui représente le plateau de jeu
      */
     public static void detectionGroupesNoir(int[][] plateau) {
         listeTestes = new ArrayList<>();
@@ -207,85 +207,75 @@ public class Jeu {
     }
 
     /**
-     * supprime les groupes de pions blanc encerclés
+     * Supprime les groupes de pions blanc encerclés
      *
-     * @param plateau
+     * @param plateau la matrice qui représente le plateau de jeu
+     * @return booléen vrai si au moins un Pion capturé
      */
     public static boolean CaptureBlanc(int[][] plateau) {
-        boolean capture = false;
         boolean auMoinsUneCapture = false;
-        int count = 0;
         Jeu.detectionGroupesBlanc(plateau);
         for (ArrayList<Pion2D> groupe : listeGroupesBlanc) {
-            capture = false;
-            count = 0;
-            for (Pion2D p : groupe) {
-                if ((plateau[p.getX()][p.getY() + 1] != 0) && (plateau[p.getX()][p.getY() - 1] != 0) && (plateau[p.getX() + 1][p.getY()] != 0) && (plateau[p.getX() - 1][p.getY()] != 0)) {
-                    count += 1;
-                }
-            }
+            boolean capture = false;
+            int count = 0;
+            count = groupe.stream().filter((p) -> ((plateau[p.getX()][p.getY() + 1] != 0) && (plateau[p.getX()][p.getY() - 1] != 0) && (plateau[p.getX() + 1][p.getY()] != 0) && (plateau[p.getX() - 1][p.getY()] != 0))).map((_item) -> 1).reduce(count, Integer::sum);
             if ((count == groupe.size()) && (count > 0)) {
                 capture = true;
             }
             if (capture) {
                 auMoinsUneCapture = true;
-                for (Pion2D p : groupe) {
+                groupe.stream().map((p) -> {
                     plateau[p.getX()][p.getY()] = 0;
+                    return p;
+                }).forEach((_item) -> {
                     GO.getDamier().setNbrBlancCaptures(GO.getDamier().getNbrBlancCaptures() + 1);
-                }
+                });
             }
         }
         return auMoinsUneCapture;
     }
 
     /**
-     * supprime les groupes de pions noirs encerclés
+     * Supprime les groupes de pions noirs encerclés
      *
-     * @param plateau
+     * @param plateau la matrice qui représente le plateau de jeu
+     * @return booléen vrai si au moins un Pion capturé
      */
     public static boolean CaptureNoir(int[][] plateau) {
-        boolean capture = false;
         boolean auMoinsUneCapture = false;
-        int count = 0;
         Jeu.detectionGroupesNoir(plateau);
         for (ArrayList<Pion2D> groupe : listeGroupesNoir) {
-            capture = false;
-            count = 0;
-            for (Pion2D p : groupe) {
-                if ((plateau[p.getX()][p.getY() + 1] != 0) && (plateau[p.getX()][p.getY() - 1] != 0) && (plateau[p.getX() + 1][p.getY()] != 0) && (plateau[p.getX() - 1][p.getY()] != 0)) {
-                    count += 1;
-                }
-            }
+            boolean capture = false;
+            int count = 0;
+            count = groupe.stream().filter((p) -> ((plateau[p.getX()][p.getY() + 1] != 0) && (plateau[p.getX()][p.getY() - 1] != 0) && (plateau[p.getX() + 1][p.getY()] != 0) && (plateau[p.getX() - 1][p.getY()] != 0))).map((_item) -> 1).reduce(count, Integer::sum);
             if ((count == groupe.size()) && (count > 0)) {
                 capture = true;
             }
             if (capture) {
                 auMoinsUneCapture = true;
-                for (Pion2D p : groupe) {
+                groupe.stream().map((p) -> {
                     plateau[p.getX()][p.getY()] = 0;
+                    return p;
+                }).forEach((_item) -> {
                     GO.getDamier().setNbrNoirCaptures(GO.getDamier().getNbrNoirCaptures() + 1);
-                }
+                });
             }
         }
         return auMoinsUneCapture;
     }
 
     /**
-     * détecte la capture des pions blanc sans supprimer les pions capturés
+     * Détecte la capture des pions blanc sans supprimer les pions capturés
      *
-     * @param plateau
+     * @param plateau la matrice qui représente le plateau de jeu
+     * @return booléen vrai si au moins une capture
      */
     public static boolean detectionCaptureBlanc(int[][] plateau) {
         boolean capture = false;
-        int count = 0;
         Jeu.detectionGroupesBlanc(plateau);
         for (ArrayList<Pion2D> groupe : listeGroupesBlanc) {
-            count = 0;
-            for (Pion2D p : groupe) {
-                if ((plateau[p.getX()][p.getY() + 1] != 0) && (plateau[p.getX()][p.getY() - 1] != 0) && (plateau[p.getX() + 1][p.getY()] != 0) && (plateau[p.getX() - 1][p.getY()] != 0)) {
-                    count += 1;
-                }
-            }
+            int count = 0;
+            count = groupe.stream().filter((p) -> ((plateau[p.getX()][p.getY() + 1] != 0) && (plateau[p.getX()][p.getY() - 1] != 0) && (plateau[p.getX() + 1][p.getY()] != 0) && (plateau[p.getX() - 1][p.getY()] != 0))).map((_item) -> 1).reduce(count, Integer::sum);
             if ((count == groupe.size()) && (count > 0)) {
                 capture = true;
             }
@@ -295,21 +285,17 @@ public class Jeu {
     }
 
     /**
-     * détecte la capture des pions noirs sans supprimer les pions capturés
+     * Détecte la capture des pions noirs sans supprimer les pions capturés
      *
-     * @param plateau
+     * @param plateau la matrice qui représente le plateau de jeu
+     * @return booléen vrai si au moins une capture
      */
     public static boolean detectionCaptureNoir(int[][] plateau) {
         boolean capture = false;
-        int count = 0;
         Jeu.detectionGroupesNoir(plateau);
         for (ArrayList<Pion2D> groupe : listeGroupesNoir) {
-            count = 0;
-            for (Pion2D p : groupe) {
-                if ((plateau[p.getX()][p.getY() + 1] != 0) && (plateau[p.getX()][p.getY() - 1] != 0) && (plateau[p.getX() + 1][p.getY()] != 0) && (plateau[p.getX() - 1][p.getY()] != 0)) {
-                    count += 1;
-                }
-            }
+            int count = 0;
+            count = groupe.stream().filter((p) -> ((plateau[p.getX()][p.getY() + 1] != 0) && (plateau[p.getX()][p.getY() - 1] != 0) && (plateau[p.getX() + 1][p.getY()] != 0) && (plateau[p.getX() - 1][p.getY()] != 0))).map((_item) -> 1).reduce(count, Integer::sum);
             if ((count == groupe.size()) && (count > 0)) {
                 capture = true;
             }
@@ -317,6 +303,18 @@ public class Jeu {
         return capture;
     }
 
+    /**
+     * Remplit les zones vides du plateau par des pions de la même couleur que
+     * les pions du Joueur qui possède le territoire sur lequel ce trouve la
+     * zone passé en argument. Utilise les méthodes remplissageGauche,
+     * remplissageInverseDroit et remplissageInverseGauche pour balayer
+     * l'ensemble du plateau récursivement
+     *
+     * @param plateau la matrice qui représente le plateau de jeu
+     * @param i abscisse du Pion pris en argument
+     * @param j ordonnée du Pion pris en argument
+     * @return
+     */
     public static int remplissageDroit(int[][] plateau, int i, int j) {
         if (plateau[i][j] == -1) {
             return -1;
@@ -335,6 +333,15 @@ public class Jeu {
         }
     }
 
+    /**
+     * Utilisé par la méthode remplissageDroit pour balayer l'ensemble du
+     * plateau récursivement
+     *
+     * @param plateau la matrice qui représente le plateau de jeu
+     * @param i abscisse du Pion pris en argument
+     * @param j ordonnée du Pion pris en argument
+     * @return
+     */
     public static int remplissageGauche(int[][] plateau, int i, int j) {
         if (plateau[i][j] == -1) {
             return -1;
@@ -353,6 +360,15 @@ public class Jeu {
         }
     }
 
+    /**
+     * Utilisé par la méthode remplissageDroit pour balayer l'ensemble du
+     * plateau récursivement
+     *
+     * @param plateau la matrice qui représente le plateau de jeu
+     * @param i abscisse du Pion pris en argument
+     * @param j ordonnée du Pion pris en argument
+     * @return
+     */
     public static int remplissageInverseGauche(int[][] plateau, int i, int j) {
         if (plateau[i][j] == -1) {
             return -1;
@@ -371,6 +387,15 @@ public class Jeu {
         }
     }
 
+    /**
+     * Utilisé par la méthode remplissageDroit pour balayer l'ensemble du
+     * plateau récursivement
+     *
+     * @param plateau la matrice qui représente le plateau de jeu
+     * @param i abscisse du Pion pris en argument
+     * @param j ordonnée du Pion pris en argument
+     * @return
+     */
     public static int remplissageInverseDroit(int[][] plateau, int i, int j) {
         if (plateau[i][j] == -1) {
             return -1;
@@ -389,10 +414,17 @@ public class Jeu {
         }
     }
 
+    /**
+     * Gère la sauvegarde de la partie en cours dans un fichier en ajoutant tour
+     * par tour les données contenu dans le plateau
+     *
+     * @param matrice représente le tableau des pions
+     * @param fichier contenant les données sauvegardées
+     * @param tour le tour que l'on va enregistrer dans fichier
+     */
     public static void sauvegardeMatrice(int[][] matrice, String fichier, int tour) {
 
-        try {
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fichier, true));
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fichier, true))) {
             bufferedWriter.write("Tour " + tour);
             bufferedWriter.newLine();
             for (int i = 0; i < GO.getDamier().getSIZE_DAMIER(); i++) {
@@ -405,18 +437,23 @@ public class Jeu {
             bufferedWriter.newLine();
             bufferedWriter.write("Noir " + GO.getDamier().getNbrNoirCaptures());
             bufferedWriter.newLine();
-            bufferedWriter.write("Couleur "+ GO.getDamier().getCouleurPierre());
+            bufferedWriter.write("Couleur " + GO.getDamier().getCouleurPierre());
             bufferedWriter.newLine();
-            bufferedWriter.close();
         } catch (IOException e) {
         }
 
     }
 
+    /**
+     * Gère le chargement du plateau de jeu correspondant à un tour donné d'une
+     * partie sauvegardée
+     *
+     * @param source le fichier contenant la sauvegarde à charger
+     * @param tour le tour que l'on souhaite charger
+     */
     public static void chargerMatrice(String source, int tour) {
 
-        try {
-            BufferedReader fichier = new BufferedReader(new FileReader(source));
+        try (BufferedReader fichier = new BufferedReader(new FileReader(source))) {
             String ligne = fichier.readLine();
             StringTokenizer st;
             String a;
@@ -435,42 +472,44 @@ public class Jeu {
                     }
                     ligne = fichier.readLine();
                     st = new StringTokenizer(ligne);
-                    a = st.nextToken();
+                    st.nextToken();
                     b = Integer.parseInt(st.nextToken());
                     GO.getDamier().setNbrBlancCaptures(b);
                     GO.getFonctionPanel().getText5().setText("Blanc: " + GO.getDamier().getNbrBlancCaptures());
                     ligne = fichier.readLine();
                     st = new StringTokenizer(ligne);
-                    a = st.nextToken();
+                    st.nextToken();
                     b = Integer.parseInt(st.nextToken());
                     GO.getDamier().setNbrNoirCaptures(b);
                     GO.getFonctionPanel().getText4().setText("Noir: " + GO.getDamier().getNbrNoirCaptures());
                     ligne = fichier.readLine();
                     st = new StringTokenizer(ligne);
-                    a = st.nextToken();
+                    st.nextToken();
                     b = Integer.parseInt(st.nextToken());
                     GO.getDamier().setCouleurPierre(b);
-                    if (b==-1) {
+                    if (b == -1) {
                         GO.getFonctionPanel().getText().setText("Tour : Blanc");
-                    }
-                    else {
+                    } else {
                         GO.getFonctionPanel().getText().setText("Tour : Noir");
                     }
-                    
+
                 }
                 ligne = fichier.readLine();
             }
-            fichier.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
+    /**
+     * Retourne le nombre de tours qui ont été joué dans une partie
+     *
+     * @param source contient la partie sauvegardée
+     * @return le nombre de tours joués dans la partie
+     */
     public static int nbTours(String source) {
         int result = 0;
-        try {
-            BufferedReader fichier = new BufferedReader(new FileReader(source));
+        try (BufferedReader fichier = new BufferedReader(new FileReader(source))) {
             String ligne = fichier.readLine();
             StringTokenizer st;
             String a;
@@ -484,24 +523,25 @@ public class Jeu {
                 }
                 ligne = fichier.readLine();
             }
-            fichier.close();
         } catch (Exception e) {
-            e.printStackTrace();
         }
         return result;
     }
-    
+
+    /**
+     * Retourne la taille du plateau de jeu d'une partie sauvegardée
+     *
+     * @param source contient la partie sauvegardée
+     * @return la taille du plateau
+     */
     public static int taille(String source) {
-        int result=0;
-        try {
-            BufferedReader fichier = new BufferedReader(new FileReader(source));
+        int result = 0;
+        try (BufferedReader fichier = new BufferedReader(new FileReader(source))) {
             String ligne = fichier.readLine();
-            StringTokenizer st= new StringTokenizer(ligne);;
-            String a= st.nextToken();
+            StringTokenizer st = new StringTokenizer(ligne);
+            String a = st.nextToken();
             result = Integer.parseInt(st.nextToken());
-            fichier.close();
         } catch (Exception e) {
-            e.printStackTrace();
         }
         return result;
     }

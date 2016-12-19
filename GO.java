@@ -1,14 +1,13 @@
 /*
  *TP3 de MEDEV 
  *Jeu de GO
- *la classe pour faire appraitre le frame 
+ *Classe principale et main
  */
 package JeuGo;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
@@ -16,26 +15,38 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * classe pour le frame
+ * Classe principale qui génère le damier et les éléments du jeu
  *
  * @author Guoxin
  */
 public class GO extends Frame {
 
-    private static String fichier;
+    // L'attribut fichier porte le nom du fichier de sauvegarde, on peut éventuellement demandé à l'utilisateur
+    // de choisir le nom du fichier pour créer plusieurs sauvegardes
+    private final static String FICHIER = "PartieGO.txt";
+    // Attribut qui permet de compter le nombre de tours joués
     private static int tour;
-
     private static Damier damier;
     private static FonctionPanel fonctionPanel;
+    // Attribut vrai lorsque la partie est terminée
     private static boolean finPartie;
+    // Attribut vrai lorsque le joueur a fini d'éliminer les pierres mortes à la fin du jeu
     private static boolean finPierresMortes;
+    // Attribut qui vaux le nombre de pierres de handicape restant à poser
     private static int handicape;
+    // Attribut qui vaux le nombre de pierres de handicape choisies
     private static int handicapeInitial;
+    // Cet attribut s'incrémente lorsque un joueur passe et reviens à 0 si le joueur suivant passe.
+    // Lorsque 'passer' vaux 2 la partie est terminée
     private static int passer;
+    // Attribut vrai lorsqu'une partie est en train d'être chargée
     private static boolean chargement;
+    // Attribut valant le nombre du tour en cours de chargement
     private static int tourCharge;
+    // NOmbre de tours que comporte une partie chargée
     private static int nbTours;
 
+    // GETTERS ET SETTERS
     public static int getNbTours() {
         return nbTours;
     }
@@ -60,12 +71,8 @@ public class GO extends Frame {
         GO.chargement = chargement;
     }
 
-    public static String getFichier() {
-        return fichier;
-    }
-
-    public static void setFichier(String fichier) {
-        GO.fichier = fichier;
+    public static String getFICHIER() {
+        return FICHIER;
     }
 
     public static int getTour() {
@@ -132,24 +139,9 @@ public class GO extends Frame {
         GO.passer = passer;
     }
 
+    // CONSTRUCTEUR PAR DEFAUT
     GO() {
         tour = 1;
-        fichier = "PartieGO.txt";
-//        BufferedWriter bufferedWriter;
-//        try {
-//            bufferedWriter = new BufferedWriter(new FileWriter(fichier));
-//            bufferedWriter.write("");
-//        } catch (IOException ex) {
-//            Logger.getLogger(GO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        try {
-//                bufferedWriter = new BufferedWriter(new FileWriter(fichier, true));
-//                bufferedWriter.write("Taille " + damier.getSIZE_DAMIER());
-//                bufferedWriter.newLine();
-//                bufferedWriter.close();
-//            } catch (IOException e) {
-//            }
-
         finPartie = false;
         finPierresMortes = false;
         chargement = false;
@@ -159,21 +151,20 @@ public class GO extends Frame {
         damier.setNbrBlancCaptures(0);
         damier.setNbrNoirCaptures(0);
         tourCharge = 1;
-
         setVisible(true);
         setLayout(null);
-        //ajouter un title
+        // Ajouter un titre
         Label label = new Label("JEU DE GO", Label.CENTER);
         add(label);
         label.setBounds(70, 55, 440, 26);
         label.setBackground(Color.pink);
-        //ajouter le damier
+        // Ajouter le damier
         add(damier);
         damier.setBounds(70, 90, 440, 440);
         add(fonctionPanel);
         fonctionPanel.setBounds(520, 90, 200, 440);
-
         addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
@@ -183,18 +174,20 @@ public class GO extends Frame {
         setSize(700, 550);
     }
 
+    // MAIN :
     public static void main(String args[]) {
         damier = new Damier();
         System.out.println("NB: Lorsque la partie est finie, cliquez sur les pierres mortes s'il y en a \n"
                 + "puis une fois cette étape terminée, cliquez sur le bouton 'Score' pour afficher le nom du gagnant");
-        //Choix de la taille du jeu
+        // Choix entre nouvelle partie et rejouer la partie précédente
         Scanner sc = new Scanner(System.in);
         String choixAction;
         do {
             System.out.println("\n\nTaper 'n' pour jouer une nouvelle partie, "
-                    + "'c' pour charger une partie non terminée");
+                    + "'r' pour rejouer une partie non terminée");
             choixAction = sc.nextLine();
-        } while (!choixAction.equals("c") && !choixAction.equals("n"));
+        } while (!choixAction.equals("r") && !choixAction.equals("n"));
+        //Choix de la taille du jeu
         if (choixAction.equals("n")) {
             do {
                 System.out.println("\n\nChoisir la taille du goban: taper 9, 16 ou 19");
@@ -213,7 +206,7 @@ public class GO extends Frame {
                 default:
                     break;
             }
-
+            // Choix du handicape
             System.out.println("\nCombien voulez-vous de pierres de handicape?");
             System.out.println("Taper 0 (ou 1) si vous ne voulez pas de handicape");
             System.out.println("Handicap maximal: 4 pour un goban 9x9 / 8 pour un goban 16x16 / 9 pour un goban 19x19");
@@ -232,34 +225,33 @@ public class GO extends Frame {
             if (handicape < 0) {
                 handicape = 0;
             }
-
             sc.close();
             //Commencer le jeu
             GO go = new GO();
             BufferedWriter bufferedWriter;
-        try {
-            bufferedWriter = new BufferedWriter(new FileWriter(fichier));
-            bufferedWriter.write("");
-        } catch (IOException ex) {
-            Logger.getLogger(GO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-                bufferedWriter = new BufferedWriter(new FileWriter(fichier, true));
+            try {
+                bufferedWriter = new BufferedWriter(new FileWriter(FICHIER));
+                bufferedWriter.write("");
+            } catch (IOException ex) {
+                Logger.getLogger(GO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                bufferedWriter = new BufferedWriter(new FileWriter(FICHIER, true));
                 bufferedWriter.write("Taille " + damier.getSIZE_DAMIER());
                 bufferedWriter.newLine();
                 bufferedWriter.close();
             } catch (IOException e) {
             }
-            
+            // Partie rejouée:
         } else {
             System.out.println("Vous pouvez maintenant rejouer cette partie à partir du coup que vous souhaitez");
             System.out.println("Cliquez sur 'Suivant' ou 'Précédent' pour retourner à un moment de la partie puis cliquez sur 'Jouer'");
             sc.close();
-            damier.setSIZE_DAMIER(Jeu.taille("PartieGO.txt"));
+            damier.setSIZE_DAMIER(Jeu.taille(FICHIER));
             GO go = new GO();
             chargement = true;
-            nbTours = Jeu.nbTours("PartieGO.txt");
-            Jeu.chargerMatrice("PartieGO.txt", tourCharge);
+            nbTours = Jeu.nbTours(FICHIER);
+            Jeu.chargerMatrice(FICHIER, tourCharge);
             damier.setPions(damier.getMatrice());
             fonctionPanel.add(GO.fonctionPanel.getBtn_suivant());
             GO.fonctionPanel.getBtn_suivant().setBounds(20, 240, 120, 20);

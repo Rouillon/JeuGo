@@ -1,55 +1,63 @@
 /*
  *TP3 de MEDEV 
  *Jeu de GO
- *la classe pour le damier 
+ *Classe pour le damier 
  */
 package JeuGo;
 
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Classe qui génère le damier et gère les cliques sur les différents éléments
+ * du jeu
+ *
+ * @author Guoxin
+ */
 class Damier extends Panel implements MouseListener {
-    
-    //On choisit les entiers 1 pour le noir et -1 pour le blanc
+
+    // On choisit les entiers 1 pour le noir et -1 pour le blanc
     final static private int COULEUR_NOIR = 1;
     final static private int COULEUR_BLANC = -1;
-    //Taille du damier
-    private static int SIZE_DAMIER; //taille choisit par l'utilisateur +2 
-    //matrice des pions
+    // Taille du damier
+    private static int SIZE_DAMIER; // Taille choisit par l'utilisateur +2 
+    // Matrice des pions
+    // Les matrices derniereMatrice et avantDerniereMatrice permettent de vérifier la règle du ko
     private int[][] matrice = new int[SIZE_DAMIER][SIZE_DAMIER];
     private int[][] derniereMatrice = new int[SIZE_DAMIER][SIZE_DAMIER];
     private int[][] avantDerniereMatrice = new int[SIZE_DAMIER][SIZE_DAMIER];
-    //la position de la souris sur l'écran
+    // La position de la souris sur l'écran
     private int x = -1;
     private int y = -1;
-
+    // Couleur courante
     private int couleurPierre = 1;
-
+    // Nombre de pierres capturées
     private int nbrBlancCaptures = 0;
     private int nbrNoirCaptures = 0;
 
+    // GETTERS ET SETTERS
     public int getSIZE_DAMIER() {
         return SIZE_DAMIER;
     }
 
     public void setSIZE_DAMIER(int SIZE_DAMIER) {
-        this.SIZE_DAMIER = SIZE_DAMIER;
+        Damier.SIZE_DAMIER = SIZE_DAMIER;
     }
 
     public int[][] getMatrice() {
         return matrice;
     }
-    
-    public int getMatrice(int i,int j){
+
+    public int getMatrice(int i, int j) {
         return matrice[i][j];
     }
 
     public void setMatrice(int[][] matrice) {
         this.matrice = matrice;
     }
-    
-    public void setMatrice(int a, int i, int j){
-        this.matrice[i][j]=a;
+
+    public void setMatrice(int a, int i, int j) {
+        this.matrice[i][j] = a;
     }
 
     public int[][] getDerniereMatrice() {
@@ -68,6 +76,7 @@ class Damier extends Panel implements MouseListener {
         this.avantDerniereMatrice = avantDerniereMatrice;
     }
 
+    @Override
     public int getX() {
         return x;
     }
@@ -76,6 +85,7 @@ class Damier extends Panel implements MouseListener {
         this.x = x;
     }
 
+    @Override
     public int getY() {
         return y;
     }
@@ -107,9 +117,8 @@ class Damier extends Panel implements MouseListener {
     public void setNbrNoirCaptures(int nbrNoirCaptures) {
         this.nbrNoirCaptures = nbrNoirCaptures;
     }
-    
-    
 
+    // CONSTRUCTEUR PAR DEFAUT
     Damier() {
         setSize(20 * (SIZE_DAMIER + 2), 20 * (SIZE_DAMIER + 2));
         setLayout(null);
@@ -123,7 +132,8 @@ class Damier extends Panel implements MouseListener {
         }
     }
 
-    //dessiner le damier 
+    // Pour dessiner le damier: 
+    @Override
     public void paint(Graphics g) {
         for (int i = 60; i <= 20 * (SIZE_DAMIER); i += 20) {
             g.drawLine(60, i, 20 * (SIZE_DAMIER), i);
@@ -133,35 +143,36 @@ class Damier extends Panel implements MouseListener {
         }
     }
 
-    //poser les pierres
+    // Pour poser les pierres lorsque le clique est détecté
+    @Override
     public void mousePressed(MouseEvent e) {
         if ((!GO.isFinPartie()) && (!GO.isChargement())) {
             if (e.getModifiers() == InputEvent.BUTTON1_MASK) {
-                //position de la souris sur l'écran
+                // Position de la souris sur l'écran
                 x = (int) e.getX();
                 y = (int) e.getY();
-                //position dans la matrice      
+                // Position dans la matrice      
                 int a = (x + 10) / 20 - 2;
                 int b = (y + 10) / 20 - 2;
-                //s'il est en dedors du damier
+                // S'il est en dedors du damier:
                 if (x / 20 < 2 || y / 20 < 2 || x / 20 > SIZE_DAMIER || y / 20 > SIZE_DAMIER || a == 0 || b == 0 || a == SIZE_DAMIER - 1 || b == SIZE_DAMIER - 1) {
-                } //sinon poser les pierres       
+                } // Sinon poser les pierres
+                // Cas où c'est à Noir de jouer:
                 else if (couleurPierre == COULEUR_NOIR) {
                     if (GO.getHandicape() > 1) {
-                        GO.setHandicape(GO.getHandicape()-1);
+                        GO.setHandicape(GO.getHandicape() - 1);
                         GO.setPasser(0);
                         Jeu.poserPierreNoir(matrice, b, a);
                         setPions(matrice);
-                        System.out.println(GO.getTour());
-                        Jeu.sauvegardeMatrice(matrice, GO.getFichier(), GO.getTour());
-                        GO.setTour(GO.getTour()+1);
+                        Jeu.sauvegardeMatrice(matrice, GO.getFICHIER(), GO.getTour());
+                        GO.setTour(GO.getTour() + 1);
                         //printMatrice();
                     } else {
                         GO.getFonctionPanel().getText2().setText("");
                         GO.setPasser(0);
-                        //Poser un pion noir
+                        // Poser un pion noir
                         Jeu.poserPierreNoir(matrice, b, a);
-                        //Pour vérifier si la règle du ko a lieu
+                        // Pour vérifier si la règle du ko a lieu
                         for (int i = 0; i < SIZE_DAMIER; i++) {
                             for (int j = 0; j < SIZE_DAMIER; j++) {
                                 avantDerniereMatrice[i][j] = derniereMatrice[i][j];
@@ -192,11 +203,12 @@ class Damier extends Panel implements MouseListener {
                             GO.getFonctionPanel().getText().setText("Tour : Blanc");
                             GO.getFonctionPanel().getText5().setText("Blanc: " + nbrBlancCaptures);
                             GO.getFonctionPanel().getText4().setText("Noir: " + nbrNoirCaptures);
-                            Jeu.sauvegardeMatrice(matrice, GO.getFichier(), GO.getTour());
-                            GO.setTour(GO.getTour()+1);
+                            Jeu.sauvegardeMatrice(matrice, GO.getFICHIER(), GO.getTour());
+                            GO.setTour(GO.getTour() + 1);
                             //printMatrice();
                         }
                     }
+                    // Cas où c'est à Blanc de jouer
                 } else if (couleurPierre == COULEUR_BLANC) {
                     GO.getFonctionPanel().getText2().setText("");
                     GO.setPasser(0);
@@ -233,8 +245,8 @@ class Damier extends Panel implements MouseListener {
                         GO.getFonctionPanel().getText().setText("Tour : Noir");
                         GO.getFonctionPanel().getText5().setText("Blanc: " + nbrBlancCaptures);
                         GO.getFonctionPanel().getText4().setText("Noir: " + nbrNoirCaptures);
-                        Jeu.sauvegardeMatrice(matrice, GO.getFichier(), GO.getTour());
-                        GO.setTour(GO.getTour()+1);
+                        Jeu.sauvegardeMatrice(matrice, GO.getFICHIER(), GO.getTour());
+                        GO.setTour(GO.getTour() + 1);
                         //printMatrice();
                     }
 
@@ -243,31 +255,36 @@ class Damier extends Panel implements MouseListener {
         }
     }
 
+    // Les autres méthodes abstraites de MouseListener:
+    @Override
     public void mouseReleased(MouseEvent e) {
     }
 
+    @Override
     public void mouseEntered(MouseEvent e) {
     }
 
+    @Override
     public void mouseExited(MouseEvent e) {
     }
 
+    @Override
     public void mouseClicked(MouseEvent e) {
     }
 
-    //poser les pierres selon la matrice
+    // Pour poser les pierres selon la matrice:
     public void setPions(int[][] matrice) {
         this.removeAll();
         for (int i = 0; i < SIZE_DAMIER; i++) {
             for (int j = 0; j < SIZE_DAMIER; j++) {
                 //pion noir
                 if (matrice[i][j] == COULEUR_NOIR) {
-                    PionNoir pionNoir = new PionNoir(i,j);
+                    PionNoir pionNoir = new PionNoir(i, j);
                     this.add(pionNoir);
                     pionNoir.setBounds(j * 20 + 30, i * 20 + 30, 20, 20);
                 } //pion blanc
                 else if (matrice[i][j] == COULEUR_BLANC) {
-                    PionBlanc pionBlanc = new PionBlanc(i,j);
+                    PionBlanc pionBlanc = new PionBlanc(i, j);
                     this.add(pionBlanc);
                     pionBlanc.setBounds(j * 20 + 30, i * 20 + 30, 20, 20);
                 }

@@ -1,22 +1,26 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *TP3 de MEDEV 
+ *Jeu de GO
+ *Classe qui contient la définiton d'un Pion2D (pion version matriciel)
  */
 package JeuGo;
 
 /**
- * la classe Pion nous aide à représenter les éléments : pierre noire ou pierre
+ * La classe Pion nous aide à représenter les éléments : pierre noire ou pierre
  * blanche bien qu'au final ils sont représentés par des 1 ou -1 sur une matrice
  *
  * @author Rémi
  */
 public class Pion2D {
 
+    // abscisse
     private int x;
+    // ordonnée
     private int y;
+    // couleur : -1 pour blanc , 1 pour noir
     private int couleur;
 
+    // GETTER ET SETTERS
     public int getCouleur() {
         return couleur;
     }
@@ -41,12 +45,14 @@ public class Pion2D {
         this.y = y;
     }
 
+    // CONSTRUCTEUR
     public Pion2D(int x, int y, int couleur) {
         this.x = x;
         this.y = y;
         this.couleur = couleur;
     }
 
+    // REDEFINITION DE EQUALS 
     public boolean equals(Pion2D p) {
         boolean retour = false;
         if ((p.getX() == this.x) && (p.getY() == this.y) && (p.getCouleur() == this.couleur)) {

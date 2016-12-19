@@ -1,35 +1,47 @@
 /*
  *TP3 de MEDEV 
  *Jeu de GO
- *la classe pour le damier 
+ *Classe qui gère les boutons cliquables et les affichages textuels
  */
 package JeuGo;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 
+/**
+ * Classe qui génère les différents boutons et zones de textes
+ *
+ * @author Guoxin
+ */
 class FonctionPanel extends Panel implements ActionListener {
 
-    //public static int SIZE_DAMIER = 16;
+    // Bouton pour recommencer une partie depuis le début
     private Button btn_recommencer = new Button("Recommencer");
+    // Bouton pour passer
     private Button btn_passer = new Button("Passer");
+    // Bouton pour décompter les points et afficher le gagant
     private Button btn_score = new Button("Scores");
+    // Bouton pour passer au coup suivant lorsqu'on charge une partie déjà jouée
     private Button btn_suivant = new Button("Suivant");
+    // Bouton pour revenir au coup précédent lorsqu'on charge une partie déjà jouée
     private Button btn_precedent = new Button("Précédent");
+    // Bouton pour rejouer une partie à partir du coup en cours lorsqu'on charge une partie
     private Button btn_jouer = new Button("Jouer");
+    // Texte affichant à qui est le tour
     private TextField text = new TextField("Tour : Noir");
+    // Texte qui affiche les informations complémentaires (suicide interdit, règle du ko...)
     private TextField text2 = new TextField("");
+    // Zone de texte qui affiche les pierres capturées
     private TextField text3 = new TextField("Pierres capturées:");
     private TextField text4 = new TextField("Noir: 0");
     private TextField text5 = new TextField("Blanc: 0");
+    // Zone de texte qui affiche le score et le gagnant
     private TextField text6 = new TextField("Score final");
     private TextField text7 = new TextField("Noir: ");
     private TextField text8 = new TextField("Blanc :");
     private TextField text9 = new TextField("... Gagne");
 
+    // GETTERS ET SETTERS
     public Button getBtn_jouer() {
         return btn_jouer;
     }
@@ -53,7 +65,7 @@ class FonctionPanel extends Panel implements ActionListener {
     public void setBtn_precedent(Button btn_precedent) {
         this.btn_precedent = btn_precedent;
     }
-    
+
     public Button getBtn_recommencer() {
         return btn_recommencer;
     }
@@ -150,13 +162,12 @@ class FonctionPanel extends Panel implements ActionListener {
         this.text9 = text9;
     }
 
-    
-    
+    // CONSTRUCTEUR PAR DEFAUT
     FonctionPanel() {
         setSize(140, 20 * (GO.getDamier().getSIZE_DAMIER() + 2));
         setLayout(null);
         setBackground(Color.WHITE);
-
+        // Ajout des zones de textes au départ du jeu
         add(text);
         text.setBounds(20, 20, 120, 20);
         text.setEditable(false);
@@ -180,16 +191,18 @@ class FonctionPanel extends Panel implements ActionListener {
         text5.setEditable(false);
     }
 
-    //gestion des boutons
+    // Gestion des boutons
+    @Override
     public void actionPerformed(ActionEvent e) {
+        // Bouton Recommencer enclenché:
         if (e.getSource() == btn_recommencer) {
             GO.setPasser(0);
             GO.setFinPartie(false);
             GO go = new GO();
             text.setText("Tour : Noir");
-            //GO.damier.setPions(GO.damier.matrice);
-        } else if (e.getSource() == btn_passer) {
-            GO.setPasser(GO.getPasser()+1);
+            // Bouton Passer enclenché:
+        } else if ((e.getSource() == btn_passer) && (!GO.isChargement())) {
+            GO.setPasser(GO.getPasser() + 1);
             if (GO.getPasser() == 2) {
                 System.out.println("Fin de la partie");
                 GO.setFinPartie(true);
@@ -204,11 +217,12 @@ class FonctionPanel extends Panel implements ActionListener {
             } else if (text.getText().equals("Tour : Blanc")) {
                 text.setText("Tour : Noir");
             }
+            // Bouton Score enclenché:
         } else if (e.getSource() == btn_score) {
             GO.setFinPierresMortes(true);
             for (int i = 1; i < GO.getDamier().getSIZE_DAMIER() - 1; i++) {
                 for (int j = 1; j < GO.getDamier().getSIZE_DAMIER() - 1; j++) {
-                    GO.getDamier().setMatrice(Jeu.remplissageDroit(GO.getDamier().getMatrice(), i, j),i,j);
+                    GO.getDamier().setMatrice(Jeu.remplissageDroit(GO.getDamier().getMatrice(), i, j), i, j);
                 }
             }
             GO.getDamier().setPions(GO.getDamier().getMatrice());
@@ -237,19 +251,21 @@ class FonctionPanel extends Panel implements ActionListener {
             } else {
                 text9.setText("Noir Gagne !");
             }
-
+            // Bouton Suivant enclenché:
         } else if (e.getSource() == btn_suivant) {
-            if (GO.getTourCharge()<GO.getNbTours()) {
-                GO.setTourCharge(GO.getTourCharge()+1);
-                Jeu.chargerMatrice("PartieGO.txt", GO.getTourCharge());
+            if (GO.getTourCharge() < GO.getNbTours()) {
+                GO.setTourCharge(GO.getTourCharge() + 1);
+                Jeu.chargerMatrice(GO.getFICHIER(), GO.getTourCharge());
                 GO.getDamier().setPions(GO.getDamier().getMatrice());
             }
+            // Bouton Precedent enclenché:
         } else if (e.getSource() == btn_precedent) {
-            if (GO.getTourCharge()>1) {
-                GO.setTourCharge(GO.getTourCharge()-1);
-                Jeu.chargerMatrice("PartieGO.txt", GO.getTourCharge());
+            if (GO.getTourCharge() > 1) {
+                GO.setTourCharge(GO.getTourCharge() - 1);
+                Jeu.chargerMatrice(GO.getFICHIER(), GO.getTourCharge());
                 GO.getDamier().setPions(GO.getDamier().getMatrice());
             }
+            // Bouton Jouer enclenché:
         } else if (e.getSource() == btn_jouer) {
             remove(btn_suivant);
             remove(btn_precedent);
