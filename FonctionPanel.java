@@ -225,7 +225,8 @@ class FonctionPanel extends Panel implements ActionListener {
                     GO.getDamier().setMatrice(Jeu.remplissageDroit(GO.getDamier().getMatrice(), i, j), i, j);
                 }
             }
-            GO.getDamier().setPions(GO.getDamier().getMatrice());
+            // Si l'on veut afficher le remplissage du plateau pour afficher les territoires blanc et noir:
+            //GO.getDamier().setPions(GO.getDamier().getMatrice());
             add(text6);
             text6.setBounds(20, 280, 120, 20);
             text6.setEditable(false);

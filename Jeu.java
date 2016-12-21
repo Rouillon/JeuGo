@@ -1,7 +1,7 @@
 /*
-*TP3 de MEDEV 
-*Jeu de GO
-*Classe où sont répertoriées toutes les méthodes utiles à la manipulation de la matrice du jeu
+ *TP3 de MEDEV 
+ *Jeu de GO
+ *Classe où sont répertoriées toutes les méthodes utiles à la manipulation de la matrice du jeu
  */
 package JeuGo;
 
@@ -32,6 +32,13 @@ public class Jeu {
     private static ArrayList<Pion2D> listeTestes;
     private static ArrayList<ArrayList<Pion2D>> listeGroupesBlanc;
     private static ArrayList<ArrayList<Pion2D>> listeGroupesNoir;
+    
+    // CONSTRUCTEUR PAR DEFAUT
+    public static void Jeu(){
+        listeTestes = new ArrayList<>();
+        listeGroupesBlanc = new ArrayList<>();
+        listeGroupesNoir = new ArrayList<>();
+    }
 
     /**
      * Sert à poser une pierre noire sur le plateau, une pierre noire est
@@ -122,7 +129,7 @@ public class Jeu {
     }
 
     /**
-     * Constitue un groupe de pion à partir d'un pion de départ
+     * Constitue un groupe de pion à partir d'un pion de départ faisant partie d'un groupe
      *
      * @param plateau la matrice qui représente le plateau de jeu
      * @param p pion de départ de la recherche de groupe
@@ -212,7 +219,7 @@ public class Jeu {
      * @param plateau la matrice qui représente le plateau de jeu
      * @return booléen vrai si au moins un Pion capturé
      */
-    public static boolean CaptureBlanc(int[][] plateau) {
+    public static boolean captureBlanc(int[][] plateau) {
         boolean auMoinsUneCapture = false;
         Jeu.detectionGroupesBlanc(plateau);
         for (ArrayList<Pion2D> groupe : listeGroupesBlanc) {
@@ -241,7 +248,7 @@ public class Jeu {
      * @param plateau la matrice qui représente le plateau de jeu
      * @return booléen vrai si au moins un Pion capturé
      */
-    public static boolean CaptureNoir(int[][] plateau) {
+    public static boolean captureNoir(int[][] plateau) {
         boolean auMoinsUneCapture = false;
         Jeu.detectionGroupesNoir(plateau);
         for (ArrayList<Pion2D> groupe : listeGroupesNoir) {
@@ -542,6 +549,7 @@ public class Jeu {
             String a = st.nextToken();
             result = Integer.parseInt(st.nextToken());
         } catch (Exception e) {
+            System.out.println("\nAucune partie n'a été trouvée...");
         }
         return result;
     }

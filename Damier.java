@@ -197,7 +197,7 @@ class Damier extends Panel implements MouseListener {
                             GO.getFonctionPanel().getText2().setText("Règle du ko !");
                             //printMatrice();
                         } else {
-                            Jeu.CaptureBlanc(matrice);
+                            Jeu.captureBlanc(matrice);
                             setPions(matrice);
                             couleurPierre = couleurPierre * (-1);
                             GO.getFonctionPanel().getText().setText("Tour : Blanc");
@@ -239,7 +239,7 @@ class Damier extends Panel implements MouseListener {
                         GO.getFonctionPanel().getText2().setText("Règle du ko !");
                         //printMatrice();
                     } else {
-                        Jeu.CaptureNoir(matrice);
+                        Jeu.captureNoir(matrice);
                         setPions(matrice);
                         couleurPierre = couleurPierre * (-1);
                         GO.getFonctionPanel().getText().setText("Tour : Noir");
@@ -293,7 +293,7 @@ class Damier extends Panel implements MouseListener {
     }
 
     // Pour afficher la matrice sous forme texte dans la console
-    /*public void printMatrice() {
+    public void printMatrice() {
         for (int i = 0; i < SIZE_DAMIER; i++) {
             for (int j = 0; j < SIZE_DAMIER; j++) {
                 System.out.print(matrice[i][j]);
@@ -303,5 +303,5 @@ class Damier extends Panel implements MouseListener {
         }
         System.out.println();
         System.out.println();
-    }*/
+    }
 }
