@@ -46,7 +46,7 @@ abstract class PionBlancOuNoir extends Canvas implements MouseListener {
         }
 
     }
-
+    
     @Override
     public void mouseReleased(MouseEvent e) {
     }

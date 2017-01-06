@@ -52,8 +52,8 @@ public class Pion2D {
         this.couleur = couleur;
     }
 
-    // REDEFINITION DE EQUALS 
-    public boolean equals(Pion2D p) {
+    // REDEFINITION DE EQUALS (changement de nom pour éviter problème d'Override)
+    public boolean Egale(Pion2D p) {
         boolean retour = false;
         if ((p.getX() == this.x) && (p.getY() == this.y) && (p.getCouleur() == this.couleur)) {
             retour = true;

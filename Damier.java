@@ -34,6 +34,8 @@ class Damier extends Panel implements MouseListener {
     // Nombre de pierres capturées
     private int nbrBlancCaptures = 0;
     private int nbrNoirCaptures = 0;
+    
+    private boolean ko=false;
 
     // GETTERS ET SETTERS
     public int getSIZE_DAMIER() {
@@ -76,6 +78,14 @@ class Damier extends Panel implements MouseListener {
         this.avantDerniereMatrice = avantDerniereMatrice;
     }
 
+    public boolean isKo() {
+        return ko;
+    }
+
+    public void setKo(boolean ko) {
+        this.ko = ko;
+    }
+    
     @Override
     public int getX() {
         return x;
@@ -143,6 +153,25 @@ class Damier extends Panel implements MouseListener {
         }
     }
 
+    //Pour vérifier si la règle du ko a lieu
+    public void testKO() {
+                    for (int i = 0; i < SIZE_DAMIER; i++) {
+                        for (int j = 0; j < SIZE_DAMIER; j++) {
+                            avantDerniereMatrice[i][j] = derniereMatrice[i][j];
+                            derniereMatrice[i][j] = matrice[i][j];
+                        }
+                    }
+                    this.ko = true;
+                    for (int i = 0; i < SIZE_DAMIER; i++) {
+                        for (int j = 0; j < SIZE_DAMIER; j++) {
+                            if (avantDerniereMatrice[i][j] != matrice[i][j]) {
+                                this.ko = false;
+                                break;
+                            }
+                        }
+                    }
+    }
+    
     // Pour poser les pierres lorsque le clique est détecté
     @Override
     public void mousePressed(MouseEvent e) {
@@ -172,22 +201,9 @@ class Damier extends Panel implements MouseListener {
                         GO.setPasser(0);
                         // Poser un pion noir
                         Jeu.poserPierreNoir(matrice, b, a);
-                        // Pour vérifier si la règle du ko a lieu
-                        for (int i = 0; i < SIZE_DAMIER; i++) {
-                            for (int j = 0; j < SIZE_DAMIER; j++) {
-                                avantDerniereMatrice[i][j] = derniereMatrice[i][j];
-                                derniereMatrice[i][j] = matrice[i][j];
-                            }
-                        }
-                        boolean ko = true;
-                        for (int i = 0; i < SIZE_DAMIER; i++) {
-                            for (int j = 0; j < SIZE_DAMIER; j++) {
-                                if (avantDerniereMatrice[i][j] != matrice[i][j]) {
-                                    ko = false;
-                                    break;
-                                }
-                            }
-                        }
+                        
+                        testKO();
+                        
                         if ((Jeu.detectionCaptureNoir(matrice)) && !(Jeu.detectionCaptureBlanc(matrice))) {
                             matrice[b][a] = 0;
                             GO.getFonctionPanel().getText2().setText("Suicide Interdit !");
@@ -214,22 +230,9 @@ class Damier extends Panel implements MouseListener {
                     GO.setPasser(0);
                     //Poser un pion blanc
                     Jeu.poserPierreBlanc(matrice, b, a);
-                    //Pour vérifier si la règle du ko a lieu
-                    for (int i = 0; i < SIZE_DAMIER; i++) {
-                        for (int j = 0; j < SIZE_DAMIER; j++) {
-                            avantDerniereMatrice[i][j] = derniereMatrice[i][j];
-                            derniereMatrice[i][j] = matrice[i][j];
-                        }
-                    }
-                    boolean ko = true;
-                    for (int i = 0; i < SIZE_DAMIER; i++) {
-                        for (int j = 0; j < SIZE_DAMIER; j++) {
-                            if (avantDerniereMatrice[i][j] != matrice[i][j]) {
-                                ko = false;
-                                break;
-                            }
-                        }
-                    }
+                    
+                    testKO();
+                    
                     if ((Jeu.detectionCaptureBlanc(matrice)) && !(Jeu.detectionCaptureNoir(matrice))) {
                         matrice[b][a] = 0;
                         GO.getFonctionPanel().getText2().setText("Suicide Interdit !");
@@ -259,13 +262,13 @@ class Damier extends Panel implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
     }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
+    
     @Override
     public void mouseExited(MouseEvent e) {
+    }
+    
+    @Override
+    public void mouseEntered(MouseEvent e) {
     }
 
     @Override

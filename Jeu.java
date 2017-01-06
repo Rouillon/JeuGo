@@ -5,6 +5,7 @@
  */
 package JeuGo;
 
+import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
+import java.util.function.Supplier;
 
 /**
  *
@@ -144,7 +146,7 @@ public class Jeu {
         for (Pion2D adja : adjacents) {
             test2 = false;
             for (int i = 0; i < listeTestes.size(); i++) {
-                if (listeTestes.get(i).equals(adja)) {
+                if (listeTestes.get(i).Egale(adja)) {
                     test2 = true;
                 }
             }
@@ -170,7 +172,7 @@ public class Jeu {
                     Pion2D p = new Pion2D(i, j, -1);
                     boolean test = false;
                     for (Pion2D pp : listeTestes) {
-                        if (pp.equals(p)) {
+                        if (pp.Egale(p)) {
                             test = true;
                         }
                     }
@@ -199,7 +201,7 @@ public class Jeu {
                     Pion2D p = new Pion2D(i, j, 1);
                     boolean test = false;
                     for (Pion2D pp : listeTestes) {
-                        if (pp.equals(p)) {
+                        if (pp.Egale(p)) {
                             test = true;
                         }
                     }
@@ -223,8 +225,8 @@ public class Jeu {
         boolean auMoinsUneCapture = false;
         Jeu.detectionGroupesBlanc(plateau);
         for (ArrayList<Pion2D> groupe : listeGroupesBlanc) {
-            boolean capture = false;
             int count = 0;
+            boolean capture = false;
             count = groupe.stream().filter((p) -> ((plateau[p.getX()][p.getY() + 1] != 0) && (plateau[p.getX()][p.getY() - 1] != 0) && (plateau[p.getX() + 1][p.getY()] != 0) && (plateau[p.getX() - 1][p.getY()] != 0))).map((_item) -> 1).reduce(count, Integer::sum);
             if ((count == groupe.size()) && (count > 0)) {
                 capture = true;
@@ -447,6 +449,7 @@ public class Jeu {
             bufferedWriter.write("Couleur " + GO.getDamier().getCouleurPierre());
             bufferedWriter.newLine();
         } catch (IOException e) {
+            LOGGER.info((Supplier<String>) e);
         }
 
     }
@@ -469,7 +472,7 @@ public class Jeu {
                 st = new StringTokenizer(ligne);
                 a = st.nextToken();
                 int b = Integer.parseInt(st.nextToken());
-                if ((a.equals("Tour")) && (b == tour)) {
+                if (("Tour".equals(a)) && (b == tour)) {
                     for (int i = 0; i < GO.getDamier().getSIZE_DAMIER(); i++) {
                         ligne = fichier.readLine();
                         st = new StringTokenizer(ligne);
@@ -504,7 +507,8 @@ public class Jeu {
                 ligne = fichier.readLine();
             }
 
-        } catch (Exception e) {
+        } catch (IOException e) {
+            LOGGER.info((Supplier<String>) e);
         }
     }
 
@@ -525,12 +529,13 @@ public class Jeu {
                 st = new StringTokenizer(ligne);
                 a = st.nextToken();
                 int b = Integer.parseInt(st.nextToken());
-                if (a.equals("Tour")) {
+                if ("Tour".equals(a)) {
                     result = b;
                 }
                 ligne = fichier.readLine();
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
+            LOGGER.info((Supplier<String>) e);
         }
         return result;
     }
@@ -549,6 +554,7 @@ public class Jeu {
             String a = st.nextToken();
             result = Integer.parseInt(st.nextToken());
         } catch (Exception e) {
+            LOGGER.info((Supplier<String>) e);
             System.out.println("\nAucune partie n'a été trouvée...");
         }
         return result;

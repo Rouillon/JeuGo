@@ -186,13 +186,13 @@ public class GO extends Frame {
             System.out.println("\n\nTaper 'n' pour jouer une nouvelle partie, "
                     + "'r' pour rejouer une partie non terminée");
             choixAction = sc.nextLine();
-        } while (!choixAction.equals("r") && !choixAction.equals("n"));
+        } while (!"r".equals(choixAction) && !"n".equals(choixAction));
         //Choix de la taille du jeu
-        if (choixAction.equals("n")) {
+        if ("n".equals(choixAction)) {
             do {
                 System.out.println("\n\nChoisir la taille du goban: taper 9, 16 ou 19");
                 choixAction = sc.nextLine();
-            } while (!choixAction.equals("9") && !choixAction.equals("16") && !choixAction.equals("19"));
+            } while (!"9".equals(choixAction) && !"16".equals(choixAction) && !"19".equals(choixAction));
             switch (choixAction) {
                 case "9":
                     damier.setSIZE_DAMIER(11);
@@ -232,16 +232,18 @@ public class GO extends Frame {
             try {
                 bufferedWriter = new BufferedWriter(new FileWriter(FICHIER));
                 bufferedWriter.write("");
+                bufferedWriter.close();
             } catch (IOException ex) {
                 Logger.getLogger(GO.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } 
             try {
                 bufferedWriter = new BufferedWriter(new FileWriter(FICHIER, true));
                 bufferedWriter.write("Taille " + damier.getSIZE_DAMIER());
                 bufferedWriter.newLine();
                 bufferedWriter.close();
-            } catch (IOException e) {
-            }
+            } catch (IOException ex) {
+                Logger.getLogger(GO.class.getName()).log(Level.SEVERE, null, ex);
+            } 
             // Partie rejouée:
         } else {
             System.out.println("Vous pouvez maintenant rejouer cette partie à partir du coup que vous souhaitez");

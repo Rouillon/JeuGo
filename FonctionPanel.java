@@ -212,9 +212,9 @@ class FonctionPanel extends Panel implements ActionListener {
                 btn_score.addActionListener(this);
             }
             GO.getDamier().setCouleurPierre(GO.getDamier().getCouleurPierre() * (-1));
-            if (text.getText().equals("Tour : Noir")) {
+            if ("Tour : Noir".equals(text.getText())) {
                 text.setText("Tour : Blanc");
-            } else if (text.getText().equals("Tour : Blanc")) {
+            } else if ("Tour : Blanc".equals(text.getText())) {
                 text.setText("Tour : Noir");
             }
             // Bouton Score enclenché:
